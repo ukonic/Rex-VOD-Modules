@@ -10,7 +10,7 @@ var SOURCE_CONFIG = {
   "api": "https://m3u8.apiyhzy.com/api.php/provide/vod/",
   "site": "https://m3u8.apiyhzy.com/",
   "icon": "https://m3u8.apiyhzy.com/favicon.ico",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "priority": 26,
   "tier": "B",
   "categories": {
@@ -475,10 +475,10 @@ function sourceSeason(value) {
   return match ? match[1] : "";
 }
 
-function sourcePick(list, keyword, params) {
+function sourcePicks(list, keyword, params) {
   var wanted = sourceNormalize(keyword);
   var requestedYear = sourceText(params && params.year).trim();
-  var requestedType = sourceText(params && params.type).toLowerCase();
+  var requestedType = sourceText(params && (params.type || params.mediaType)).toLowerCase();
   var requestedSeason = sourceSeason(keyword) || sourceText(params && params.season).trim();
   var candidates = (Array.isArray(list) ? list : []).filter(function (item) {
     if (!item || sourceBlocked(item) || !sourcePlayLines(item).length) return false;
@@ -489,12 +489,53 @@ function sourcePick(list, keyword, params) {
     if (requestedSeason && itemSeason && itemSeason !== requestedSeason) return false;
     return true;
   });
-  return candidates.length === 1 ? candidates[0] : null;
+  return candidates;
 }
 
-function sourceVideoResource(line) {
-  return { name: line.title || (SOURCE_CONFIG.shortName + " M3U8"), description: "来源：" + SOURCE_CONFIG.name,
+function sourceEdition(item) {
+  var explicitText = [item && item.vod_name, item && item.vod_sub, item && item.vod_remarks,
+    item && item.vod_note].map(sourceStrip).join(" ");
+  var languageText = sourceStrip(item && item.vod_lang);
+  var rules = [
+    [/国粤双语|国语粤语|粤国双语/i, "国粤双语"],
+    [/国语版|普通话版|国语|普通话|国配版|国配/i, "国语"],
+    [/粤语版|粤语|粤配版|粤配/i, "粤语"],
+    [/台配版|台配国语|台配/i, "台配"],
+    [/英语版|英语|英配版|英配/i, "英语"],
+    [/日语版|日语|日配版|日配/i, "日语"],
+    [/韩语版|韩语|韩配版|韩配/i, "韩语"],
+    [/原声版|原声/i, "原声"],
+    [/导演剪辑版|导演剪辑/i, "导演剪辑版"],
+    [/加长版|加长剪辑/i, "加长版"],
+    [/未删减版|未删减/i, "未删减版"],
+    [/修复版|修复/i, "修复版"]
+  ];
+  for (var pass = 0; pass < 2; pass += 1) {
+    var text = pass === 0 ? explicitText : languageText;
+    for (var i = 0; i < rules.length; i += 1) if (rules[i][0].test(text)) return rules[i][1];
+  }
+  return "";
+}
+
+function sourceVideoResource(line, detail, showEdition) {
+  var edition = sourceEdition({ vod_name: line && line.title }) || sourceEdition(detail);
+  return { name: (showEdition && edition ? (edition + " · ") : "") + (line.title || (SOURCE_CONFIG.shortName + " M3U8")),
+    description: "来源：" + SOURCE_CONFIG.name + (showEdition && edition ? ("\n版本：" + edition) : ""),
     url: line.url, playerType: "app" };
+}
+
+function sourcePlaybackKeywords(params) {
+  var type = sourceText(params && (params.type || params.mediaType)).toLowerCase();
+  var values = type === "movie"
+    ? [params && params.title, params && params.name, params && params.seriesName]
+    : [params && params.seriesName, params && params.title, params && params.name];
+  var seen = {};
+  return values.map(sourceStrip).filter(function (value) {
+    var key = sourceNormalize(value);
+    if (!key || seen[key]) return false;
+    seen[key] = true;
+    return true;
+  });
 }
 
 async function loadResource(params) {
@@ -503,17 +544,28 @@ async function loadResource(params) {
   if (!linkedInput && new RegExp("^rexvod://" + SOURCE_CONFIG.slug + "/", "i").test(sourceText(params.id))) linkedInput = sourceText(params.id);
   var id = sourceId(linkedInput);
   var result;
-  var detail;
+  var details = [];
   if (id) {
     try { result = await sourceGet({ ac: "detail", ids: id }); } catch (_) { return []; }
-    detail = Array.isArray(result.list) && result.list.length ? result.list[0] : null;
+    details = Array.isArray(result.list) && result.list.length ? [result.list[0]] : [];
   } else {
-    var keyword = sourceStrip(params.seriesName || params.title || params.name);
-    if (!keyword) return [];
-    try { result = await sourceGet({ ac: "detail", wd: keyword }); } catch (_) { return []; }
-    detail = sourcePick(result.list, keyword, params);
+    var keywords = sourcePlaybackKeywords(params);
+    if (!keywords.length) return [];
+    for (var keywordIndex = 0; keywordIndex < keywords.length && !details.length; keywordIndex += 1) {
+      var keyword = keywords[keywordIndex];
+      try { result = await sourceGet({ ac: "detail", wd: keyword }); } catch (_) { continue; }
+      details = sourcePicks(result.list, keyword, params);
+    }
   }
-  if (!detail) return [];
+  if (!details.length) return [];
+  var selected = [];
+  details.forEach(function (detail) {
+    sourcePickResourceLines(detail, params).forEach(function (line) { selected.push({ line: line, detail: detail }); });
+  });
+  return sourceResourceList(selected, details.length > 1);
+}
+
+function sourcePickResourceLines(detail, params) {
   var lines = sourcePlayLines(detail);
   if (!lines.length) return [];
   var episodeName = sourceStrip(params.episodeName);
@@ -522,7 +574,7 @@ async function loadResource(params) {
     for (var lineIndex = 0; lineIndex < lines.length; lineIndex += 1) {
       if (sourceStrip(lines[lineIndex].title) === episodeName) named.push(lines[lineIndex]);
     }
-    if (named.length) return sourceResourceList(named);
+    if (named.length) return named;
   }
   var episode = Math.floor(Number(params.episode)) || sourceEpisodeNumber(episodeName);
   if (isFinite(episode) && episode > 0) {
@@ -533,19 +585,20 @@ async function loadResource(params) {
       if (number > 0) hasNumberedTitles = true;
       if (number === episode) numbered.push(lines[numberedIndex]);
     }
-    if (numbered.length) return sourceResourceList(numbered);
-    return hasNumberedTitles || !lines[episode - 1] ? [] : sourceResourceList([lines[episode - 1]]);
+    if (numbered.length) return numbered;
+    return hasNumberedTitles || !lines[episode - 1] ? [] : [lines[episode - 1]];
   }
   if (episodeName) return [];
-  return sourceMediaType(detail) === "movie" ? sourceResourceList(lines) : sourceResourceList([lines[0]]);
+  return sourceMediaType(detail) === "movie" ? lines : [lines[0]];
 }
-function sourceResourceList(lines) {
+function sourceResourceList(rows, showEdition) {
   var seen = {};
-  return lines.filter(function (line) {
+  return rows.filter(function (row) {
+    var line = row && row.line;
     if (!line || !line.url || seen[line.url]) return false;
     seen[line.url] = true;
     return true;
-  }).map(sourceVideoResource);
+  }).map(function (row) { return sourceVideoResource(row.line, row.detail, showEdition); });
 }
 function sourceEpisodeNumber(value) {
   var title = sourceStrip(value);

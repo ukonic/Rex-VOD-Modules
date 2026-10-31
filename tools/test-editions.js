@@ -13,6 +13,7 @@ const cases = [
   [{ vod_name: "示例电影国语版" }, "国语", "示例电影"],
   [{ vod_name: "示例电影", vod_lang: "粤语" }, "粤语", "示例电影"],
   [{ vod_name: "示例电影（国粤双语）" }, "国粤双语", "示例电影"],
+  [{ vod_name: "示例电影（原声版）", vod_lang: "英语 / 汉语普通话" }, "原声", "示例电影"],
   [{ vod_name: "示例电影导演剪辑版" }, "导演剪辑版", "示例电影"],
   [{ vod_name: "示例电影", vod_remarks: "未删减版" }, "未删减版", "示例电影"]
 ];
@@ -41,3 +42,28 @@ if (episodes.length !== 1 || episodes[0].videoUrl || episodes[0].link !== "cinev
   throw new Error("edition lines were not grouped into deferred playback context");
 }
 console.log("Edition parsing and deferred multi-source playback context passed.");
+
+const standaloneFile = path.resolve(__dirname, "..", "sources", "jinying", "Rex-Jinying-VOD.js");
+const standaloneItems = [
+  { vod_id: "1", vod_name: "蝙蝠侠：黑暗骑士（国语版）", vod_year: "2008", type_name: "动作片", type_id_1: "7",
+    vod_play_from: "m3u8", vod_play_url: "正片$https://example.com/batman-mandarin.m3u8" },
+  { vod_id: "2", vod_name: "蝙蝠侠：黑暗骑士（原声版）", vod_year: "2008", type_name: "动作片", type_id_1: "7",
+    vod_lang: "英语 / 汉语普通话", vod_play_from: "m3u8", vod_play_url: "正片$https://example.com/batman-original.m3u8" }
+];
+const standalone = { console, setTimeout, clearTimeout, URL, Widget: { http: { get: async url => ({
+  statusCode: 200,
+  data: { code: 1, list: new URL(url).searchParams.get("wd") === "蝙蝠侠：黑暗骑士" ? standaloneItems : [] }
+}) } } };
+vm.createContext(standalone);
+vm.runInContext(fs.readFileSync(standaloneFile, "utf8"), standalone, { filename: standaloneFile });
+
+(async () => {
+  const resources = await standalone.loadResource({
+    title: "蝙蝠侠：黑暗骑士", seriesName: "The Dark Knight", year: "2008", mediaType: "movie", episode: 1
+  });
+  if (resources.length !== 2) throw new Error(`standalone multi-edition playback returned ${resources.length} resources`);
+  if (!resources.some(row => /国语/.test(row.name)) || !resources.some(row => /原声/.test(row.name))) {
+    throw new Error("standalone multi-edition labels are missing");
+  }
+  console.log("Standalone multi-edition playback context passed.");
+})().catch(error => { console.error(error); process.exitCode = 1; });

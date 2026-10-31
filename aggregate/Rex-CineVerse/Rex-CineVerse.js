@@ -3,7 +3,7 @@
  * 40站聚合、严格匹配、仅直接 M3U8。运行时不依赖 registry.json 或其他文件。
  */
 var CINEVERSE_CONFIG = {
-  "version": "0.1.7",
+  "version": "0.1.8",
   "sources": [
     {
       "slug": "feifan",
@@ -6307,8 +6307,9 @@ function cvNormalize(value) {
   return cvStrip(value).toLowerCase().replace(/[（(][^）)]*[）)]/g, "").replace(/[\s·•:：,，.。!！?？'\"“”‘’\-_/\\]/g, "");
 }
 function cvEdition(item) {
-  var text = [item && item.vod_name, item && item.vod_sub, item && item.vod_remarks,
-    item && item.vod_lang, item && item.vod_note].map(cvStrip).join(" ");
+  var explicitText = [item && item.vod_name, item && item.vod_sub, item && item.vod_remarks,
+    item && item.vod_note].map(cvStrip).join(" ");
+  var languageText = cvStrip(item && item.vod_lang);
   var rules = [
     [/国粤双语|国语粤语|粤国双语/i, "国粤双语"],
     [/国语版|普通话版|国语|普通话|国配版|国配/i, "国语"],
@@ -6323,7 +6324,10 @@ function cvEdition(item) {
     [/未删减版|未删减/i, "未删减版"],
     [/修复版|修复/i, "修复版"]
   ];
-  for (var i = 0; i < rules.length; i += 1) if (rules[i][0].test(text)) return rules[i][1];
+  for (var pass = 0; pass < 2; pass += 1) {
+    var text = pass === 0 ? explicitText : languageText;
+    for (var i = 0; i < rules.length; i += 1) if (rules[i][0].test(text)) return rules[i][1];
+  }
   return "";
 }
 function cvExplicitEdition(item) {
@@ -6486,7 +6490,7 @@ function cvCandidate(item, keyword, params) {
   var wanted = cvBaseTitle(keyword);
   var title = cvBaseTitle(item.vod_name);
   if (!wanted || !title || (title !== wanted && title.indexOf(wanted) !== 0 && wanted.indexOf(title) !== 0)) return false;
-  var type = cvText(params && params.type).toLowerCase();
+  var type = cvText(params && (params.type || params.mediaType)).toLowerCase();
   if ((type === "tv" || type === "movie") && cvMediaType(item) !== type) return false;
   return true;
 }
@@ -6495,7 +6499,7 @@ async function cvFindMatches(keyword, params) {
     cvBaseTitle(keyword),
     cvText(params && (params.year || params.releaseYear || params.releaseDate)).match(/(?:19|20)\d{2}/) || "",
     Math.floor(Number(params && (params.season || params.seasonNumber))) || cvSeasonNumber(keyword) || 0,
-    cvText(params && params.type).toLowerCase()
+    cvText(params && (params.type || params.mediaType)).toLowerCase()
   ].join("|");
   var cached = CV_MATCH_CACHE[cacheKey];
   if (cached && Date.now() - cached.time < CV_MATCH_CACHE_TTL) return cached.rows.slice();
@@ -6635,6 +6639,19 @@ function cvEpisodeNumber(value) {
   match = title.match(/^0*(\d{1,4})$/);
   return match ? Number(match[1]) : 0;
 }
+function cvPlaybackKeywords(params, raw) {
+  var type = cvText(params && (params.type || params.mediaType)).toLowerCase();
+  var values = raw ? [raw.vod_name] : [];
+  if (type === "movie") values = values.concat([params && params.title, params && params.name, params && params.seriesName]);
+  else values = values.concat([params && params.seriesName, params && params.title, params && params.name]);
+  var seen = {};
+  return values.map(cvStrip).filter(function (value) {
+    var key = cvNormalize(value);
+    if (!key || seen[key]) return false;
+    seen[key] = true;
+    return true;
+  });
+}
 async function loadResource(params) {
   params = params || {};
   var parsed = cvParseLink(params.link || params.id);
@@ -6645,9 +6662,16 @@ async function loadResource(params) {
     if (!params.year && raw) params.year = raw.vod_year;
     if (!params.type && raw) params.type = cvMediaType(raw);
   }
-  var keyword = cvStrip(params.seriesName || (raw && raw.vod_name) || params.title || params.name);
-  if (!keyword) return [];
-  var matches = await cvFindMatches(keyword, params);
+  var keywords = cvPlaybackKeywords(params, raw);
+  if (!keywords.length) return [];
+  var keyword = "";
+  var matches = [];
+  for (var keywordIndex = 0; keywordIndex < keywords.length; keywordIndex += 1) {
+    keyword = keywords[keywordIndex];
+    matches = await cvFindMatches(keyword, params);
+    if (matches.length) break;
+  }
+  if (!matches.length) return [];
   var seen = {};
   var choices = [];
   var showEditions = cvShowEditionLabels(matches);

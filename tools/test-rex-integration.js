@@ -66,7 +66,7 @@ async function verify(file) {
     id: "tv.12345",
     type: "tv",
     title: sample.vod_name,
-    seriesName: sample.vod_name,
+    seriesName: "Wrong External Series Name",
     year: sample.vod_year,
     season: 1,
     episode: 2,

@@ -8,7 +8,7 @@ var WidgetMetadata = {
   id: "rex.feifan.vod",
   title: "非凡资源",
   icon: "https://ffzy.tv/favicon.ico",
-  version: "0.1.9",
+  version: "0.1.10",
   requiredVersion: "0.0.1",
   description: "非凡资源网 ffm3u8 专用 JSON 接口：分类、搜索、详情与直接 M3U8 播放",
   author: "ukonic",
@@ -160,7 +160,7 @@ var WidgetMetadata = {
 
 var FF_API = "https://api.ffzyapi.com/api.php/provide/vod/from/ffm3u8/";
 var FF_SITE = "https://ffzy.tv/";
-var FF_UA = "Mozilla/5.0 (Rex ForwardWidget; Feifan VOD/0.1.9)";
+var FF_UA = "Mozilla/5.0 (Rex ForwardWidget; Feifan VOD/0.1.10)";
 var FF_BLOCKED_TYPE_IDS = { "34": true };
 var FF_BLOCKED_WORDS = [
   "伦理片", "伦理", "福利", "里番", "无码", "有码", "情色", "色情",
@@ -516,8 +516,9 @@ function ffMatchTitle(value) {
 }
 
 function ffEdition(item) {
-  var text = [item && item.vod_name, item && item.vod_sub, item && item.vod_remarks,
-    item && item.vod_lang, item && item.vod_note].map(ffStripHtml).join(" ");
+  var explicitText = [item && item.vod_name, item && item.vod_sub, item && item.vod_remarks,
+    item && item.vod_note].map(ffStripHtml).join(" ");
+  var languageText = ffStripHtml(item && item.vod_lang);
   var rules = [
     [/国粤双语|国语粤语|粤国双语/i, "国粤双语"],
     [/国语版|普通话版|国语|普通话|国配版|国配/i, "国语"],
@@ -532,7 +533,10 @@ function ffEdition(item) {
     [/未删减版|未删减/i, "未删减版"],
     [/修复版|修复/i, "修复版"]
   ];
-  for (var i = 0; i < rules.length; i += 1) if (rules[i][0].test(text)) return rules[i][1];
+  for (var pass = 0; pass < 2; pass += 1) {
+    var text = pass === 0 ? explicitText : languageText;
+    for (var i = 0; i < rules.length; i += 1) if (rules[i][0].test(text)) return rules[i][1];
+  }
   return "";
 }
 
@@ -550,7 +554,7 @@ function ffSearchTitle(value) {
 
 function ffHomeMatches(list, keyword, params) {
   var wanted = ffBaseTitle(keyword);
-  var requestedType = ffText(params && params.type).toLowerCase();
+  var requestedType = ffText(params && (params.type || params.mediaType)).toLowerCase();
   var requestedYear = ffText(params && (params.year || params.releaseYear || params.releaseDate)).match(/(?:19|20)\d{2}/);
   requestedYear = requestedYear ? requestedYear[0] : "";
   var matches = (Array.isArray(list) ? list : []).filter(function (item) {
@@ -594,7 +598,7 @@ function ffPickHomeDetail(list, keyword, params) {
     var title = ffMatchTitle(item.vod_name);
     if (!title) return;
     if (title !== wanted && (!seasonText || title !== wantedSeason)) return;
-    var requestedType = ffText(params && params.type).toLowerCase();
+    var requestedType = ffText(params && (params.type || params.mediaType)).toLowerCase();
     if ((requestedType === "tv" || requestedType === "movie") && ffMediaType(item) !== requestedType) return;
     var requestedYear = ffText(params && params.year).trim();
     if (requestedYear && ffText(item.vod_year).trim() && ffText(item.vod_year).trim() !== requestedYear) return;
@@ -617,10 +621,15 @@ async function loadResource(params) {
     var detailList = Array.isArray(result.list) ? result.list : [];
     seedDetail = detailList.length ? detailList[0] : null;
   }
-  var keyword = ffStripHtml(params.seriesName || (seedDetail && seedDetail.vod_name) || params.title || params.name);
-  if (!keyword) return [];
-  try { result = await ffGet({ ac: "detail", wd: ffSearchTitle(keyword) || keyword }); } catch (_) { return seedDetail ? ffFallbackResources(seedDetail, params) : []; }
-  var details = ffHomeMatches(result.list, keyword, params);
+  var keywords = ffPlaybackKeywords(params, seedDetail);
+  if (!keywords.length) return [];
+  var keyword = "";
+  var details = [];
+  for (var keywordIndex = 0; keywordIndex < keywords.length && !details.length; keywordIndex += 1) {
+    keyword = keywords[keywordIndex];
+    try { result = await ffGet({ ac: "detail", wd: ffSearchTitle(keyword) || keyword }); } catch (_) { continue; }
+    details = ffHomeMatches(result.list, keyword, params);
+  }
   if (seedDetail && !details.some(function (item) { return ffText(item.vod_id) === ffText(seedDetail.vod_id); })) details.unshift(seedDetail);
   if (!details.length && seedDetail) details = [seedDetail];
   if (!details.length) return [];
@@ -634,6 +643,20 @@ async function loadResource(params) {
     });
   });
   return resources;
+}
+
+function ffPlaybackKeywords(params, seedDetail) {
+  var type = ffText(params && (params.type || params.mediaType)).toLowerCase();
+  var values = seedDetail ? [seedDetail.vod_name] : [];
+  if (type === "movie") values = values.concat([params && params.title, params && params.name, params && params.seriesName]);
+  else values = values.concat([params && params.seriesName, params && params.title, params && params.name]);
+  var seen = {};
+  return values.map(ffStripHtml).filter(function (value) {
+    var key = ffMatchTitle(value);
+    if (!key || seen[key]) return false;
+    seen[key] = true;
+    return true;
+  });
 }
 
 function ffFallbackResources(detail, params) {

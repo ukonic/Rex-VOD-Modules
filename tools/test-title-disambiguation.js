@@ -21,12 +21,18 @@ const laterSeason = {
   vod_id: "4", vod_name: "花儿与少年第八季", vod_year: "2026", type_name: "大陆综艺", type_id: "25", type_id_1: "3",
   vod_play_from: "m3u8", vod_play_url: "第1期$https://example.com/season-8.m3u8"
 };
+const batman = {
+  vod_id: "5", vod_name: "蝙蝠侠：黑暗骑士", vod_year: "2008", type_name: "动作片", type_id: "10", type_id_1: "7",
+  vod_play_from: "m3u8", vod_play_url: "正片$https://example.com/dark-knight.m3u8"
+};
 
 const context = {
   console, setTimeout, clearTimeout, URL,
   Widget: { http: { get: async url => {
     const keyword = new URL(url).searchParams.get("wd") || "";
-    const list = keyword.includes("披荆斩棘") ? [oldAlias, exactTitle] : [laterSeason, firstSeason];
+    const list = keyword.includes("披荆斩棘") ? [oldAlias, exactTitle]
+      : keyword.includes("蝙蝠侠") ? [batman]
+        : keyword.includes("花儿与少年") ? [laterSeason, firstSeason] : [];
     return { statusCode: 200, data: { code: 1, list } };
   } } }
 };
@@ -44,5 +50,10 @@ function assert(condition, message) {
   const generic = await context.loadResource({ title: "花儿与少年", type: "tv", episode: 1 });
   assert(generic.length > 0, "generic-title test returned no resources");
   assert(generic.every(row => row.url.endsWith("/season-1.m3u8")), "generic title did not retain earliest-series fallback");
-  console.log("Exact-title priority and generic-series fallback passed.");
+  const mixedTitles = await context.loadResource({
+    title: "蝙蝠侠：黑暗骑士", seriesName: "The Dark Knight", year: "2008", mediaType: "movie", episode: 1
+  });
+  assert(mixedTitles.length > 0, "localized movie title was overridden by English seriesName");
+  assert(mixedTitles.every(row => row.url.endsWith("/dark-knight.m3u8")), "mixed-title movie selected the wrong resource");
+  console.log("Exact-title priority, generic-series fallback, and localized movie-title fallback passed.");
 })().catch(error => { console.error(error); process.exitCode = 1; });

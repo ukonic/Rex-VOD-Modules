@@ -1,7 +1,7 @@
 "use strict";
 
 module.exports = [
-  { slug: "feifan", name: "非凡资源", shortName: "非凡", api: "https://api.ffzyapi.com/api.php/provide/vod/from/ffm3u8/", priority: 1, tier: "S", version: "0.1.9", legacy: true },
+  { slug: "feifan", name: "非凡资源", shortName: "非凡", api: "https://api.ffzyapi.com/api.php/provide/vod/from/ffm3u8/", priority: 1, tier: "S", version: "0.1.10", legacy: true },
   { slug: "liangzi", name: "量子资源", shortName: "量子", api: "https://cj.lziapi.com/api.php/provide/vod/", priority: 2, tier: "S" },
   { slug: "zuida", name: "最大资源", shortName: "最大", api: "https://api.zuidapi.com/api.php/provide/vod/", priority: 3, tier: "S" },
   { slug: "wujin", name: "无尽资源", shortName: "无尽", api: "https://api.wujinapi.com/api.php/provide/vod/", priority: 4, tier: "S" },
