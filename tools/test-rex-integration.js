@@ -56,6 +56,8 @@ async function verify(file) {
   assert(Array.isArray(detail.episodeItems) && detail.episodeItems.length >= 2, `${relative}: detail lacks episodeItems`);
   assert(detail.episodeItems.every(item => item.link && item.episode && !item.videoUrl),
     `${relative}: episode items do not defer playback to Rex loadResource`);
+  assert(new Set(detail.episodeItems.map(item => item.id)).size === detail.episodeItems.length,
+    `${relative}: episode IDs are not unique enough for Continue Watching`);
 
   const incomingUrl = "https://third-party.example/original.m3u8";
   const externalResources = await context.loadResource({
@@ -77,6 +79,12 @@ async function verify(file) {
   assert(externalResources.every(resource => /\/2\.m3u8$/.test(resource.url)), `${relative}: did not honor Rex episode number`);
 
   const episode = detail.episodeItems.find(item => item.episode === 2);
+  const resumedDetail = await context.loadDetail(episode.id);
+  assert(resumedDetail && resumedDetail.id === detail.id && resumedDetail.link === detail.link,
+    `${relative}: Continue Watching episode ID did not reopen the parent detail page`);
+  const resumedEpisode = resumedDetail.episodeItems.find(item => item.episode === 2);
+  assert(resumedEpisode && resumedEpisode.id === episode.id,
+    `${relative}: Continue Watching episode identity changed after reopening detail`);
   const detailResources = await context.loadResource({
     id: episode.id,
     link: episode.link,
@@ -92,5 +100,5 @@ async function verify(file) {
   const files = registry.map(row => path.join(root, ...row.module.split("/")))
     .concat(path.join(root, "aggregate", "Rex-CineVerse", "Rex-CineVerse.js"));
   for (const file of files) await verify(file);
-  console.log(`${files.length}/${files.length} modules passed Rex search/detail/stream integration checks.`);
+  console.log(`${files.length}/${files.length} modules passed Rex search/detail/stream and Continue Watching checks.`);
 })().catch(error => { console.error(error); process.exitCode = 1; });
