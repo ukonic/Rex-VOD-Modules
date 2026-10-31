@@ -10,7 +10,7 @@ var SOURCE_CONFIG = {
   "api": "https://api.apibdzy.com/api.php/provide/vod/",
   "site": "https://api.apibdzy.com/",
   "icon": "https://api.apibdzy.com/favicon.ico",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "priority": 34,
   "tier": "C",
   "categories": {
@@ -373,11 +373,18 @@ function sourcePlayLines(item) {
 function sourceEpisodes(item, lines) {
   var cover = sourceUrl(item && item.vod_pic);
   var title = sourceStrip(item && item.vod_name);
+  var link = sourceLink(item && item.vod_id);
+  var seen = {};
   return lines.map(function (line, index) {
-    return { id: line.url, type: "url", title: line.title, description: title + "\n来源：" + SOURCE_CONFIG.name,
-      coverUrl: cover, posterPath: cover, mediaType: sourceMediaType(item), episode: line.index || index + 1,
-      videoUrl: line.url, link: sourceLink(item.vod_id), playerType: "app" };
-  });
+    var episode = sourceEpisodeNumber(line.title) || line.index || index + 1;
+    var key = episode > 0 ? ("n:" + episode) : ("t:" + sourceNormalize(line.title));
+    if (seen[key]) return null;
+    seen[key] = true;
+    return { id: link + "?episode=" + encodeURIComponent(String(episode)), type: "url", title: line.title,
+      description: title + "\n来源：" + SOURCE_CONFIG.name + "\n起播时加载本站 M3U8",
+      coverUrl: cover, posterPath: cover, mediaType: sourceMediaType(item), episode: episode,
+      link: link, playerType: "app" };
+  }).filter(Boolean);
 }
 
 function sourceDetailItem(item) {
@@ -388,7 +395,6 @@ function sourceDetailItem(item) {
   base.backdropPath = base.coverUrl;
   base.backdropPaths = base.coverUrl ? [base.coverUrl] : [];
   base.episodeItems = sourceEpisodes(item, lines);
-  if (base.episodeItems.length) base.videoUrl = base.episodeItems[0].videoUrl;
   if (!base.episodeItems.length) base.description += (base.description ? "\n\n" : "") + "当前没有可直接播放的 M3U8 地址。";
   return base;
 }
@@ -482,12 +488,9 @@ function sourceVideoResource(line) {
 
 async function loadResource(params) {
   params = params || {};
-  var direct = [params.videoUrl, params.url, params.id];
-  for (var i = 0; i < direct.length; i += 1) {
-    var directUrl = sourceUrl(direct[i]);
-    if (sourceM3u8(directUrl)) return [sourceVideoResource({ title: sourceStrip(params.episodeName || params.title), url: directUrl })];
-  }
-  var id = sourceId(params.link || params.id);
+  var linkedInput = sourceText(params.link).trim();
+  if (!linkedInput && new RegExp("^rexvod://" + SOURCE_CONFIG.slug + "/", "i").test(sourceText(params.id))) linkedInput = sourceText(params.id);
+  var id = sourceId(linkedInput);
   var result;
   var detail;
   if (id) {
@@ -504,22 +507,34 @@ async function loadResource(params) {
   if (!lines.length) return [];
   var episodeName = sourceStrip(params.episodeName);
   if (episodeName) {
+    var named = [];
     for (var lineIndex = 0; lineIndex < lines.length; lineIndex += 1) {
-      if (sourceStrip(lines[lineIndex].title) === episodeName) return [sourceVideoResource(lines[lineIndex])];
+      if (sourceStrip(lines[lineIndex].title) === episodeName) named.push(lines[lineIndex]);
     }
-    return [];
+    if (named.length) return sourceResourceList(named);
   }
-  var episode = Math.floor(Number(params.episode));
+  var episode = Math.floor(Number(params.episode)) || sourceEpisodeNumber(episodeName);
   if (isFinite(episode) && episode > 0) {
     var hasNumberedTitles = false;
+    var numbered = [];
     for (var numberedIndex = 0; numberedIndex < lines.length; numberedIndex += 1) {
       var number = sourceEpisodeNumber(lines[numberedIndex].title);
       if (number > 0) hasNumberedTitles = true;
-      if (number === episode) return [sourceVideoResource(lines[numberedIndex])];
+      if (number === episode) numbered.push(lines[numberedIndex]);
     }
-    return hasNumberedTitles || !lines[episode - 1] ? [] : [sourceVideoResource(lines[episode - 1])];
+    if (numbered.length) return sourceResourceList(numbered);
+    return hasNumberedTitles || !lines[episode - 1] ? [] : sourceResourceList([lines[episode - 1]]);
   }
-  return [sourceVideoResource(lines[0])];
+  if (episodeName) return [];
+  return sourceMediaType(detail) === "movie" ? sourceResourceList(lines) : sourceResourceList([lines[0]]);
+}
+function sourceResourceList(lines) {
+  var seen = {};
+  return lines.filter(function (line) {
+    if (!line || !line.url || seen[line.url]) return false;
+    seen[line.url] = true;
+    return true;
+  }).map(sourceVideoResource);
 }
 function sourceEpisodeNumber(value) {
   var title = sourceStrip(value);

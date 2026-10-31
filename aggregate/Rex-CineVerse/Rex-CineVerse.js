@@ -3,7 +3,7 @@
  * 40站聚合、严格匹配、仅直接 M3U8。运行时不依赖 registry.json 或其他文件。
  */
 var CINEVERSE_CONFIG = {
-  "version": "0.1.5",
+  "version": "0.1.6",
   "sources": [
     {
       "slug": "feifan",
@@ -6563,19 +6563,18 @@ async function cvFindMatches(keyword, params) {
 function cvEpisodeItems(matches, base) {
   var items = [];
   var seen = {};
-  var showEditions = cvShowEditionLabels(matches);
   matches.forEach(function (match) {
     cvPlayLines(match.item).forEach(function (line, index) {
-      if (seen[line.url]) return;
-      seen[line.url] = true;
-      var edition = cvLineEdition(line, match.item);
-      items.push({ id: line.url, type: "url", title: match.source.shortName + (showEditions && edition ? " · " + edition : "") + " · " + line.title,
-        description: "来源：" + match.source.name + (showEditions && edition ? "\n版本：" + edition : ""), coverUrl: base.coverUrl, posterPath: base.posterPath,
-        mediaType: cvMediaType(match.item), episode: line.index || index + 1, videoUrl: line.url,
-        link: cvLink(match.source, match.item.vod_id), playerType: "app" });
+      var episode = cvEpisodeNumber(line.title) || line.index || index + 1;
+      var key = episode > 0 ? ("n:" + episode) : ("t:" + cvNormalize(line.title));
+      if (seen[key]) return;
+      seen[key] = true;
+      items.push({ id: base.link + "?episode=" + encodeURIComponent(String(episode)), type: "url", title: line.title,
+        description: base.title + "\n起播时加载全部可用 M3U8 线路", coverUrl: base.coverUrl, posterPath: base.posterPath,
+        mediaType: base.mediaType, episode: episode, link: base.link, playerType: "app" });
     });
   });
-  return items;
+  return items.sort(function (a, b) { return (a.episode || 0) - (b.episode || 0); });
 }
 async function loadDetail(link) {
   var parsed = cvParseLink(link);
@@ -6590,7 +6589,6 @@ async function loadDetail(link) {
   base.backdropPaths = base.coverUrl ? [base.coverUrl] : [];
   var matches = await cvFindMatches(cvStrip(raw.vod_name), { year: raw.vod_year, type: cvMediaType(raw) });
   base.episodeItems = cvEpisodeItems(matches, base);
-  if (base.episodeItems.length) base.videoUrl = base.episodeItems[0].videoUrl;
   if (!base.episodeItems.length) base.description += "\n\n当前没有匹配到可直接播放的 M3U8。";
   return cvPublic(base);
 }
@@ -6598,9 +6596,8 @@ function cvPickLine(lines, params) {
   var episodeName = cvStrip(params && params.episodeName);
   if (episodeName) {
     for (var i = 0; i < lines.length; i += 1) if (cvStrip(lines[i].title) === episodeName) return lines[i];
-    return null;
   }
-  var episode = Math.floor(Number(params && params.episode));
+  var episode = Math.floor(Number(params && params.episode)) || cvEpisodeNumber(episodeName);
   if (isFinite(episode) && episode > 0) {
     var hasNumberedTitles = false;
     for (var lineIndex = 0; lineIndex < lines.length; lineIndex += 1) {
@@ -6610,6 +6607,7 @@ function cvPickLine(lines, params) {
     }
     return hasNumberedTitles ? null : (lines[episode - 1] || null);
   }
+  if (episodeName) return null;
   return lines[0] || null;
 }
 function cvEpisodeNumber(value) {
@@ -6621,22 +6619,15 @@ function cvEpisodeNumber(value) {
 }
 async function loadResource(params) {
   params = params || {};
-  var direct = [params.videoUrl, params.url, params.id];
-  for (var i = 0; i < direct.length; i += 1) {
-    var directUrl = cvUrl(direct[i]);
-    if (cvM3u8(directUrl)) return [{ name: cvStrip(params.episodeName || params.title) || "M3U8", description: "直接播放", url: directUrl, playerType: "app" }];
+  var parsed = cvParseLink(params.link || params.id);
+  var raw = null;
+  if (parsed && parsed.source) {
+    var payload = await cvSafeGet(parsed.source, { ac: "detail", ids: parsed.id });
+    raw = (payload.list || [])[0] || null;
+    if (!params.year && raw) params.year = raw.vod_year;
+    if (!params.type && raw) params.type = cvMediaType(raw);
   }
-  var keyword = cvStrip(params.seriesName || params.title || params.name);
-  if (!keyword) {
-    var parsed = cvParseLink(params.link || params.id);
-    if (parsed && parsed.source) {
-      var payload = await cvSafeGet(parsed.source, { ac: "detail", ids: parsed.id });
-      var raw = (payload.list || [])[0];
-      keyword = cvStrip(raw && raw.vod_name);
-      if (!params.year && raw) params.year = raw.vod_year;
-      if (!params.type && raw) params.type = cvMediaType(raw);
-    }
-  }
+  var keyword = cvStrip(params.seriesName || (raw && raw.vod_name) || params.title || params.name);
   if (!keyword) return [];
   var matches = await cvFindMatches(keyword, params);
   var seen = {};

@@ -33,8 +33,11 @@ const matches = [
   { source, item: item("国语", "https://example.com/mandarin.m3u8") },
   { source, item: item("粤语", "https://example.com/cantonese.m3u8") }
 ];
-const episodes = context.cvEpisodeItems(matches, { coverUrl: "", posterPath: "" });
-if (episodes.length !== 2 || !episodes.some(row => row.title.includes("国语")) || !episodes.some(row => row.title.includes("粤语"))) {
-  throw new Error("edition episode lines were not preserved");
+const episodes = context.cvEpisodeItems(matches, {
+  id: "cineverse://sample/1", link: "cineverse://sample/1", title: "示例电影",
+  coverUrl: "", posterPath: "", mediaType: "movie"
+});
+if (episodes.length !== 1 || episodes[0].videoUrl || episodes[0].link !== "cineverse://sample/1") {
+  throw new Error("edition lines were not grouped into deferred playback context");
 }
-console.log("Edition parsing and separate playback lines passed.");
+console.log("Edition parsing and deferred multi-source playback context passed.");
