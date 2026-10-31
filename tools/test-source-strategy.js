@@ -68,8 +68,8 @@ async function run(strategy, target, matches) {
   assert(tiers.A.slice(-2).map(source => source.slug).join(",") === "guangsu,hongniu",
     "Guangsu and Hongniu are not at the end of A tier");
   assert(tiers.R.map(source => source.slug).join(",") === "zy360,zy1080", "R tier sources are incorrect");
-  assert(context.CINEVERSE_SOURCES.length === 38 && !context.cvSource("zy360") && !context.cvSource("zy1080"),
-    "R tier sources were included in the aggregate runtime");
+  assert(context.CINEVERSE_SOURCES.length === 40 && context.cvSource("zy360") && context.cvSource("zy1080"),
+    "R tier sources are missing from the aggregate source library");
 
   let resources = await run("complete", "3", { S: 1, A: 1, B: 1, C: 1, D: 1, R: 1 });
   assert(resources.length === 5, "Complete strategy did not search S through D tiers");
@@ -105,8 +105,23 @@ async function run(strategy, target, matches) {
   const optionTitles = context.cvSourceOptions().map(item => item.title);
   assert(optionTitles.some(title => title.indexOf("优先 · ") === 0) && optionTitles.some(title => title.indexOf("备用 · ") === 0)
     && optionTitles.some(title => title.indexOf("补充 · ") === 0) && optionTitles.some(title => title.indexOf("完整专用 · ") === 0)
-    && !optionTitles.some(title => /360资源|1080资源/.test(title)),
+    && optionTitles.some(title => title === "独立 · 三六零资源") && optionTitles.some(title => title === "独立 · 一零八零资源"),
     "Source library does not show all tier roles");
+
+  for (const slug of ["zy360", "zy1080"]) {
+    state.matches = { S: 0, A: 0, B: 0, C: 0, D: 0, R: 2 };
+    state.calls = [];
+    context.CV_MATCH_CACHE = {};
+    const restrictedDetail = await context.loadDetail(`cineverse://${slug}/${slug}`);
+    assert(restrictedDetail && restrictedDetail.episodeItems.length === 1 && state.calls.join(",") === slug,
+      `${slug} detail did not stay on its own R-tier source`);
+    state.calls = [];
+    const restrictedResources = await context.loadResource({
+      link: `cineverse://${slug}/${slug}`, title: "自动分层测试电影", type: "movie", episode: 1
+    });
+    assert(restrictedResources.length === 1 && state.calls.join(",") === slug,
+      `${slug} manual playback triggered aggregation or failed to use its own source`);
+  }
 
   const strategy = context.WidgetMetadata.globalParams.find(item => item.name === "sourceStrategy");
   const target = context.WidgetMetadata.globalParams.find(item => item.name === "sourceTarget");

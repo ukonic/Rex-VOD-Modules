@@ -1,9 +1,9 @@
 /*
  * Rex / ForwardWidgets - 寰宇影源
- * 38站聚合、严格匹配、仅直接 M3U8。运行时不依赖 registry.json 或其他文件。
+ * 40站接入、38站聚合、严格匹配、仅直接 M3U8。运行时不依赖 registry.json 或其他文件。
  */
 var CINEVERSE_CONFIG = {
-  "version": "0.1.20",
+  "version": "0.1.21",
   "sources": [
     {
       "slug": "feifan",
@@ -781,6 +781,214 @@ var CINEVERSE_CONFIG = {
           {
             "title": "短剧",
             "value": "38"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "zy360",
+      "name": "360资源",
+      "shortName": "360",
+      "playbackName": "三六零资源",
+      "api": "https://360zy.com/api.php/provide/vod/",
+      "site": "https://360zy.com/",
+      "icon": "https://360zy.com/favicon.ico",
+      "blockedCoverHosts": [],
+      "priority": 6,
+      "tier": "R",
+      "categories": {
+        "movie": [
+          {
+            "title": "电影",
+            "value": "1"
+          },
+          {
+            "title": "动作片",
+            "value": "6"
+          },
+          {
+            "title": "喜剧片",
+            "value": "7"
+          },
+          {
+            "title": "爱情片",
+            "value": "8"
+          },
+          {
+            "title": "科幻片",
+            "value": "9"
+          },
+          {
+            "title": "恐怖片",
+            "value": "10"
+          },
+          {
+            "title": "剧情片",
+            "value": "11"
+          },
+          {
+            "title": "战争片",
+            "value": "12"
+          },
+          {
+            "title": "惊悚片",
+            "value": "20"
+          },
+          {
+            "title": "家庭篇",
+            "value": "21"
+          },
+          {
+            "title": "古装片",
+            "value": "22"
+          },
+          {
+            "title": "历史片",
+            "value": "23"
+          },
+          {
+            "title": "悬疑片",
+            "value": "24"
+          },
+          {
+            "title": "犯罪片",
+            "value": "25"
+          },
+          {
+            "title": "灾难片",
+            "value": "26"
+          },
+          {
+            "title": "纪录片",
+            "value": "27"
+          },
+          {
+            "title": "短片",
+            "value": "28"
+          },
+          {
+            "title": "未分类",
+            "value": "43"
+          },
+          {
+            "title": "西部片",
+            "value": "45"
+          }
+        ],
+        "tv": [
+          {
+            "title": "连续剧",
+            "value": "2"
+          },
+          {
+            "title": "国产剧",
+            "value": "13"
+          },
+          {
+            "title": "香港剧",
+            "value": "14"
+          },
+          {
+            "title": "韩国剧",
+            "value": "15"
+          },
+          {
+            "title": "欧美剧",
+            "value": "16"
+          },
+          {
+            "title": "台湾剧",
+            "value": "30"
+          },
+          {
+            "title": "日本剧",
+            "value": "31"
+          },
+          {
+            "title": "海外剧",
+            "value": "32"
+          },
+          {
+            "title": "泰国剧",
+            "value": "33"
+          }
+        ],
+        "variety": [
+          {
+            "title": "综艺",
+            "value": "3"
+          },
+          {
+            "title": "大陆综艺",
+            "value": "34"
+          },
+          {
+            "title": "港台综艺",
+            "value": "35"
+          },
+          {
+            "title": "日韩综艺",
+            "value": "36"
+          },
+          {
+            "title": "欧美综艺",
+            "value": "37"
+          }
+        ],
+        "anime": [
+          {
+            "title": "动漫",
+            "value": "4"
+          },
+          {
+            "title": "动画片",
+            "value": "29"
+          },
+          {
+            "title": "国产动漫",
+            "value": "38"
+          },
+          {
+            "title": "欧美动漫",
+            "value": "39"
+          },
+          {
+            "title": "日韩动漫",
+            "value": "40"
+          }
+        ],
+        "short": [
+          {
+            "title": "爽文短剧",
+            "value": "46"
+          },
+          {
+            "title": "现代都市",
+            "value": "47"
+          },
+          {
+            "title": "脑洞悬疑",
+            "value": "48"
+          },
+          {
+            "title": "年代穿越",
+            "value": "49"
+          },
+          {
+            "title": "古装仙侠",
+            "value": "50"
+          },
+          {
+            "title": "反转爽剧",
+            "value": "51"
+          },
+          {
+            "title": "女频恋爱",
+            "value": "52"
+          },
+          {
+            "title": "成长逆袭",
+            "value": "53"
           }
         ]
       }
@@ -5102,6 +5310,150 @@ var CINEVERSE_CONFIG = {
       }
     },
     {
+      "slug": "zy1080",
+      "name": "1080资源",
+      "shortName": "1080",
+      "playbackName": "一零八零资源",
+      "api": "https://api.1080zyku.com/inc/apijson.php",
+      "site": "https://api.1080zyku.com/",
+      "icon": "https://api.1080zyku.com/favicon.ico",
+      "blockedCoverHosts": [],
+      "priority": 35,
+      "tier": "R",
+      "categories": {
+        "movie": [
+          {
+            "title": "电影",
+            "value": "1"
+          },
+          {
+            "title": "动作片",
+            "value": "5"
+          },
+          {
+            "title": "喜剧片",
+            "value": "6"
+          },
+          {
+            "title": "爱情片",
+            "value": "7"
+          },
+          {
+            "title": "科幻片",
+            "value": "8"
+          },
+          {
+            "title": "恐怖片",
+            "value": "9"
+          },
+          {
+            "title": "剧情片",
+            "value": "10"
+          },
+          {
+            "title": "战争片",
+            "value": "11"
+          }
+        ],
+        "tv": [
+          {
+            "title": "连续剧",
+            "value": "2"
+          },
+          {
+            "title": "国产剧",
+            "value": "12"
+          },
+          {
+            "title": "台湾剧",
+            "value": "13"
+          },
+          {
+            "title": "韩国剧",
+            "value": "14"
+          },
+          {
+            "title": "欧美剧",
+            "value": "15"
+          },
+          {
+            "title": "香港剧",
+            "value": "16"
+          },
+          {
+            "title": "泰国剧",
+            "value": "17"
+          },
+          {
+            "title": "日本剧",
+            "value": "18"
+          },
+          {
+            "title": "海外剧",
+            "value": "54"
+          }
+        ],
+        "variety": [
+          {
+            "title": "综艺",
+            "value": "3"
+          },
+          {
+            "title": "大陆综艺",
+            "value": "62"
+          },
+          {
+            "title": "港台综艺",
+            "value": "63"
+          },
+          {
+            "title": "日韩综艺",
+            "value": "64"
+          },
+          {
+            "title": "欧美综艺",
+            "value": "65"
+          }
+        ],
+        "anime": [
+          {
+            "title": "动漫",
+            "value": "4"
+          },
+          {
+            "title": "动画片",
+            "value": "41"
+          },
+          {
+            "title": "国产动漫",
+            "value": "66"
+          },
+          {
+            "title": "日韩动漫",
+            "value": "67"
+          },
+          {
+            "title": "欧美动漫",
+            "value": "68"
+          },
+          {
+            "title": "港台动漫",
+            "value": "69"
+          },
+          {
+            "title": "海外动漫",
+            "value": "70"
+          }
+        ],
+        "short": [
+          {
+            "title": "短剧大全",
+            "value": "83"
+          }
+        ]
+      }
+    },
+    {
       "slug": "piaoling",
       "name": "飘零资源",
       "shortName": "飘零",
@@ -5930,13 +6282,16 @@ var CV_MATCH_CACHE_TTL = 180000;
 
 function cvText(value) { return value === null || value === undefined ? "" : String(value); }
 function cvSourceTier(source) { return cvText(source && source.tier).toUpperCase(); }
-function cvEnabledSources() { return CINEVERSE_SOURCES.filter(function (source) { return cvSourceTier(source) !== "D"; }); }
+function cvEnabledSources() { return CINEVERSE_SOURCES.filter(function (source) {
+  var tier = cvSourceTier(source);
+  return tier !== "D" && tier !== "R";
+}); }
 function cvSourceRole(source) {
   var tier = cvSourceTier(source);
-  return tier === "S" ? "优先" : (tier === "A" ? "备用" : (tier === "D" ? "完整专用" : "补充"));
+  return tier === "S" ? "优先" : (tier === "A" ? "备用" : (tier === "D" ? "完整专用" : (tier === "R" ? "独立" : "补充")));
 }
 function cvSourceOptions() { return CINEVERSE_SOURCES.map(function (source) {
-  return { title: cvSourceRole(source) + " · " + source.name, value: source.slug };
+  return { title: cvSourceRole(source) + " · " + (source.playbackName || source.name), value: source.slug };
 }); }
 function cvPageParams() { return [{ name: "page", title: "页码", type: "page", value: "1" }]; }
 
@@ -5946,7 +6301,7 @@ var WidgetMetadata = {
   icon: "https://github.com/ukonic.png",
   version: CINEVERSE_CONFIG.version,
   requiredVersion: "0.0.1",
-  description: "38个 M3U8 资源站聚合：首页、分类、单站浏览、全网搜索与多源播放",
+  description: "40个 M3U8 资源站接入，38个参与聚合：首页、分类、单站浏览、全网搜索与多源播放",
   author: "ukonic",
   site: "https://github.com/ukonic/Rex-VOD-Modules",
   detailCacheDuration: 180,
@@ -6043,7 +6398,9 @@ function cvSourceTarget(params) {
 function cvPlaybackSourceStages(params) {
   var strategy = cvSourceStrategy(params);
   var enabled = cvEnabledSources();
-  if (strategy === "complete") return { strategy: strategy, target: CINEVERSE_SOURCES.length, stages: [CINEVERSE_SOURCES.slice()] };
+  if (strategy === "complete") return { strategy: strategy, target: CINEVERSE_SOURCES.length, stages: [CINEVERSE_SOURCES.filter(function (source) {
+    return cvSourceTier(source) !== "R";
+  })] };
   var core = enabled.filter(function (source) { return cvSourceTier(source) === "S"; });
   if (strategy === "core") return { strategy: strategy, target: 20, stages: [core] };
   return {
@@ -6525,7 +6882,9 @@ async function loadDetail(link) {
   base.description = cvDescription(raw, parsed.source, true);
   base.backdropPath = base.coverUrl;
   base.backdropPaths = base.coverUrl ? [base.coverUrl] : [];
-  var matches = await cvFindPlaybackMatches(cvStrip(raw.vod_name), { year: raw.vod_year, type: cvMediaType(raw) });
+  var matches = cvSourceTier(parsed.source) === "R"
+    ? [{ source: parsed.source, item: raw }]
+    : await cvFindPlaybackMatches(cvStrip(raw.vod_name), { year: raw.vod_year, type: cvMediaType(raw) });
   base.episodeItems = cvEpisodeItems(matches, base);
   if (!base.episodeItems.length) base.description += "\n\n当前没有匹配到可直接播放的 M3U8。";
   return cvPublic(base);
@@ -6599,10 +6958,15 @@ async function loadResource(params) {
   if (!keywords.length) return [];
   var keyword = "";
   var matches = [];
-  for (var keywordIndex = 0; keywordIndex < keywords.length; keywordIndex += 1) {
-    keyword = keywords[keywordIndex];
-    matches = await cvFindPlaybackMatches(keyword, params);
-    if (matches.length) break;
+  if (parsed && parsed.source && raw && cvSourceTier(parsed.source) === "R") {
+    keyword = cvStrip(raw.vod_name);
+    matches = [{ source: parsed.source, item: raw }];
+  } else {
+    for (var keywordIndex = 0; keywordIndex < keywords.length; keywordIndex += 1) {
+      keyword = keywords[keywordIndex];
+      matches = await cvFindPlaybackMatches(keyword, params);
+      if (matches.length) break;
+    }
   }
   if (!matches.length) return [];
   var seen = {};

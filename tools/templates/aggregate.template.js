@@ -1,6 +1,6 @@
 /*
  * Rex / ForwardWidgets - 寰宇影源
- * 38站聚合、严格匹配、仅直接 M3U8。运行时不依赖 registry.json 或其他文件。
+ * 40站接入、38站聚合、严格匹配、仅直接 M3U8。运行时不依赖 registry.json 或其他文件。
  */
 var CINEVERSE_CONFIG = __AGG_CONFIG__;
 var CINEVERSE_SOURCES = CINEVERSE_CONFIG.sources;
@@ -9,13 +9,16 @@ var CV_MATCH_CACHE_TTL = 180000;
 
 function cvText(value) { return value === null || value === undefined ? "" : String(value); }
 function cvSourceTier(source) { return cvText(source && source.tier).toUpperCase(); }
-function cvEnabledSources() { return CINEVERSE_SOURCES.filter(function (source) { return cvSourceTier(source) !== "D"; }); }
+function cvEnabledSources() { return CINEVERSE_SOURCES.filter(function (source) {
+  var tier = cvSourceTier(source);
+  return tier !== "D" && tier !== "R";
+}); }
 function cvSourceRole(source) {
   var tier = cvSourceTier(source);
-  return tier === "S" ? "优先" : (tier === "A" ? "备用" : (tier === "D" ? "完整专用" : "补充"));
+  return tier === "S" ? "优先" : (tier === "A" ? "备用" : (tier === "D" ? "完整专用" : (tier === "R" ? "独立" : "补充")));
 }
 function cvSourceOptions() { return CINEVERSE_SOURCES.map(function (source) {
-  return { title: cvSourceRole(source) + " · " + source.name, value: source.slug };
+  return { title: cvSourceRole(source) + " · " + (source.playbackName || source.name), value: source.slug };
 }); }
 function cvPageParams() { return [{ name: "page", title: "页码", type: "page", value: "1" }]; }
 
@@ -25,7 +28,7 @@ var WidgetMetadata = {
   icon: "https://github.com/ukonic.png",
   version: CINEVERSE_CONFIG.version,
   requiredVersion: "0.0.1",
-  description: "38个 M3U8 资源站聚合：首页、分类、单站浏览、全网搜索与多源播放",
+  description: "40个 M3U8 资源站接入，38个参与聚合：首页、分类、单站浏览、全网搜索与多源播放",
   author: "ukonic",
   site: "https://github.com/ukonic/Rex-VOD-Modules",
   detailCacheDuration: 180,
@@ -122,7 +125,9 @@ function cvSourceTarget(params) {
 function cvPlaybackSourceStages(params) {
   var strategy = cvSourceStrategy(params);
   var enabled = cvEnabledSources();
-  if (strategy === "complete") return { strategy: strategy, target: CINEVERSE_SOURCES.length, stages: [CINEVERSE_SOURCES.slice()] };
+  if (strategy === "complete") return { strategy: strategy, target: CINEVERSE_SOURCES.length, stages: [CINEVERSE_SOURCES.filter(function (source) {
+    return cvSourceTier(source) !== "R";
+  })] };
   var core = enabled.filter(function (source) { return cvSourceTier(source) === "S"; });
   if (strategy === "core") return { strategy: strategy, target: 20, stages: [core] };
   return {
@@ -604,7 +609,9 @@ async function loadDetail(link) {
   base.description = cvDescription(raw, parsed.source, true);
   base.backdropPath = base.coverUrl;
   base.backdropPaths = base.coverUrl ? [base.coverUrl] : [];
-  var matches = await cvFindPlaybackMatches(cvStrip(raw.vod_name), { year: raw.vod_year, type: cvMediaType(raw) });
+  var matches = cvSourceTier(parsed.source) === "R"
+    ? [{ source: parsed.source, item: raw }]
+    : await cvFindPlaybackMatches(cvStrip(raw.vod_name), { year: raw.vod_year, type: cvMediaType(raw) });
   base.episodeItems = cvEpisodeItems(matches, base);
   if (!base.episodeItems.length) base.description += "\n\n当前没有匹配到可直接播放的 M3U8。";
   return cvPublic(base);
@@ -678,10 +685,15 @@ async function loadResource(params) {
   if (!keywords.length) return [];
   var keyword = "";
   var matches = [];
-  for (var keywordIndex = 0; keywordIndex < keywords.length; keywordIndex += 1) {
-    keyword = keywords[keywordIndex];
-    matches = await cvFindPlaybackMatches(keyword, params);
-    if (matches.length) break;
+  if (parsed && parsed.source && raw && cvSourceTier(parsed.source) === "R") {
+    keyword = cvStrip(raw.vod_name);
+    matches = [{ source: parsed.source, item: raw }];
+  } else {
+    for (var keywordIndex = 0; keywordIndex < keywords.length; keywordIndex += 1) {
+      keyword = keywords[keywordIndex];
+      matches = await cvFindPlaybackMatches(keyword, params);
+      if (matches.length) break;
+    }
   }
   if (!matches.length) return [];
   var seen = {};

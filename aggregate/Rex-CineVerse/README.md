@@ -1,6 +1,6 @@
 # 寰宇影源
 
-38个 M3U8 资源站聚合模块。
+40个 M3U8 资源站接入，其中38个参与聚合。
 
 ## 导入
 
@@ -11,7 +11,7 @@ https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/refs/heads/main/aggrega
 如Rex仍缓存旧版本，可使用当前固定版本地址重新导入：
 
 ```text
-https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/refs/heads/main/aggregate/Rex-CineVerse/versions/Rex-CineVerse-v0.1.20.js
+https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/refs/heads/main/aggregate/Rex-CineVerse/versions/Rex-CineVerse-v0.1.21.js
 ```
 
 ## 播放源策略
@@ -20,6 +20,7 @@ https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/refs/heads/main/aggrega
 - 完整聚合：搜索 S、A、B、C、D 级共38个资源站。
 - 仅核心站：只搜索9个 S 级资源站。
 - D级仅在完整聚合模式下参与，自动分层和仅核心站不会调用。
+- 另外2个资源站仅可在资源站库中手动浏览和播放，不参与任何聚合策略。
 
 “自动分层目标数（仅自动分层生效）”默认为3，可在全局设置中填写1–20；统计的是不同资源站数量，不是播放线路数量，完整聚合和仅核心站模式会忽略该数值。
 

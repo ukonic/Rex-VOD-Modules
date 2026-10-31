@@ -18,7 +18,7 @@ https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/refs/heads/main/aggrega
 如Rex仍缓存旧版本，可使用当前固定版本地址重新导入：
 
 ```text
-https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/refs/heads/main/aggregate/Rex-CineVerse/versions/Rex-CineVerse-v0.1.20.js
+https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/refs/heads/main/aggregate/Rex-CineVerse/versions/Rex-CineVerse-v0.1.21.js
 ```
 
 功能入口：寰宇影源、寰宇电影、寰宇剧集、寰宇综艺、寰宇动漫、寰宇短剧、资源站库、全网搜索、多源播放。
