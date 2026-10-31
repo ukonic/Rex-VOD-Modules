@@ -3,7 +3,7 @@
  * 40站聚合、严格匹配、仅直接 M3U8。运行时不依赖 registry.json 或其他文件。
  */
 var CINEVERSE_CONFIG = {
-  "version": "0.1.0",
+  "version": "0.1.1",
   "sources": [
     {
       "slug": "feifan",
@@ -6422,26 +6422,93 @@ async function searchCineverse(params) {
   if (!keyword) return [];
   return cvBrowseSources(CINEVERSE_SOURCES, function () { return { ac: "detail", wd: keyword, pg: cvPage(params.page) }; });
 }
-function cvStrictMatch(item, keyword, params) {
+function cvSeasonNumber(value) {
+  var season = cvSeason(value);
+  if (!season) return 0;
+  if (/^\d+$/.test(season)) return Number(season);
+  var map = { "一": 1, "二": 2, "三": 3, "四": 4, "五": 5, "六": 6, "七": 7, "八": 8, "九": 9, "十": 10 };
+  if (map[season]) return map[season];
+  if (/^十[一二三四五六七八九]$/.test(season)) return 10 + map[season.slice(1)];
+  if (/^[二三四五六七八九]十$/.test(season)) return map[season.slice(0, 1)] * 10;
+  return 0;
+}
+function cvCandidate(item, keyword, params) {
   if (!item || cvBlocked(item) || !cvPlayLines(item).length) return false;
-  if (cvNormalize(item.vod_name) !== cvNormalize(keyword)) return false;
-  var year = cvText(params && params.year).trim();
-  if (year && cvText(item.vod_year).trim() && cvText(item.vod_year).trim() !== year) return false;
+  var wanted = cvNormalize(keyword);
+  var title = cvNormalize(item.vod_name);
+  if (!wanted || !title || (title !== wanted && title.indexOf(wanted) !== 0 && wanted.indexOf(title) !== 0)) return false;
   var type = cvText(params && params.type).toLowerCase();
   if ((type === "tv" || type === "movie") && cvMediaType(item) !== type) return false;
-  var requestedSeason = cvSeason(keyword) || cvText(params && params.season).trim();
-  var itemSeason = cvSeason(item.vod_name) || cvSeason(item.vod_remarks);
-  if (requestedSeason && itemSeason && requestedSeason !== itemSeason) return false;
   return true;
 }
 async function cvFindMatches(keyword, params) {
   var responses = await cvBatches(CINEVERSE_SOURCES, function (source) {
     return cvSafeGet(source, { ac: "detail", wd: keyword }).then(function (payload) {
-      var matches = (payload.list || []).filter(function (item) { return cvStrictMatch(item, keyword, params); });
-      return matches.length === 1 ? { source: source, item: matches[0] } : null;
+      return { source: source, list: payload.list || [] };
     });
   }, 8);
-  return responses.filter(Boolean);
+  var wanted = cvNormalize(keyword);
+  var rows = [];
+  responses.forEach(function (response) {
+    response.list.forEach(function (item) {
+      if (cvCandidate(item, keyword, params)) rows.push({ source: response.source, item: item });
+    });
+  });
+  if (!rows.length) return [];
+
+  var pool = rows;
+  var requestedYear = cvText(params && (params.year || params.releaseYear || params.releaseDate)).trim();
+  var yearToken = requestedYear.match(/(?:19|20)\d{2}/);
+  requestedYear = yearToken ? yearToken[0] : requestedYear;
+  if (requestedYear) {
+    var yearMatches = pool.filter(function (row) { return cvText(row.item.vod_year).trim() === requestedYear; });
+    if (yearMatches.length) pool = yearMatches;
+  }
+  var requestedSeason = Math.floor(Number(params && (params.season || params.seasonNumber))) || cvSeasonNumber(keyword);
+  if (requestedSeason > 0) {
+    var seasonMatches = pool.filter(function (row) {
+      return cvSeasonNumber(row.item.vod_name) === requestedSeason || cvSeasonNumber(row.item.vod_remarks) === requestedSeason;
+    });
+    if (seasonMatches.length) pool = seasonMatches;
+  }
+  var exact = pool.filter(function (row) { return cvNormalize(row.item.vod_name) === wanted; });
+  if (exact.length) pool = exact;
+  if (!exact.length && !requestedYear && !requestedSeason) {
+    var years = pool.map(function (row) { return Number(row.item.vod_year); }).filter(function (year) { return isFinite(year) && year >= 1900 && year <= 2100; });
+    if (years.length) {
+      var earliestYear = Math.min.apply(Math, years);
+      pool = pool.filter(function (row) { return Number(row.item.vod_year) === earliestYear; });
+    } else {
+      var shortest = Math.min.apply(Math, pool.map(function (row) { return cvNormalize(row.item.vod_name).length; }));
+      pool = pool.filter(function (row) { return cvNormalize(row.item.vod_name).length === shortest; });
+    }
+  }
+  if (!exact.length && pool.length) {
+    var titleStats = {};
+    pool.forEach(function (row) {
+      var key = cvNormalize(row.item.vod_name);
+      if (!titleStats[key]) titleStats[key] = { key: key, length: key.length, count: 0 };
+      titleStats[key].count += 1;
+    });
+    var canonical = Object.keys(titleStats).map(function (key) { return titleStats[key]; }).sort(function (a, b) {
+      if (a.length !== b.length) return a.length - b.length;
+      return b.count - a.count;
+    })[0];
+    if (canonical) pool = pool.filter(function (row) { return cvNormalize(row.item.vod_name) === canonical.key; });
+  }
+
+  pool.sort(function (a, b) {
+    var aExact = cvNormalize(a.item.vod_name) === wanted ? 0 : 1;
+    var bExact = cvNormalize(b.item.vod_name) === wanted ? 0 : 1;
+    if (aExact !== bExact) return aExact - bExact;
+    return cvNormalize(a.item.vod_name).length - cvNormalize(b.item.vod_name).length;
+  });
+  var picked = {};
+  return pool.filter(function (row) {
+    if (picked[row.source.slug]) return false;
+    picked[row.source.slug] = true;
+    return true;
+  });
 }
 function cvEpisodeItems(matches, base) {
   var items = [];
@@ -6507,7 +6574,9 @@ async function loadResource(params) {
     var line = cvPickLine(cvPlayLines(match.item), params);
     if (!line || seen[line.url]) return;
     seen[line.url] = true;
-    resources.push({ name: match.source.name + " · " + line.title, description: "来源：" + match.source.name,
+    var matchedTitle = cvStrip(match.item.vod_name);
+    var variant = cvNormalize(matchedTitle) !== cvNormalize(keyword) ? (" · " + matchedTitle) : "";
+    resources.push({ name: match.source.name + variant + " · " + line.title, description: "来源：" + match.source.name + (variant ? "\n匹配：" + matchedTitle : ""),
       url: line.url, playerType: "app" });
   });
   return resources;
