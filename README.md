@@ -18,7 +18,7 @@ https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/refs/heads/main/aggrega
 如Rex仍缓存旧版本，可使用当前固定版本地址重新导入：
 
 ```text
-https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/refs/heads/main/aggregate/Rex-CineVerse/versions/Rex-CineVerse-v0.1.17.js
+https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/refs/heads/main/aggregate/Rex-CineVerse/versions/Rex-CineVerse-v0.1.19.js
 ```
 
 功能入口：寰宇影源、寰宇电影、寰宇剧集、寰宇综艺、寰宇动漫、寰宇短剧、资源站库、全网搜索、多源播放。
@@ -44,19 +44,19 @@ Rex-VOD-Modules/
 | 5 | 魔都资源 | S | [JS](sources/modu/Rex-Modu-VOD.js) | `https://www.mdzyapi.com/api.php/provide/vod/` |
 | 6 | 360资源 | S | [JS](sources/zy360/Rex-360-VOD.js) | `https://360zy.com/api.php/provide/vod/` |
 | 7 | 电影天堂资源 | S | [JS](sources/dytt/Rex-Dytt-VOD.js) | `https://caiji.dyttzyapi.com/api.php/provide/vod/` |
-| 8 | 光速资源 | S | [JS](sources/guangsu/Rex-Guangsu-VOD.js) | `https://api.guangsuapi.com/api.php/provide/vod/` |
-| 9 | 暴风资源 | S | [JS](sources/baofeng/Rex-Baofeng-VOD.js) | `https://bfzyapi.com/api.php/provide/vod/` |
-| 10 | 红牛资源 | S | [JS](sources/hongniu/Rex-Hongniu-VOD.js) | `https://www.hongniuzy2.com/api.php/provide/vod/` |
+| 8 | 暴风资源 | S | [JS](sources/baofeng/Rex-Baofeng-VOD.js) | `https://bfzyapi.com/api.php/provide/vod/` |
+| 9 | 如意资源 | S | [JS](sources/ruyi/Rex-Ruyi-VOD.js) | `https://cj.rycjapi.com/api.php/provide/vod/` |
+| 10 | 优酷资源 | S | [JS](sources/youku/Rex-Youku-VOD.js) | `https://api.ukuapi.com/api.php/provide/vod/` |
 | 11 | 极速资源 | A | [JS](sources/jisu/Rex-Jisu-VOD.js) | `https://jszyapi.com/api.php/provide/vod/` |
-| 12 | 如意资源 | A | [JS](sources/ruyi/Rex-Ruyi-VOD.js) | `https://cj.rycjapi.com/api.php/provide/vod/` |
-| 13 | IKUN资源 | A | [JS](sources/ikun/Rex-IKUN-VOD.js) | `https://ikunzyapi.com/api.php/provide/vod/` |
-| 14 | 优酷资源 | A | [JS](sources/youku/Rex-Youku-VOD.js) | `https://api.ukuapi.com/api.php/provide/vod/` |
-| 15 | 索尼资源 | A | [JS](sources/suoni/Rex-Suoni-VOD.js) | `https://suoniapi.com/api.php/provide/vod/` |
-| 16 | 牛牛资源 | A | [JS](sources/niuniu/Rex-Niuniu-VOD.js) | `https://api.niuniuzy.me/api.php/provide/vod/` |
-| 17 | 闪电资源 | A | [JS](sources/shandian/Rex-Shandian-VOD.js) | `https://sdzyapi.com/api.php/provide/vod/` |
-| 18 | OK资源 | A | [JS](sources/ok/Rex-OK-VOD.js) | `https://api.okzyw.net/api.php/provide/vod/` |
-| 19 | 猫眼资源 | A | [JS](sources/maoyan/Rex-Maoyan-VOD.js) | `https://api.maoyanapi.top/api.php/provide/vod/` |
-| 20 | 快车资源 | A | [JS](sources/kuaiche/Rex-Kuaiche-VOD.js) | `https://caiji.kuaichezy.org/api.php/provide/vod/` |
+| 12 | IKUN资源 | A | [JS](sources/ikun/Rex-IKUN-VOD.js) | `https://ikunzyapi.com/api.php/provide/vod/` |
+| 13 | 索尼资源 | A | [JS](sources/suoni/Rex-Suoni-VOD.js) | `https://suoniapi.com/api.php/provide/vod/` |
+| 14 | 牛牛资源 | A | [JS](sources/niuniu/Rex-Niuniu-VOD.js) | `https://api.niuniuzy.me/api.php/provide/vod/` |
+| 15 | 闪电资源 | A | [JS](sources/shandian/Rex-Shandian-VOD.js) | `https://sdzyapi.com/api.php/provide/vod/` |
+| 16 | OK资源 | A | [JS](sources/ok/Rex-OK-VOD.js) | `https://api.okzyw.net/api.php/provide/vod/` |
+| 17 | 猫眼资源 | A | [JS](sources/maoyan/Rex-Maoyan-VOD.js) | `https://api.maoyanapi.top/api.php/provide/vod/` |
+| 18 | 快车资源 | A | [JS](sources/kuaiche/Rex-Kuaiche-VOD.js) | `https://caiji.kuaichezy.org/api.php/provide/vod/` |
+| 19 | 光速资源 | A | [JS](sources/guangsu/Rex-Guangsu-VOD.js) | `https://api.guangsuapi.com/api.php/provide/vod/` |
+| 20 | 红牛资源 | A | [JS](sources/hongniu/Rex-Hongniu-VOD.js) | `https://www.hongniuzy2.com/api.php/provide/vod/` |
 | 21 | 天涯资源 | B | [JS](sources/tianya/Rex-Tianya-VOD.js) | `https://tyyszyapi.com/api.php/provide/vod/` |
 | 22 | 虎牙资源 | B | [JS](sources/huya/Rex-Huya-VOD.js) | `https://www.huyaapi.com/api.php/provide/vod/` |
 | 23 | 新浪资源 | B | [JS](sources/xinlang/Rex-Xinlang-VOD.js) | `http://api.xinlangapi.com/xinlangapi.php/provide/vod/` |

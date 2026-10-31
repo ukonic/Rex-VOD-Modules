@@ -31,6 +31,8 @@ const sourceItems = {
     item("lz-cn", "名侦探柯南国语", "liangzi-cn"),
     item("lz-jp", "名侦探柯南日语版", "liangzi-jp")
   ],
+  ruyi: [item("ry-cn", "名侦探柯南（中配）", "ruyi-cn")],
+  youku: [item("yk-cn", "名侦探柯南中文配音版", "youku-cn")],
   guangsu: [item("gs-cn", "名侦探柯南（中配）", "guangsu-cn")],
   hongniu: [item("hn-cn", "名侦探柯南中文配音版", "hongniu-cn")]
 };
@@ -54,7 +56,8 @@ function assert(condition, message) {
   const mandarin = await context.cvFindPlaybackMatches("名侦探柯南（中配）", params);
   const slugs = new Set(mandarin.map(row => row.source.slug));
   assert(slugs.has("feifan"), "Core search dropped Feifan's Mandarin entry");
-  assert(slugs.has("guangsu") && slugs.has("hongniu"), "Core search dropped equivalent Mandarin aliases");
+  assert(slugs.has("ruyi") && slugs.has("youku"), "Core search dropped equivalent Mandarin aliases");
+  assert(!slugs.has("guangsu") && !slugs.has("hongniu"), "Core search queried A-tier tail sources");
   const feifan = mandarin.find(row => row.source.slug === "feifan");
   const liangzi = mandarin.find(row => row.source.slug === "liangzi");
   assert(feifan && feifan.item.vod_name === "名侦探柯南",

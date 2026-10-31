@@ -63,6 +63,11 @@ async function run(strategy, target, matches) {
 }
 
 (async () => {
+  assert(tiers.S.map(source => source.slug).join(",") === "feifan,liangzi,zuida,wujin,modu,zy360,dytt,baofeng,ruyi,youku",
+    "S tier ordering is incorrect");
+  assert(tiers.A.slice(-2).map(source => source.slug).join(",") === "guangsu,hongniu",
+    "Guangsu and Hongniu are not at the end of A tier");
+
   let resources = await run("complete", "3", { S: 1, A: 1, B: 1, C: 1, D: 1 });
   assert(resources.length === 4, "Complete strategy did not search every enabled tier");
   assert(calledTier("S") && calledTier("A") && calledTier("B") && calledTier("C"),

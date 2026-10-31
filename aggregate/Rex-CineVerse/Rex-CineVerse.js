@@ -3,7 +3,7 @@
  * 40站聚合、严格匹配、仅直接 M3U8。运行时不依赖 registry.json 或其他文件。
  */
 var CINEVERSE_CONFIG = {
-  "version": "0.1.18",
+  "version": "0.1.19",
   "sources": [
     {
       "slug": "feifan",
@@ -1141,173 +1141,6 @@ var CINEVERSE_CONFIG = {
       }
     },
     {
-      "slug": "guangsu",
-      "name": "光速资源",
-      "shortName": "光速",
-      "api": "https://api.guangsuapi.com/api.php/provide/vod/",
-      "site": "https://api.guangsuapi.com/",
-      "icon": "https://api.guangsuapi.com/favicon.ico",
-      "blockedCoverHosts": [],
-      "priority": 8,
-      "tier": "S",
-      "categories": {
-        "movie": [
-          {
-            "title": "电影",
-            "value": "1"
-          },
-          {
-            "title": "动作片",
-            "value": "6"
-          },
-          {
-            "title": "喜剧片",
-            "value": "7"
-          },
-          {
-            "title": "爱情片",
-            "value": "8"
-          },
-          {
-            "title": "科幻片",
-            "value": "9"
-          },
-          {
-            "title": "剧情片",
-            "value": "10"
-          },
-          {
-            "title": "恐怖片",
-            "value": "11"
-          },
-          {
-            "title": "战争片",
-            "value": "12"
-          }
-        ],
-        "tv": [
-          {
-            "title": "电视剧",
-            "value": "2"
-          },
-          {
-            "title": "大陆剧",
-            "value": "13"
-          },
-          {
-            "title": "欧美剧",
-            "value": "14"
-          },
-          {
-            "title": "港澳剧",
-            "value": "15"
-          },
-          {
-            "title": "韩剧",
-            "value": "16"
-          },
-          {
-            "title": "日剧",
-            "value": "21"
-          },
-          {
-            "title": "台湾剧",
-            "value": "22"
-          },
-          {
-            "title": "泰剧",
-            "value": "23"
-          }
-        ],
-        "variety": [
-          {
-            "title": "综艺",
-            "value": "3"
-          },
-          {
-            "title": "大陆综艺",
-            "value": "37"
-          },
-          {
-            "title": "日韩综艺",
-            "value": "38"
-          },
-          {
-            "title": "港台综艺",
-            "value": "39"
-          },
-          {
-            "title": "欧美综艺",
-            "value": "40"
-          }
-        ],
-        "anime": [
-          {
-            "title": "动漫",
-            "value": "4"
-          },
-          {
-            "title": "动漫电影",
-            "value": "20"
-          },
-          {
-            "title": "中国动漫",
-            "value": "41"
-          },
-          {
-            "title": "日本动漫",
-            "value": "42"
-          },
-          {
-            "title": "欧美动漫",
-            "value": "43"
-          }
-        ],
-        "short": [
-          {
-            "title": "短剧",
-            "value": "31"
-          },
-          {
-            "title": "古装仙侠",
-            "value": "44"
-          },
-          {
-            "title": "现代都市",
-            "value": "45"
-          },
-          {
-            "title": "穿越年代",
-            "value": "46"
-          },
-          {
-            "title": "言情总裁",
-            "value": "47"
-          },
-          {
-            "title": "重生民国",
-            "value": "48"
-          },
-          {
-            "title": "反转爽剧",
-            "value": "49"
-          },
-          {
-            "title": "脑洞悬疑",
-            "value": "50"
-          },
-          {
-            "title": "擦边短剧",
-            "value": "51"
-          },
-          {
-            "title": "AI漫剧",
-            "value": "52"
-          }
-        ]
-      }
-    },
-    {
       "slug": "baofeng",
       "name": "暴风资源",
       "shortName": "暴风",
@@ -1315,7 +1148,7 @@ var CINEVERSE_CONFIG = {
       "site": "https://bfzyapi.com/",
       "icon": "https://bfzyapi.com/favicon.ico",
       "blockedCoverHosts": [],
-      "priority": 9,
+      "priority": 8,
       "tier": "S",
       "categories": {
         "movie": [
@@ -1499,12 +1332,167 @@ var CINEVERSE_CONFIG = {
       }
     },
     {
-      "slug": "hongniu",
-      "name": "红牛资源",
-      "shortName": "红牛",
-      "api": "https://www.hongniuzy2.com/api.php/provide/vod/",
-      "site": "https://www.hongniuzy2.com/",
-      "icon": "https://www.hongniuzy2.com/favicon.ico",
+      "slug": "ruyi",
+      "name": "如意资源",
+      "shortName": "如意",
+      "api": "https://cj.rycjapi.com/api.php/provide/vod/",
+      "site": "https://cj.rycjapi.com/",
+      "icon": "https://cj.rycjapi.com/favicon.ico",
+      "blockedCoverHosts": [],
+      "priority": 9,
+      "tier": "S",
+      "categories": {
+        "movie": [
+          {
+            "title": "电影片",
+            "value": "1"
+          },
+          {
+            "title": "喜剧片",
+            "value": "7"
+          },
+          {
+            "title": "动作片",
+            "value": "6"
+          },
+          {
+            "title": "爱情片",
+            "value": "8"
+          },
+          {
+            "title": "科幻片",
+            "value": "9"
+          },
+          {
+            "title": "恐怖片",
+            "value": "10"
+          },
+          {
+            "title": "剧情片",
+            "value": "11"
+          },
+          {
+            "title": "战争片",
+            "value": "12"
+          },
+          {
+            "title": "记录片",
+            "value": "20"
+          },
+          {
+            "title": "电影解说",
+            "value": "35"
+          },
+          {
+            "title": "预告片",
+            "value": "45"
+          }
+        ],
+        "tv": [
+          {
+            "title": "连续剧",
+            "value": "2"
+          },
+          {
+            "title": "国产剧",
+            "value": "13"
+          },
+          {
+            "title": "香港剧",
+            "value": "14"
+          },
+          {
+            "title": "韩国剧",
+            "value": "15"
+          },
+          {
+            "title": "欧美剧",
+            "value": "16"
+          },
+          {
+            "title": "台湾剧",
+            "value": "21"
+          },
+          {
+            "title": "日本剧",
+            "value": "22"
+          },
+          {
+            "title": "海外剧",
+            "value": "23"
+          },
+          {
+            "title": "泰国剧",
+            "value": "24"
+          }
+        ],
+        "variety": [
+          {
+            "title": "综艺片",
+            "value": "3"
+          },
+          {
+            "title": "大陆综艺",
+            "value": "25"
+          },
+          {
+            "title": "港台综艺",
+            "value": "26"
+          },
+          {
+            "title": "日韩综艺",
+            "value": "27"
+          },
+          {
+            "title": "欧美综艺",
+            "value": "28"
+          }
+        ],
+        "anime": [
+          {
+            "title": "动漫片",
+            "value": "4"
+          },
+          {
+            "title": "国产动漫",
+            "value": "29"
+          },
+          {
+            "title": "日韩动漫",
+            "value": "30"
+          },
+          {
+            "title": "欧美动漫",
+            "value": "31"
+          },
+          {
+            "title": "港台动漫",
+            "value": "32"
+          },
+          {
+            "title": "海外动漫",
+            "value": "33"
+          },
+          {
+            "title": "动画电影",
+            "value": "47"
+          }
+        ],
+        "short": [
+          {
+            "title": "短剧",
+            "value": "46"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "youku",
+      "name": "优酷资源",
+      "shortName": "优酷",
+      "api": "https://api.ukuapi.com/api.php/provide/vod/",
+      "site": "https://api.ukuapi.com/",
+      "icon": "https://api.ukuapi.com/favicon.ico",
       "blockedCoverHosts": [],
       "priority": 10,
       "tier": "S",
@@ -1516,75 +1504,79 @@ var CINEVERSE_CONFIG = {
           },
           {
             "title": "动作片",
-            "value": "5"
-          },
-          {
-            "title": "喜剧片",
             "value": "6"
           },
           {
-            "title": "爱情片",
+            "title": "喜剧片",
             "value": "7"
           },
           {
-            "title": "科幻片",
+            "title": "爱情片",
             "value": "8"
           },
           {
-            "title": "恐怖片",
+            "title": "科幻片",
             "value": "9"
           },
           {
-            "title": "剧情片",
+            "title": "恐怖片",
             "value": "10"
           },
           {
-            "title": "战争片",
+            "title": "剧情片",
             "value": "11"
           },
           {
-            "title": "纪录片",
-            "value": "19"
+            "title": "战争片",
+            "value": "12"
+          },
+          {
+            "title": "奇幻片",
+            "value": "33"
+          },
+          {
+            "title": "犯罪片",
+            "value": "34"
           }
         ],
         "tv": [
           {
-            "title": "连续剧",
+            "title": "电视剧",
             "value": "2"
           },
           {
             "title": "国产剧",
-            "value": "12"
+            "value": "13"
           },
           {
-            "title": "欧美剧",
+            "title": "港澳剧",
+            "value": "14"
+          },
+          {
+            "title": "日剧",
             "value": "15"
           },
           {
-            "title": "台湾剧",
+            "title": "欧美剧",
             "value": "16"
+          },
+          {
+            "title": "台湾剧",
+            "value": "21"
+          },
+          {
+            "title": "韩剧",
+            "value": "22"
+          },
+          {
+            "title": "泰剧",
+            "value": "23"
           }
         ],
         "variety": [
           {
             "title": "综艺",
             "value": "3"
-          },
-          {
-            "title": "大陆综艺",
-            "value": "39"
-          },
-          {
-            "title": "日韩综艺",
-            "value": "40"
-          },
-          {
-            "title": "港台综艺",
-            "value": "41"
-          },
-          {
-            "title": "欧美综艺",
-            "value": "42"
           }
         ],
         "anime": [
@@ -1595,28 +1587,12 @@ var CINEVERSE_CONFIG = {
           {
             "title": "动漫电影",
             "value": "20"
-          },
-          {
-            "title": "中国动漫",
-            "value": "36"
-          },
-          {
-            "title": "日本动漫",
-            "value": "37"
-          },
-          {
-            "title": "欧美动漫",
-            "value": "38"
           }
         ],
         "short": [
           {
             "title": "短剧",
-            "value": "30"
-          },
-          {
-            "title": "擦边短剧",
-            "value": "50"
+            "value": "32"
           }
         ]
       }
@@ -1809,161 +1785,6 @@ var CINEVERSE_CONFIG = {
       }
     },
     {
-      "slug": "ruyi",
-      "name": "如意资源",
-      "shortName": "如意",
-      "api": "https://cj.rycjapi.com/api.php/provide/vod/",
-      "site": "https://cj.rycjapi.com/",
-      "icon": "https://cj.rycjapi.com/favicon.ico",
-      "blockedCoverHosts": [],
-      "priority": 12,
-      "tier": "A",
-      "categories": {
-        "movie": [
-          {
-            "title": "电影片",
-            "value": "1"
-          },
-          {
-            "title": "喜剧片",
-            "value": "7"
-          },
-          {
-            "title": "动作片",
-            "value": "6"
-          },
-          {
-            "title": "爱情片",
-            "value": "8"
-          },
-          {
-            "title": "科幻片",
-            "value": "9"
-          },
-          {
-            "title": "恐怖片",
-            "value": "10"
-          },
-          {
-            "title": "剧情片",
-            "value": "11"
-          },
-          {
-            "title": "战争片",
-            "value": "12"
-          },
-          {
-            "title": "记录片",
-            "value": "20"
-          },
-          {
-            "title": "电影解说",
-            "value": "35"
-          },
-          {
-            "title": "预告片",
-            "value": "45"
-          }
-        ],
-        "tv": [
-          {
-            "title": "连续剧",
-            "value": "2"
-          },
-          {
-            "title": "国产剧",
-            "value": "13"
-          },
-          {
-            "title": "香港剧",
-            "value": "14"
-          },
-          {
-            "title": "韩国剧",
-            "value": "15"
-          },
-          {
-            "title": "欧美剧",
-            "value": "16"
-          },
-          {
-            "title": "台湾剧",
-            "value": "21"
-          },
-          {
-            "title": "日本剧",
-            "value": "22"
-          },
-          {
-            "title": "海外剧",
-            "value": "23"
-          },
-          {
-            "title": "泰国剧",
-            "value": "24"
-          }
-        ],
-        "variety": [
-          {
-            "title": "综艺片",
-            "value": "3"
-          },
-          {
-            "title": "大陆综艺",
-            "value": "25"
-          },
-          {
-            "title": "港台综艺",
-            "value": "26"
-          },
-          {
-            "title": "日韩综艺",
-            "value": "27"
-          },
-          {
-            "title": "欧美综艺",
-            "value": "28"
-          }
-        ],
-        "anime": [
-          {
-            "title": "动漫片",
-            "value": "4"
-          },
-          {
-            "title": "国产动漫",
-            "value": "29"
-          },
-          {
-            "title": "日韩动漫",
-            "value": "30"
-          },
-          {
-            "title": "欧美动漫",
-            "value": "31"
-          },
-          {
-            "title": "港台动漫",
-            "value": "32"
-          },
-          {
-            "title": "海外动漫",
-            "value": "33"
-          },
-          {
-            "title": "动画电影",
-            "value": "47"
-          }
-        ],
-        "short": [
-          {
-            "title": "短剧",
-            "value": "46"
-          }
-        ]
-      }
-    },
-    {
       "slug": "ikun",
       "name": "IKUN资源",
       "shortName": "IKUN",
@@ -1971,7 +1792,7 @@ var CINEVERSE_CONFIG = {
       "site": "https://ikunzyapi.com/",
       "icon": "https://ikunzyapi.com/favicon.ico",
       "blockedCoverHosts": [],
-      "priority": 13,
+      "priority": 12,
       "tier": "A",
       "categories": {
         "movie": [
@@ -2135,117 +1956,6 @@ var CINEVERSE_CONFIG = {
       }
     },
     {
-      "slug": "youku",
-      "name": "优酷资源",
-      "shortName": "优酷",
-      "api": "https://api.ukuapi.com/api.php/provide/vod/",
-      "site": "https://api.ukuapi.com/",
-      "icon": "https://api.ukuapi.com/favicon.ico",
-      "blockedCoverHosts": [],
-      "priority": 14,
-      "tier": "A",
-      "categories": {
-        "movie": [
-          {
-            "title": "电影",
-            "value": "1"
-          },
-          {
-            "title": "动作片",
-            "value": "6"
-          },
-          {
-            "title": "喜剧片",
-            "value": "7"
-          },
-          {
-            "title": "爱情片",
-            "value": "8"
-          },
-          {
-            "title": "科幻片",
-            "value": "9"
-          },
-          {
-            "title": "恐怖片",
-            "value": "10"
-          },
-          {
-            "title": "剧情片",
-            "value": "11"
-          },
-          {
-            "title": "战争片",
-            "value": "12"
-          },
-          {
-            "title": "奇幻片",
-            "value": "33"
-          },
-          {
-            "title": "犯罪片",
-            "value": "34"
-          }
-        ],
-        "tv": [
-          {
-            "title": "电视剧",
-            "value": "2"
-          },
-          {
-            "title": "国产剧",
-            "value": "13"
-          },
-          {
-            "title": "港澳剧",
-            "value": "14"
-          },
-          {
-            "title": "日剧",
-            "value": "15"
-          },
-          {
-            "title": "欧美剧",
-            "value": "16"
-          },
-          {
-            "title": "台湾剧",
-            "value": "21"
-          },
-          {
-            "title": "韩剧",
-            "value": "22"
-          },
-          {
-            "title": "泰剧",
-            "value": "23"
-          }
-        ],
-        "variety": [
-          {
-            "title": "综艺",
-            "value": "3"
-          }
-        ],
-        "anime": [
-          {
-            "title": "动漫",
-            "value": "4"
-          },
-          {
-            "title": "动漫电影",
-            "value": "20"
-          }
-        ],
-        "short": [
-          {
-            "title": "短剧",
-            "value": "32"
-          }
-        ]
-      }
-    },
-    {
       "slug": "suoni",
       "name": "索尼资源",
       "shortName": "索尼",
@@ -2253,7 +1963,7 @@ var CINEVERSE_CONFIG = {
       "site": "https://suoniapi.com/",
       "icon": "https://suoniapi.com/favicon.ico",
       "blockedCoverHosts": [],
-      "priority": 15,
+      "priority": 13,
       "tier": "A",
       "categories": {
         "movie": [
@@ -2400,7 +2110,7 @@ var CINEVERSE_CONFIG = {
       "site": "https://api.niuniuzy.me/",
       "icon": "https://api.niuniuzy.me/favicon.ico",
       "blockedCoverHosts": [],
-      "priority": 16,
+      "priority": 14,
       "tier": "A",
       "categories": {
         "movie": [
@@ -2547,7 +2257,7 @@ var CINEVERSE_CONFIG = {
       "site": "https://sdzyapi.com/",
       "icon": "https://sdzyapi.com/favicon.ico",
       "blockedCoverHosts": [],
-      "priority": 17,
+      "priority": 15,
       "tier": "A",
       "categories": {
         "movie": [
@@ -2694,7 +2404,7 @@ var CINEVERSE_CONFIG = {
       "site": "https://api.okzyw.net/",
       "icon": "https://api.okzyw.net/favicon.ico",
       "blockedCoverHosts": [],
-      "priority": 18,
+      "priority": 16,
       "tier": "A",
       "categories": {
         "movie": [
@@ -2841,7 +2551,7 @@ var CINEVERSE_CONFIG = {
       "site": "https://api.maoyanapi.top/",
       "icon": "https://api.maoyanapi.top/favicon.ico",
       "blockedCoverHosts": [],
-      "priority": 19,
+      "priority": 17,
       "tier": "A",
       "categories": {
         "movie": [
@@ -3052,7 +2762,7 @@ var CINEVERSE_CONFIG = {
       "site": "https://caiji.kuaichezy.org/",
       "icon": "https://caiji.kuaichezy.org/favicon.ico",
       "blockedCoverHosts": [],
-      "priority": 20,
+      "priority": 18,
       "tier": "A",
       "categories": {
         "movie": [
@@ -3187,6 +2897,296 @@ var CINEVERSE_CONFIG = {
           {
             "title": "擦边短剧",
             "value": "73"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "guangsu",
+      "name": "光速资源",
+      "shortName": "光速",
+      "api": "https://api.guangsuapi.com/api.php/provide/vod/",
+      "site": "https://api.guangsuapi.com/",
+      "icon": "https://api.guangsuapi.com/favicon.ico",
+      "blockedCoverHosts": [],
+      "priority": 19,
+      "tier": "A",
+      "categories": {
+        "movie": [
+          {
+            "title": "电影",
+            "value": "1"
+          },
+          {
+            "title": "动作片",
+            "value": "6"
+          },
+          {
+            "title": "喜剧片",
+            "value": "7"
+          },
+          {
+            "title": "爱情片",
+            "value": "8"
+          },
+          {
+            "title": "科幻片",
+            "value": "9"
+          },
+          {
+            "title": "剧情片",
+            "value": "10"
+          },
+          {
+            "title": "恐怖片",
+            "value": "11"
+          },
+          {
+            "title": "战争片",
+            "value": "12"
+          }
+        ],
+        "tv": [
+          {
+            "title": "电视剧",
+            "value": "2"
+          },
+          {
+            "title": "大陆剧",
+            "value": "13"
+          },
+          {
+            "title": "欧美剧",
+            "value": "14"
+          },
+          {
+            "title": "港澳剧",
+            "value": "15"
+          },
+          {
+            "title": "韩剧",
+            "value": "16"
+          },
+          {
+            "title": "日剧",
+            "value": "21"
+          },
+          {
+            "title": "台湾剧",
+            "value": "22"
+          },
+          {
+            "title": "泰剧",
+            "value": "23"
+          }
+        ],
+        "variety": [
+          {
+            "title": "综艺",
+            "value": "3"
+          },
+          {
+            "title": "大陆综艺",
+            "value": "37"
+          },
+          {
+            "title": "日韩综艺",
+            "value": "38"
+          },
+          {
+            "title": "港台综艺",
+            "value": "39"
+          },
+          {
+            "title": "欧美综艺",
+            "value": "40"
+          }
+        ],
+        "anime": [
+          {
+            "title": "动漫",
+            "value": "4"
+          },
+          {
+            "title": "动漫电影",
+            "value": "20"
+          },
+          {
+            "title": "中国动漫",
+            "value": "41"
+          },
+          {
+            "title": "日本动漫",
+            "value": "42"
+          },
+          {
+            "title": "欧美动漫",
+            "value": "43"
+          }
+        ],
+        "short": [
+          {
+            "title": "短剧",
+            "value": "31"
+          },
+          {
+            "title": "古装仙侠",
+            "value": "44"
+          },
+          {
+            "title": "现代都市",
+            "value": "45"
+          },
+          {
+            "title": "穿越年代",
+            "value": "46"
+          },
+          {
+            "title": "言情总裁",
+            "value": "47"
+          },
+          {
+            "title": "重生民国",
+            "value": "48"
+          },
+          {
+            "title": "反转爽剧",
+            "value": "49"
+          },
+          {
+            "title": "脑洞悬疑",
+            "value": "50"
+          },
+          {
+            "title": "擦边短剧",
+            "value": "51"
+          },
+          {
+            "title": "AI漫剧",
+            "value": "52"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "hongniu",
+      "name": "红牛资源",
+      "shortName": "红牛",
+      "api": "https://www.hongniuzy2.com/api.php/provide/vod/",
+      "site": "https://www.hongniuzy2.com/",
+      "icon": "https://www.hongniuzy2.com/favicon.ico",
+      "blockedCoverHosts": [],
+      "priority": 20,
+      "tier": "A",
+      "categories": {
+        "movie": [
+          {
+            "title": "电影",
+            "value": "1"
+          },
+          {
+            "title": "动作片",
+            "value": "5"
+          },
+          {
+            "title": "喜剧片",
+            "value": "6"
+          },
+          {
+            "title": "爱情片",
+            "value": "7"
+          },
+          {
+            "title": "科幻片",
+            "value": "8"
+          },
+          {
+            "title": "恐怖片",
+            "value": "9"
+          },
+          {
+            "title": "剧情片",
+            "value": "10"
+          },
+          {
+            "title": "战争片",
+            "value": "11"
+          },
+          {
+            "title": "纪录片",
+            "value": "19"
+          }
+        ],
+        "tv": [
+          {
+            "title": "连续剧",
+            "value": "2"
+          },
+          {
+            "title": "国产剧",
+            "value": "12"
+          },
+          {
+            "title": "欧美剧",
+            "value": "15"
+          },
+          {
+            "title": "台湾剧",
+            "value": "16"
+          }
+        ],
+        "variety": [
+          {
+            "title": "综艺",
+            "value": "3"
+          },
+          {
+            "title": "大陆综艺",
+            "value": "39"
+          },
+          {
+            "title": "日韩综艺",
+            "value": "40"
+          },
+          {
+            "title": "港台综艺",
+            "value": "41"
+          },
+          {
+            "title": "欧美综艺",
+            "value": "42"
+          }
+        ],
+        "anime": [
+          {
+            "title": "动漫",
+            "value": "4"
+          },
+          {
+            "title": "动漫电影",
+            "value": "20"
+          },
+          {
+            "title": "中国动漫",
+            "value": "36"
+          },
+          {
+            "title": "日本动漫",
+            "value": "37"
+          },
+          {
+            "title": "欧美动漫",
+            "value": "38"
+          }
+        ],
+        "short": [
+          {
+            "title": "短剧",
+            "value": "30"
+          },
+          {
+            "title": "擦边短剧",
+            "value": "50"
           }
         ]
       }
@@ -5163,141 +5163,6 @@ var CINEVERSE_CONFIG = {
       }
     },
     {
-      "slug": "baidu",
-      "name": "百度资源",
-      "shortName": "百度",
-      "api": "https://api.apibdzy.com/api.php/provide/vod/",
-      "site": "https://api.apibdzy.com/",
-      "icon": "https://api.apibdzy.com/favicon.ico",
-      "blockedCoverHosts": [],
-      "priority": 38,
-      "tier": "D",
-      "categories": {
-        "movie": [
-          {
-            "title": "电影",
-            "value": "1"
-          },
-          {
-            "title": "动作片",
-            "value": "6"
-          },
-          {
-            "title": "喜剧片",
-            "value": "7"
-          },
-          {
-            "title": "爱情片",
-            "value": "8"
-          },
-          {
-            "title": "科幻片",
-            "value": "9"
-          },
-          {
-            "title": "恐怖片",
-            "value": "10"
-          },
-          {
-            "title": "剧情片",
-            "value": "11"
-          },
-          {
-            "title": "战争片",
-            "value": "12"
-          },
-          {
-            "title": "纪录片",
-            "value": "20"
-          },
-          {
-            "title": "4K电影",
-            "value": "62"
-          },
-          {
-            "title": "邵氏电影",
-            "value": "70"
-          }
-        ],
-        "tv": [
-          {
-            "title": "电视剧",
-            "value": "2"
-          },
-          {
-            "title": "欧美剧",
-            "value": "14"
-          },
-          {
-            "title": "台湾剧",
-            "value": "18"
-          }
-        ],
-        "variety": [
-          {
-            "title": "综艺",
-            "value": "3"
-          },
-          {
-            "title": "大陆综艺",
-            "value": "25"
-          },
-          {
-            "title": "日韩综艺",
-            "value": "26"
-          },
-          {
-            "title": "港台综艺",
-            "value": "27"
-          },
-          {
-            "title": "欧美综艺",
-            "value": "28"
-          }
-        ],
-        "anime": [
-          {
-            "title": "动漫",
-            "value": "4"
-          },
-          {
-            "title": "国产动漫",
-            "value": "29"
-          },
-          {
-            "title": "日韩动漫",
-            "value": "30"
-          },
-          {
-            "title": "欧美动漫",
-            "value": "31"
-          },
-          {
-            "title": "动画电影",
-            "value": "39"
-          },
-          {
-            "title": "港台动漫",
-            "value": "44"
-          },
-          {
-            "title": "海外动漫",
-            "value": "45"
-          },
-          {
-            "title": "有声动漫",
-            "value": "63"
-          }
-        ],
-        "short": [
-          {
-            "title": "ai短剧",
-            "value": "54"
-          }
-        ]
-      }
-    },
-    {
       "slug": "yaya",
       "name": "丫丫资源",
       "shortName": "丫丫",
@@ -5894,6 +5759,141 @@ var CINEVERSE_CONFIG = {
           {
             "title": "擦边短剧",
             "value": "55"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "baidu",
+      "name": "百度资源",
+      "shortName": "百度",
+      "api": "https://api.apibdzy.com/api.php/provide/vod/",
+      "site": "https://api.apibdzy.com/",
+      "icon": "https://api.apibdzy.com/favicon.ico",
+      "blockedCoverHosts": [],
+      "priority": 38,
+      "tier": "D",
+      "categories": {
+        "movie": [
+          {
+            "title": "电影",
+            "value": "1"
+          },
+          {
+            "title": "动作片",
+            "value": "6"
+          },
+          {
+            "title": "喜剧片",
+            "value": "7"
+          },
+          {
+            "title": "爱情片",
+            "value": "8"
+          },
+          {
+            "title": "科幻片",
+            "value": "9"
+          },
+          {
+            "title": "恐怖片",
+            "value": "10"
+          },
+          {
+            "title": "剧情片",
+            "value": "11"
+          },
+          {
+            "title": "战争片",
+            "value": "12"
+          },
+          {
+            "title": "纪录片",
+            "value": "20"
+          },
+          {
+            "title": "4K电影",
+            "value": "62"
+          },
+          {
+            "title": "邵氏电影",
+            "value": "70"
+          }
+        ],
+        "tv": [
+          {
+            "title": "电视剧",
+            "value": "2"
+          },
+          {
+            "title": "欧美剧",
+            "value": "14"
+          },
+          {
+            "title": "台湾剧",
+            "value": "18"
+          }
+        ],
+        "variety": [
+          {
+            "title": "综艺",
+            "value": "3"
+          },
+          {
+            "title": "大陆综艺",
+            "value": "25"
+          },
+          {
+            "title": "日韩综艺",
+            "value": "26"
+          },
+          {
+            "title": "港台综艺",
+            "value": "27"
+          },
+          {
+            "title": "欧美综艺",
+            "value": "28"
+          }
+        ],
+        "anime": [
+          {
+            "title": "动漫",
+            "value": "4"
+          },
+          {
+            "title": "国产动漫",
+            "value": "29"
+          },
+          {
+            "title": "日韩动漫",
+            "value": "30"
+          },
+          {
+            "title": "欧美动漫",
+            "value": "31"
+          },
+          {
+            "title": "动画电影",
+            "value": "39"
+          },
+          {
+            "title": "港台动漫",
+            "value": "44"
+          },
+          {
+            "title": "海外动漫",
+            "value": "45"
+          },
+          {
+            "title": "有声动漫",
+            "value": "63"
+          }
+        ],
+        "short": [
+          {
+            "title": "ai短剧",
+            "value": "54"
           }
         ]
       }
