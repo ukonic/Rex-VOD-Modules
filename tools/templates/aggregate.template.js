@@ -116,6 +116,53 @@ function cvParseLink(link) {
 function cvNormalize(value) {
   return cvStrip(value).toLowerCase().replace(/[（(][^）)]*[）)]/g, "").replace(/[\s·•:：,，.。!！?？'\"“”‘’\-_/\\]/g, "");
 }
+function cvEdition(item) {
+  var text = [item && item.vod_name, item && item.vod_sub, item && item.vod_remarks,
+    item && item.vod_lang, item && item.vod_note].map(cvStrip).join(" ");
+  var rules = [
+    [/国粤双语|国语粤语|粤国双语/i, "国粤双语"],
+    [/国语版|普通话版|国语|普通话|国配版|国配/i, "国语"],
+    [/粤语版|粤语|粤配版|粤配/i, "粤语"],
+    [/台配版|台配国语|台配/i, "台配"],
+    [/英语版|英语|英配版|英配/i, "英语"],
+    [/日语版|日语|日配版|日配/i, "日语"],
+    [/韩语版|韩语|韩配版|韩配/i, "韩语"],
+    [/原声版|原声/i, "原声"],
+    [/导演剪辑版|导演剪辑/i, "导演剪辑版"],
+    [/加长版|加长剪辑/i, "加长版"],
+    [/未删减版|未删减/i, "未删减版"],
+    [/修复版|修复/i, "修复版"]
+  ];
+  for (var i = 0; i < rules.length; i += 1) if (rules[i][0].test(text)) return rules[i][1];
+  return "";
+}
+function cvExplicitEdition(item) {
+  var text = [item && item.vod_name, item && item.vod_sub, item && item.vod_remarks,
+    item && item.vod_note].map(cvStrip).join(" ");
+  return /国粤双语|国语粤语|粤国双语|国语版|普通话版|国配|粤语版|粤配|台配|英语版|英配|日语版|日配|韩语版|韩配|原声版|导演剪辑|加长版|加长剪辑|未删减|修复版|HD国语|HD粤语/i.test(text);
+}
+function cvLineEdition(line, item) {
+  var lineEdition = cvEdition({ vod_name: line && line.title });
+  return lineEdition || cvEdition(item);
+}
+function cvShowEditionLabels(matches) {
+  var editions = {};
+  var explicit = false;
+  matches.forEach(function (match) {
+    var edition = cvEdition(match.item);
+    if (edition) editions[edition] = true;
+    if (cvExplicitEdition(match.item)) explicit = true;
+    cvPlayLines(match.item).forEach(function (line) {
+      var lineEdition = cvLineEdition(line, match.item);
+      if (lineEdition) editions[lineEdition] = true;
+      if (cvExplicitEdition({ vod_name: line.title })) explicit = true;
+    });
+  });
+  return Object.keys(editions).length > 1 || explicit;
+}
+function cvBaseTitle(value) {
+  return cvNormalize(value).replace(/国粤双语|国语粤语|粤国双语|国语版?|普通话版?|国配版?|粤语版?|粤配版?|台配国语|台配版?|英语版?|英配版?|日语版?|日配版?|韩语版?|韩配版?|原声版?|导演剪辑版?|加长版|加长剪辑|未删减版?|修复版?/g, "");
+}
 function cvSeason(value) {
   var match = cvStrip(value).match(/第\s*([0-9一二三四五六七八九十]+)\s*季/i);
   return match ? match[1] : "";
@@ -246,8 +293,8 @@ function cvSeasonNumber(value) {
 }
 function cvCandidate(item, keyword, params) {
   if (!item || cvBlocked(item) || !cvPlayLines(item).length) return false;
-  var wanted = cvNormalize(keyword);
-  var title = cvNormalize(item.vod_name);
+  var wanted = cvBaseTitle(keyword);
+  var title = cvBaseTitle(item.vod_name);
   if (!wanted || !title || (title !== wanted && title.indexOf(wanted) !== 0 && wanted.indexOf(title) !== 0)) return false;
   var type = cvText(params && params.type).toLowerCase();
   if ((type === "tv" || type === "movie") && cvMediaType(item) !== type) return false;
@@ -259,7 +306,7 @@ async function cvFindMatches(keyword, params) {
       return { source: source, list: payload.list || [] };
     });
   }, 8);
-  var wanted = cvNormalize(keyword);
+  var wanted = cvBaseTitle(keyword);
   var rows = [];
   responses.forEach(function (response) {
     response.list.forEach(function (item) {
@@ -294,12 +341,12 @@ async function cvFindMatches(keyword, params) {
       pool = pool.filter(function (row) { return cvNormalize(row.item.vod_name).length === shortest; });
     }
   }
-  exact = pool.filter(function (row) { return cvNormalize(row.item.vod_name) === wanted; });
+  exact = pool.filter(function (row) { return cvBaseTitle(row.item.vod_name) === wanted; });
   if (exact.length) pool = exact;
   if (!exact.length && pool.length) {
     var titleStats = {};
     pool.forEach(function (row) {
-      var key = cvNormalize(row.item.vod_name);
+      var key = cvBaseTitle(row.item.vod_name);
       if (!titleStats[key]) titleStats[key] = { key: key, length: key.length, count: 0 };
       titleStats[key].count += 1;
     });
@@ -307,28 +354,35 @@ async function cvFindMatches(keyword, params) {
       if (a.length !== b.length) return a.length - b.length;
       return b.count - a.count;
     })[0];
-    if (canonical) pool = pool.filter(function (row) { return cvNormalize(row.item.vod_name) === canonical.key; });
+    if (canonical) pool = pool.filter(function (row) { return cvBaseTitle(row.item.vod_name) === canonical.key; });
   }
 
   pool.sort(function (a, b) {
-    var aExact = cvNormalize(a.item.vod_name) === wanted ? 0 : 1;
-    var bExact = cvNormalize(b.item.vod_name) === wanted ? 0 : 1;
+    var aExact = cvBaseTitle(a.item.vod_name) === wanted ? 0 : 1;
+    var bExact = cvBaseTitle(b.item.vod_name) === wanted ? 0 : 1;
     if (aExact !== bExact) return aExact - bExact;
     return cvNormalize(a.item.vod_name).length - cvNormalize(b.item.vod_name).length;
   });
   var picked = {};
   return pool.filter(function (row) {
-    if (picked[row.source.slug]) return false;
-    picked[row.source.slug] = true;
+    var editionKey = cvEdition(row.item) || "default";
+    var key = row.source.slug + "|" + editionKey;
+    if (picked[key]) return false;
+    picked[key] = true;
     return true;
   });
 }
 function cvEpisodeItems(matches, base) {
   var items = [];
+  var seen = {};
+  var showEditions = cvShowEditionLabels(matches);
   matches.forEach(function (match) {
     cvPlayLines(match.item).forEach(function (line, index) {
-      items.push({ id: line.url, type: "url", title: match.source.shortName + " · " + line.title,
-        description: "来源：" + match.source.name, coverUrl: base.coverUrl, posterPath: base.posterPath,
+      if (seen[line.url]) return;
+      seen[line.url] = true;
+      var edition = cvLineEdition(line, match.item);
+      items.push({ id: line.url, type: "url", title: match.source.shortName + (showEditions && edition ? " · " + edition : "") + " · " + line.title,
+        description: "来源：" + match.source.name + (showEditions && edition ? "\n版本：" + edition : ""), coverUrl: base.coverUrl, posterPath: base.posterPath,
         mediaType: cvMediaType(match.item), episode: line.index || index + 1, videoUrl: line.url,
         link: cvLink(match.source, match.item.vod_id), playerType: "app" });
     });
@@ -382,14 +436,23 @@ async function loadResource(params) {
   if (!keyword) return [];
   var matches = await cvFindMatches(keyword, params);
   var seen = {};
-  var resources = [];
+  var choices = [];
+  var showEditions = cvShowEditionLabels(matches);
   matches.forEach(function (match) {
     var line = cvPickLine(cvPlayLines(match.item), params);
     if (!line || seen[line.url]) return;
     seen[line.url] = true;
+    choices.push({ match: match, line: line, edition: cvLineEdition(line, match.item) });
+  });
+  var resources = [];
+  choices.forEach(function (choice) {
+    var match = choice.match;
+    var line = choice.line;
     var matchedTitle = cvStrip(match.item.vod_name);
-    var variant = cvNormalize(matchedTitle) !== cvNormalize(keyword) ? (" · " + matchedTitle) : "";
-    resources.push({ name: match.source.name + variant + " · " + line.title, description: "来源：" + match.source.name + (variant ? "\n匹配：" + matchedTitle : ""),
+    var variant = cvBaseTitle(matchedTitle) !== cvBaseTitle(keyword) ? (" · " + matchedTitle) : "";
+    var edition = choice.edition;
+    resources.push({ name: match.source.name + variant + (showEditions && edition ? " · " + edition : "") + " · " + line.title,
+      description: "来源：" + match.source.name + (variant ? "\n匹配：" + matchedTitle : "") + (showEditions && edition ? "\n版本：" + edition : ""),
       url: line.url, playerType: "app" });
   });
   return resources;
