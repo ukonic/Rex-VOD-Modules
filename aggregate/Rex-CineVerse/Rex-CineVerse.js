@@ -3,7 +3,7 @@
  * 40站聚合、严格匹配、仅直接 M3U8。运行时不依赖 registry.json 或其他文件。
  */
 var CINEVERSE_CONFIG = {
-  "version": "0.1.9",
+  "version": "0.1.10",
   "sources": [
     {
       "slug": "feifan",
@@ -6585,6 +6585,12 @@ async function cvFindMatches(keyword, params) {
   return result;
 }
 function cvEpisodeItems(matches, base) {
+  if (base.mediaType === "movie") {
+    var hasMovieLine = matches.some(function (match) { return cvPlayLines(match.item).length > 0; });
+    return hasMovieLine ? [{ id: base.link + "?episode=1", type: "url", title: "正片",
+      description: base.title + "\n起播时加载全部可用电影版本", coverUrl: base.coverUrl, posterPath: base.posterPath,
+      mediaType: "movie", episode: 1, link: base.link, playerType: "app" }] : [];
+  }
   var items = [];
   var seen = {};
   matches.forEach(function (match) {
@@ -6616,10 +6622,12 @@ async function loadDetail(link) {
   if (!base.episodeItems.length) base.description += "\n\n当前没有匹配到可直接播放的 M3U8。";
   return cvPublic(base);
 }
-function cvPickLine(lines, params) {
+function cvPickLines(lines, params, mediaType) {
+  if (!lines.length) return [];
+  if (mediaType === "movie") return lines;
   var episodeName = cvStrip(params && params.episodeName);
   if (episodeName) {
-    for (var i = 0; i < lines.length; i += 1) if (cvStrip(lines[i].title) === episodeName) return lines[i];
+    for (var i = 0; i < lines.length; i += 1) if (cvStrip(lines[i].title) === episodeName) return [lines[i]];
   }
   var episode = Math.floor(Number(params && params.episode)) || cvEpisodeNumber(episodeName);
   if (isFinite(episode) && episode > 0) {
@@ -6627,12 +6635,16 @@ function cvPickLine(lines, params) {
     for (var lineIndex = 0; lineIndex < lines.length; lineIndex += 1) {
       var number = cvEpisodeNumber(lines[lineIndex].title);
       if (number > 0) hasNumberedTitles = true;
-      if (number === episode) return lines[lineIndex];
+      if (number === episode) return [lines[lineIndex]];
     }
-    return hasNumberedTitles ? null : (lines[episode - 1] || null);
+    return hasNumberedTitles ? [] : (lines[episode - 1] ? [lines[episode - 1]] : []);
   }
-  if (episodeName) return null;
-  return lines[0] || null;
+  if (episodeName) return [];
+  return lines[0] ? [lines[0]] : [];
+}
+function cvPickLine(lines, params, mediaType) {
+  var picked = cvPickLines(lines, params, mediaType || "tv");
+  return picked.length ? picked[0] : null;
 }
 function cvEpisodeNumber(value) {
   var title = cvStrip(value);
@@ -6678,10 +6690,11 @@ async function loadResource(params) {
   var choices = [];
   var showEditions = cvShowEditionLabels(matches);
   matches.forEach(function (match) {
-    var line = cvPickLine(cvPlayLines(match.item), params);
-    if (!line || seen[line.url]) return;
-    seen[line.url] = true;
-    choices.push({ match: match, line: line, edition: cvLineEdition(line, match.item) });
+    cvPickLines(cvPlayLines(match.item), params, cvMediaType(match.item)).forEach(function (line) {
+      if (!line || seen[line.url]) return;
+      seen[line.url] = true;
+      choices.push({ match: match, line: line, edition: cvLineEdition(line, match.item) });
+    });
   });
   var resources = [];
   choices.forEach(function (choice) {

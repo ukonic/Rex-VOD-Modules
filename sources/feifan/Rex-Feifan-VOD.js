@@ -8,7 +8,7 @@ var WidgetMetadata = {
   id: "rex.feifan.vod",
   title: "非凡资源",
   icon: "https://ffzy.tv/favicon.ico",
-  version: "0.1.10",
+  version: "0.1.11",
   requiredVersion: "0.0.1",
   description: "非凡资源网 ffm3u8 专用 JSON 接口：分类、搜索、详情与直接 M3U8 播放",
   author: "ukonic",
@@ -160,7 +160,7 @@ var WidgetMetadata = {
 
 var FF_API = "https://api.ffzyapi.com/api.php/provide/vod/from/ffm3u8/";
 var FF_SITE = "https://ffzy.tv/";
-var FF_UA = "Mozilla/5.0 (Rex ForwardWidget; Feifan VOD/0.1.10)";
+var FF_UA = "Mozilla/5.0 (Rex ForwardWidget; Feifan VOD/0.1.11)";
 var FF_BLOCKED_TYPE_IDS = { "34": true };
 var FF_BLOCKED_WORDS = [
   "伦理片", "伦理", "福利", "里番", "无码", "有码", "情色", "色情",
@@ -404,6 +404,20 @@ function ffEpisodeItems(item, lines) {
   var cover = ffHttps(item && item.vod_pic);
   var baseTitle = ffStripHtml(item && item.vod_name);
   var link = ffVodLink(item && item.vod_id);
+  if (ffMediaType(item) === "movie" && lines.length) {
+    return [{
+      id: link + "&episode=1",
+      type: "url",
+      title: "正片",
+      description: baseTitle + "\n来源：非凡资源\n起播时加载全部电影版本",
+      coverUrl: cover,
+      posterPath: cover,
+      mediaType: "movie",
+      episode: 1,
+      link: link,
+      playerType: "app"
+    }];
+  }
   var seen = {};
   return lines.map(function (line, index) {
     var episode = ffEpisodeNumber(line.title) || line.index || index + 1;
@@ -667,6 +681,7 @@ function ffFallbackResources(detail, params) {
 
 function ffPickResourceLines(lines, params, mediaType) {
   if (!lines.length) return [];
+  if (mediaType === "movie") return lines;
   var episodeName = ffStripHtml(params && params.episodeName);
   if (episodeName) {
     var named = lines.filter(function (line) { return ffStripHtml(line.title) === episodeName; });

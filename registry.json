@@ -9,7 +9,7 @@
     "categoryStatus": "ok",
     "checkedAt": "2026-10-31T13:36:43.407Z",
     "module": "sources/feifan/Rex-Feifan-VOD.js",
-    "version": "0.1.10",
+    "version": "0.1.11",
     "m3u8Only": true
   },
   {
