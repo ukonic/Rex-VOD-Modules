@@ -1,9 +1,9 @@
 /*
  * Rex / ForwardWidgets - 寰宇影源
- * 40站聚合、严格匹配、仅直接 M3U8。运行时不依赖 registry.json 或其他文件。
+ * 38站聚合、严格匹配、仅直接 M3U8。运行时不依赖 registry.json 或其他文件。
  */
 var CINEVERSE_CONFIG = {
-  "version": "0.1.19",
+  "version": "0.1.20",
   "sources": [
     {
       "slug": "feifan",
@@ -781,214 +781,6 @@ var CINEVERSE_CONFIG = {
           {
             "title": "短剧",
             "value": "38"
-          }
-        ]
-      }
-    },
-    {
-      "slug": "zy360",
-      "name": "360资源",
-      "shortName": "360",
-      "playbackName": "三六零资源",
-      "api": "https://360zy.com/api.php/provide/vod/",
-      "site": "https://360zy.com/",
-      "icon": "https://360zy.com/favicon.ico",
-      "blockedCoverHosts": [],
-      "priority": 6,
-      "tier": "S",
-      "categories": {
-        "movie": [
-          {
-            "title": "电影",
-            "value": "1"
-          },
-          {
-            "title": "动作片",
-            "value": "6"
-          },
-          {
-            "title": "喜剧片",
-            "value": "7"
-          },
-          {
-            "title": "爱情片",
-            "value": "8"
-          },
-          {
-            "title": "科幻片",
-            "value": "9"
-          },
-          {
-            "title": "恐怖片",
-            "value": "10"
-          },
-          {
-            "title": "剧情片",
-            "value": "11"
-          },
-          {
-            "title": "战争片",
-            "value": "12"
-          },
-          {
-            "title": "惊悚片",
-            "value": "20"
-          },
-          {
-            "title": "家庭篇",
-            "value": "21"
-          },
-          {
-            "title": "古装片",
-            "value": "22"
-          },
-          {
-            "title": "历史片",
-            "value": "23"
-          },
-          {
-            "title": "悬疑片",
-            "value": "24"
-          },
-          {
-            "title": "犯罪片",
-            "value": "25"
-          },
-          {
-            "title": "灾难片",
-            "value": "26"
-          },
-          {
-            "title": "纪录片",
-            "value": "27"
-          },
-          {
-            "title": "短片",
-            "value": "28"
-          },
-          {
-            "title": "未分类",
-            "value": "43"
-          },
-          {
-            "title": "西部片",
-            "value": "45"
-          }
-        ],
-        "tv": [
-          {
-            "title": "连续剧",
-            "value": "2"
-          },
-          {
-            "title": "国产剧",
-            "value": "13"
-          },
-          {
-            "title": "香港剧",
-            "value": "14"
-          },
-          {
-            "title": "韩国剧",
-            "value": "15"
-          },
-          {
-            "title": "欧美剧",
-            "value": "16"
-          },
-          {
-            "title": "台湾剧",
-            "value": "30"
-          },
-          {
-            "title": "日本剧",
-            "value": "31"
-          },
-          {
-            "title": "海外剧",
-            "value": "32"
-          },
-          {
-            "title": "泰国剧",
-            "value": "33"
-          }
-        ],
-        "variety": [
-          {
-            "title": "综艺",
-            "value": "3"
-          },
-          {
-            "title": "大陆综艺",
-            "value": "34"
-          },
-          {
-            "title": "港台综艺",
-            "value": "35"
-          },
-          {
-            "title": "日韩综艺",
-            "value": "36"
-          },
-          {
-            "title": "欧美综艺",
-            "value": "37"
-          }
-        ],
-        "anime": [
-          {
-            "title": "动漫",
-            "value": "4"
-          },
-          {
-            "title": "动画片",
-            "value": "29"
-          },
-          {
-            "title": "国产动漫",
-            "value": "38"
-          },
-          {
-            "title": "欧美动漫",
-            "value": "39"
-          },
-          {
-            "title": "日韩动漫",
-            "value": "40"
-          }
-        ],
-        "short": [
-          {
-            "title": "爽文短剧",
-            "value": "46"
-          },
-          {
-            "title": "现代都市",
-            "value": "47"
-          },
-          {
-            "title": "脑洞悬疑",
-            "value": "48"
-          },
-          {
-            "title": "年代穿越",
-            "value": "49"
-          },
-          {
-            "title": "古装仙侠",
-            "value": "50"
-          },
-          {
-            "title": "反转爽剧",
-            "value": "51"
-          },
-          {
-            "title": "女频恋爱",
-            "value": "52"
-          },
-          {
-            "title": "成长逆袭",
-            "value": "53"
           }
         ]
       }
@@ -5310,150 +5102,6 @@ var CINEVERSE_CONFIG = {
       }
     },
     {
-      "slug": "zy1080",
-      "name": "1080资源",
-      "shortName": "1080",
-      "playbackName": "一零八零资源",
-      "api": "https://api.1080zyku.com/inc/apijson.php",
-      "site": "https://api.1080zyku.com/",
-      "icon": "https://api.1080zyku.com/favicon.ico",
-      "blockedCoverHosts": [],
-      "priority": 35,
-      "tier": "B",
-      "categories": {
-        "movie": [
-          {
-            "title": "电影",
-            "value": "1"
-          },
-          {
-            "title": "动作片",
-            "value": "5"
-          },
-          {
-            "title": "喜剧片",
-            "value": "6"
-          },
-          {
-            "title": "爱情片",
-            "value": "7"
-          },
-          {
-            "title": "科幻片",
-            "value": "8"
-          },
-          {
-            "title": "恐怖片",
-            "value": "9"
-          },
-          {
-            "title": "剧情片",
-            "value": "10"
-          },
-          {
-            "title": "战争片",
-            "value": "11"
-          }
-        ],
-        "tv": [
-          {
-            "title": "连续剧",
-            "value": "2"
-          },
-          {
-            "title": "国产剧",
-            "value": "12"
-          },
-          {
-            "title": "台湾剧",
-            "value": "13"
-          },
-          {
-            "title": "韩国剧",
-            "value": "14"
-          },
-          {
-            "title": "欧美剧",
-            "value": "15"
-          },
-          {
-            "title": "香港剧",
-            "value": "16"
-          },
-          {
-            "title": "泰国剧",
-            "value": "17"
-          },
-          {
-            "title": "日本剧",
-            "value": "18"
-          },
-          {
-            "title": "海外剧",
-            "value": "54"
-          }
-        ],
-        "variety": [
-          {
-            "title": "综艺",
-            "value": "3"
-          },
-          {
-            "title": "大陆综艺",
-            "value": "62"
-          },
-          {
-            "title": "港台综艺",
-            "value": "63"
-          },
-          {
-            "title": "日韩综艺",
-            "value": "64"
-          },
-          {
-            "title": "欧美综艺",
-            "value": "65"
-          }
-        ],
-        "anime": [
-          {
-            "title": "动漫",
-            "value": "4"
-          },
-          {
-            "title": "动画片",
-            "value": "41"
-          },
-          {
-            "title": "国产动漫",
-            "value": "66"
-          },
-          {
-            "title": "日韩动漫",
-            "value": "67"
-          },
-          {
-            "title": "欧美动漫",
-            "value": "68"
-          },
-          {
-            "title": "港台动漫",
-            "value": "69"
-          },
-          {
-            "title": "海外动漫",
-            "value": "70"
-          }
-        ],
-        "short": [
-          {
-            "title": "短剧大全",
-            "value": "83"
-          }
-        ]
-      }
-    },
-    {
       "slug": "piaoling",
       "name": "飘零资源",
       "shortName": "飘零",
@@ -6285,7 +5933,7 @@ function cvSourceTier(source) { return cvText(source && source.tier).toUpperCase
 function cvEnabledSources() { return CINEVERSE_SOURCES.filter(function (source) { return cvSourceTier(source) !== "D"; }); }
 function cvSourceRole(source) {
   var tier = cvSourceTier(source);
-  return tier === "S" ? "优先" : (tier === "A" ? "备用" : (tier === "D" ? "停用" : "补充"));
+  return tier === "S" ? "优先" : (tier === "A" ? "备用" : (tier === "D" ? "完整专用" : "补充"));
 }
 function cvSourceOptions() { return CINEVERSE_SOURCES.map(function (source) {
   return { title: cvSourceRole(source) + " · " + source.name, value: source.slug };
@@ -6298,7 +5946,7 @@ var WidgetMetadata = {
   icon: "https://github.com/ukonic.png",
   version: CINEVERSE_CONFIG.version,
   requiredVersion: "0.0.1",
-  description: "40个 M3U8 资源站聚合：首页、分类、单站浏览、全网搜索与多源播放",
+  description: "38个 M3U8 资源站聚合：首页、分类、单站浏览、全网搜索与多源播放",
   author: "ukonic",
   site: "https://github.com/ukonic/Rex-VOD-Modules",
   detailCacheDuration: 180,
@@ -6307,13 +5955,13 @@ var WidgetMetadata = {
       name: "sourceStrategy", title: "播放源策略", type: "enumeration", value: "auto",
       enumOptions: [
         { title: "自动分层（S→A→B+C）", value: "auto" },
-        { title: "完整聚合（S+A+B+C）", value: "complete" },
+        { title: "完整聚合（S+A+B+C+D）", value: "complete" },
         { title: "仅核心站（S级）", value: "core" }
       ]
     },
     {
-      name: "sourceTarget", title: "自动分层目标数（仅自动模式）", type: "input", value: "3",
-      description: "仅在“自动分层”模式下生效。填写1–20，表示至少需要命中的资源站数量，不是播放线路数量；留空或填写错误时使用默认值3。"
+      name: "sourceTarget", title: "自动分层目标数（仅自动分层生效）", type: "input", value: "3",
+      description: "仅在播放源策略选择“自动分层”时生效。填写1–20，表示至少需要命中的资源站数量，不是播放线路数量；完整聚合和仅核心站会忽略此数字。留空或填写错误时使用默认值3。"
     }
   ],
   modules: [
@@ -6395,7 +6043,7 @@ function cvSourceTarget(params) {
 function cvPlaybackSourceStages(params) {
   var strategy = cvSourceStrategy(params);
   var enabled = cvEnabledSources();
-  if (strategy === "complete") return { strategy: strategy, target: 20, stages: [enabled] };
+  if (strategy === "complete") return { strategy: strategy, target: CINEVERSE_SOURCES.length, stages: [CINEVERSE_SOURCES.slice()] };
   var core = enabled.filter(function (source) { return cvSourceTier(source) === "S"; });
   if (strategy === "core") return { strategy: strategy, target: 20, stages: [core] };
   return {

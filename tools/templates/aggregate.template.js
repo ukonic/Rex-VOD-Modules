@@ -1,6 +1,6 @@
 /*
  * Rex / ForwardWidgets - 寰宇影源
- * 40站聚合、严格匹配、仅直接 M3U8。运行时不依赖 registry.json 或其他文件。
+ * 38站聚合、严格匹配、仅直接 M3U8。运行时不依赖 registry.json 或其他文件。
  */
 var CINEVERSE_CONFIG = __AGG_CONFIG__;
 var CINEVERSE_SOURCES = CINEVERSE_CONFIG.sources;
@@ -12,7 +12,7 @@ function cvSourceTier(source) { return cvText(source && source.tier).toUpperCase
 function cvEnabledSources() { return CINEVERSE_SOURCES.filter(function (source) { return cvSourceTier(source) !== "D"; }); }
 function cvSourceRole(source) {
   var tier = cvSourceTier(source);
-  return tier === "S" ? "优先" : (tier === "A" ? "备用" : (tier === "D" ? "停用" : "补充"));
+  return tier === "S" ? "优先" : (tier === "A" ? "备用" : (tier === "D" ? "完整专用" : "补充"));
 }
 function cvSourceOptions() { return CINEVERSE_SOURCES.map(function (source) {
   return { title: cvSourceRole(source) + " · " + source.name, value: source.slug };
@@ -25,7 +25,7 @@ var WidgetMetadata = {
   icon: "https://github.com/ukonic.png",
   version: CINEVERSE_CONFIG.version,
   requiredVersion: "0.0.1",
-  description: "40个 M3U8 资源站聚合：首页、分类、单站浏览、全网搜索与多源播放",
+  description: "38个 M3U8 资源站聚合：首页、分类、单站浏览、全网搜索与多源播放",
   author: "ukonic",
   site: "https://github.com/ukonic/Rex-VOD-Modules",
   detailCacheDuration: 180,
@@ -34,13 +34,13 @@ var WidgetMetadata = {
       name: "sourceStrategy", title: "播放源策略", type: "enumeration", value: "auto",
       enumOptions: [
         { title: "自动分层（S→A→B+C）", value: "auto" },
-        { title: "完整聚合（S+A+B+C）", value: "complete" },
+        { title: "完整聚合（S+A+B+C+D）", value: "complete" },
         { title: "仅核心站（S级）", value: "core" }
       ]
     },
     {
-      name: "sourceTarget", title: "自动分层目标数（仅自动模式）", type: "input", value: "3",
-      description: "仅在“自动分层”模式下生效。填写1–20，表示至少需要命中的资源站数量，不是播放线路数量；留空或填写错误时使用默认值3。"
+      name: "sourceTarget", title: "自动分层目标数（仅自动分层生效）", type: "input", value: "3",
+      description: "仅在播放源策略选择“自动分层”时生效。填写1–20，表示至少需要命中的资源站数量，不是播放线路数量；完整聚合和仅核心站会忽略此数字。留空或填写错误时使用默认值3。"
     }
   ],
   modules: [
@@ -122,7 +122,7 @@ function cvSourceTarget(params) {
 function cvPlaybackSourceStages(params) {
   var strategy = cvSourceStrategy(params);
   var enabled = cvEnabledSources();
-  if (strategy === "complete") return { strategy: strategy, target: 20, stages: [enabled] };
+  if (strategy === "complete") return { strategy: strategy, target: CINEVERSE_SOURCES.length, stages: [CINEVERSE_SOURCES.slice()] };
   var core = enabled.filter(function (source) { return cvSourceTier(source) === "S"; });
   if (strategy === "core") return { strategy: strategy, target: 20, stages: [core] };
   return {
