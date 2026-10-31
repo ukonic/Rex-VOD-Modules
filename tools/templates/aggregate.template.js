@@ -608,7 +608,8 @@ async function loadResource(params) {
     var line = choice.line;
     var matchedTitle = cvStrip(match.item.vod_name);
     var variant = cvBaseTitle(matchedTitle) !== cvBaseTitle(keyword) ? (" · " + matchedTitle) : "";
-    resources.push({ name: match.source.name + variant + " · " + line.title,
+    var playbackName = match.source.playbackName || match.source.name;
+    resources.push({ name: playbackName + variant + " · " + line.title,
       description: "来源：" + match.source.name + (variant ? "\n匹配：" + matchedTitle : ""),
       url: line.url, playerType: "app" });
   });

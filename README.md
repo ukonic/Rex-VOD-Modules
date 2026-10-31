@@ -36,7 +36,7 @@ Rex-VOD-Modules/
 | 3 | 最大资源 | S | [JS](sources/zuida/Rex-Zuida-VOD.js) | `https://api.zuidapi.com/api.php/provide/vod/` |
 | 4 | 无尽资源 | S | [JS](sources/wujin/Rex-Wujin-VOD.js) | `https://api.wujinapi.com/api.php/provide/vod/` |
 | 5 | 魔都资源 | S | [JS](sources/modu/Rex-Modu-VOD.js) | `https://www.mdzyapi.com/api.php/provide/vod/` |
-| 6 | 三六零资源 | S | [JS](sources/zy360/Rex-360-VOD.js) | `https://360zy.com/api.php/provide/vod/` |
+| 6 | 360资源 | S | [JS](sources/zy360/Rex-360-VOD.js) | `https://360zy.com/api.php/provide/vod/` |
 | 7 | 电影天堂资源 | S | [JS](sources/dytt/Rex-Dytt-VOD.js) | `https://caiji.dyttzyapi.com/api.php/provide/vod/` |
 | 8 | 光速资源 | S | [JS](sources/guangsu/Rex-Guangsu-VOD.js) | `https://api.guangsuapi.com/api.php/provide/vod/` |
 | 9 | 暴风资源 | S | [JS](sources/baofeng/Rex-Baofeng-VOD.js) | `https://bfzyapi.com/api.php/provide/vod/` |
@@ -66,7 +66,7 @@ Rex-VOD-Modules/
 | 33 | 大地资源 | B | [JS](sources/dadi/Rex-Dadi-VOD.js) | `https://dadiapi.com/api.php/provide/vod/` |
 | 34 | 百度资源 | C | [JS](sources/baidu/Rex-Baidu-VOD.js) | `https://api.apibdzy.com/api.php/provide/vod/` |
 | 35 | 丫丫资源 | C | [JS](sources/yaya/Rex-Yaya-VOD.js) | `https://cj.yayazy.net/api.php/provide/vod/` |
-| 36 | 一零八零资源 | C | [JS](sources/zy1080/Rex-1080-VOD.js) | `https://api.1080zyku.com/inc/apijson.php` |
+| 36 | 1080资源 | C | [JS](sources/zy1080/Rex-1080-VOD.js) | `https://api.1080zyku.com/inc/apijson.php` |
 | 37 | 飘零资源 | C | [JS](sources/piaoling/Rex-Piaoling-VOD.js) | `https://p2100.net/api.php/provide/vod/` |
 | 38 | 茅台资源 | C | [JS](sources/maotai/Rex-Maotai-VOD.js) | `https://caiji.maotaizy.cc/api.php/provide/vod/` |
 | 39 | 豆瓣资源 | D | [JS](sources/douban/Rex-Douban-VOD.js) | `https://dbzy.tv/api.php/provide/vod/` |

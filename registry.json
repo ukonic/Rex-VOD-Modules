@@ -7,7 +7,7 @@
     "tier": "S",
     "status": "active",
     "categoryStatus": "ok",
-    "checkedAt": "2026-10-31T16:40:21.051Z",
+    "checkedAt": "2026-10-31T16:48:31.113Z",
     "module": "sources/feifan/Rex-Feifan-VOD.js",
     "version": "0.1.16",
     "m3u8Only": true
@@ -20,7 +20,7 @@
     "tier": "S",
     "status": "active",
     "categoryStatus": "ok",
-    "checkedAt": "2026-10-31T16:40:21.127Z",
+    "checkedAt": "2026-10-31T16:48:31.189Z",
     "module": "sources/liangzi/Rex-Liangzi-VOD.js",
     "version": "0.1.10",
     "m3u8Only": true
@@ -33,7 +33,7 @@
     "tier": "S",
     "status": "active",
     "categoryStatus": "ok",
-    "checkedAt": "2026-10-31T16:40:21.128Z",
+    "checkedAt": "2026-10-31T16:48:31.191Z",
     "module": "sources/zuida/Rex-Zuida-VOD.js",
     "version": "0.1.10",
     "m3u8Only": true
@@ -46,7 +46,7 @@
     "tier": "S",
     "status": "active",
     "categoryStatus": "ok",
-    "checkedAt": "2026-10-31T16:40:21.129Z",
+    "checkedAt": "2026-10-31T16:48:31.192Z",
     "module": "sources/wujin/Rex-Wujin-VOD.js",
     "version": "0.1.10",
     "m3u8Only": true
@@ -59,7 +59,7 @@
     "tier": "S",
     "status": "active",
     "categoryStatus": "ok",
-    "checkedAt": "2026-10-31T16:40:21.130Z",
+    "checkedAt": "2026-10-31T16:48:31.194Z",
     "module": "sources/modu/Rex-Modu-VOD.js",
     "version": "0.1.10",
     "m3u8Only": true
@@ -67,14 +67,14 @@
   {
     "priority": 6,
     "id": "zy360",
-    "name": "三六零资源",
+    "name": "360资源",
     "api": "https://360zy.com/api.php/provide/vod/",
     "tier": "S",
     "status": "active",
     "categoryStatus": "ok",
-    "checkedAt": "2026-10-31T16:40:21.131Z",
+    "checkedAt": "2026-10-31T16:48:31.195Z",
     "module": "sources/zy360/Rex-360-VOD.js",
-    "version": "0.1.10",
+    "version": "0.1.11",
     "m3u8Only": true
   },
   {
@@ -85,7 +85,7 @@
     "tier": "S",
     "status": "active",
     "categoryStatus": "ok",
-    "checkedAt": "2026-10-31T16:40:21.133Z",
+    "checkedAt": "2026-10-31T16:48:31.197Z",
     "module": "sources/dytt/Rex-Dytt-VOD.js",
     "version": "0.1.10",
     "m3u8Only": true
@@ -98,7 +98,7 @@
     "tier": "S",
     "status": "active",
     "categoryStatus": "ok",
-    "checkedAt": "2026-10-31T16:40:21.134Z",
+    "checkedAt": "2026-10-31T16:48:31.198Z",
     "module": "sources/guangsu/Rex-Guangsu-VOD.js",
     "version": "0.1.10",
     "m3u8Only": true
@@ -111,7 +111,7 @@
     "tier": "S",
     "status": "active",
     "categoryStatus": "ok",
-    "checkedAt": "2026-10-31T16:40:23.906Z",
+    "checkedAt": "2026-10-31T16:48:33.983Z",
     "module": "sources/baofeng/Rex-Baofeng-VOD.js",
     "version": "0.1.10",
     "m3u8Only": true
@@ -124,7 +124,7 @@
     "tier": "S",
     "status": "active",
     "categoryStatus": "ok",
-    "checkedAt": "2026-10-31T16:40:23.907Z",
+    "checkedAt": "2026-10-31T16:48:33.984Z",
     "module": "sources/hongniu/Rex-Hongniu-VOD.js",
     "version": "0.1.10",
     "m3u8Only": true
@@ -137,7 +137,7 @@
     "tier": "A",
     "status": "active",
     "categoryStatus": "ok",
-    "checkedAt": "2026-10-31T16:40:23.908Z",
+    "checkedAt": "2026-10-31T16:48:33.984Z",
     "module": "sources/jisu/Rex-Jisu-VOD.js",
     "version": "0.1.10",
     "m3u8Only": true
@@ -150,7 +150,7 @@
     "tier": "A",
     "status": "active",
     "categoryStatus": "ok",
-    "checkedAt": "2026-10-31T16:40:23.909Z",
+    "checkedAt": "2026-10-31T16:48:33.985Z",
     "module": "sources/ruyi/Rex-Ruyi-VOD.js",
     "version": "0.1.10",
     "m3u8Only": true
@@ -163,7 +163,7 @@
     "tier": "A",
     "status": "active",
     "categoryStatus": "ok",
-    "checkedAt": "2026-10-31T16:40:23.910Z",
+    "checkedAt": "2026-10-31T16:48:33.985Z",
     "module": "sources/ikun/Rex-IKUN-VOD.js",
     "version": "0.1.10",
     "m3u8Only": true
@@ -176,7 +176,7 @@
     "tier": "A",
     "status": "active",
     "categoryStatus": "ok",
-    "checkedAt": "2026-10-31T16:40:23.910Z",
+    "checkedAt": "2026-10-31T16:48:33.986Z",
     "module": "sources/youku/Rex-Youku-VOD.js",
     "version": "0.1.10",
     "m3u8Only": true
@@ -189,7 +189,7 @@
     "tier": "A",
     "status": "active",
     "categoryStatus": "ok",
-    "checkedAt": "2026-10-31T16:40:23.911Z",
+    "checkedAt": "2026-10-31T16:48:33.986Z",
     "module": "sources/suoni/Rex-Suoni-VOD.js",
     "version": "0.1.10",
     "m3u8Only": true
@@ -202,7 +202,7 @@
     "tier": "A",
     "status": "active",
     "categoryStatus": "ok",
-    "checkedAt": "2026-10-31T16:40:23.911Z",
+    "checkedAt": "2026-10-31T16:48:33.987Z",
     "module": "sources/niuniu/Rex-Niuniu-VOD.js",
     "version": "0.1.10",
     "m3u8Only": true
@@ -215,7 +215,7 @@
     "tier": "A",
     "status": "active",
     "categoryStatus": "ok",
-    "checkedAt": "2026-10-31T16:40:27.165Z",
+    "checkedAt": "2026-10-31T16:48:41.142Z",
     "module": "sources/shandian/Rex-Shandian-VOD.js",
     "version": "0.1.10",
     "m3u8Only": true
@@ -228,7 +228,7 @@
     "tier": "A",
     "status": "active",
     "categoryStatus": "ok",
-    "checkedAt": "2026-10-31T16:40:27.167Z",
+    "checkedAt": "2026-10-31T16:48:41.142Z",
     "module": "sources/ok/Rex-OK-VOD.js",
     "version": "0.1.10",
     "m3u8Only": true
@@ -241,7 +241,7 @@
     "tier": "A",
     "status": "active",
     "categoryStatus": "ok",
-    "checkedAt": "2026-10-31T16:40:27.167Z",
+    "checkedAt": "2026-10-31T16:48:41.143Z",
     "module": "sources/maoyan/Rex-Maoyan-VOD.js",
     "version": "0.1.10",
     "m3u8Only": true
@@ -254,7 +254,7 @@
     "tier": "A",
     "status": "active",
     "categoryStatus": "ok",
-    "checkedAt": "2026-10-31T16:40:27.168Z",
+    "checkedAt": "2026-10-31T16:48:41.143Z",
     "module": "sources/kuaiche/Rex-Kuaiche-VOD.js",
     "version": "0.1.10",
     "m3u8Only": true
@@ -267,7 +267,7 @@
     "tier": "B",
     "status": "active",
     "categoryStatus": "ok",
-    "checkedAt": "2026-10-31T16:40:27.168Z",
+    "checkedAt": "2026-10-31T16:48:41.144Z",
     "module": "sources/tianya/Rex-Tianya-VOD.js",
     "version": "0.1.10",
     "m3u8Only": true
@@ -280,7 +280,7 @@
     "tier": "B",
     "status": "active",
     "categoryStatus": "ok",
-    "checkedAt": "2026-10-31T16:40:27.169Z",
+    "checkedAt": "2026-10-31T16:48:41.144Z",
     "module": "sources/huya/Rex-Huya-VOD.js",
     "version": "0.1.10",
     "m3u8Only": true
@@ -293,7 +293,7 @@
     "tier": "B",
     "status": "active",
     "categoryStatus": "ok",
-    "checkedAt": "2026-10-31T16:40:27.169Z",
+    "checkedAt": "2026-10-31T16:48:41.144Z",
     "module": "sources/xinlang/Rex-Xinlang-VOD.js",
     "version": "0.1.10",
     "m3u8Only": true
@@ -306,7 +306,7 @@
     "tier": "B",
     "status": "active",
     "categoryStatus": "ok",
-    "checkedAt": "2026-10-31T16:40:27.170Z",
+    "checkedAt": "2026-10-31T16:48:41.145Z",
     "module": "sources/haohua/Rex-Haohua-VOD.js",
     "version": "0.1.10",
     "m3u8Only": true
@@ -319,7 +319,7 @@
     "tier": "B",
     "status": "active",
     "categoryStatus": "ok",
-    "checkedAt": "2026-10-31T16:40:30.238Z",
+    "checkedAt": "2026-10-31T16:48:44.029Z",
     "module": "sources/aidan/Rex-Aidan-VOD.js",
     "version": "0.1.10",
     "m3u8Only": true
@@ -332,7 +332,7 @@
     "tier": "B",
     "status": "active",
     "categoryStatus": "ok",
-    "checkedAt": "2026-10-31T16:40:30.239Z",
+    "checkedAt": "2026-10-31T16:48:44.029Z",
     "module": "sources/yinghua/Rex-Yinghua-VOD.js",
     "version": "0.1.10",
     "m3u8Only": true
@@ -345,7 +345,7 @@
     "tier": "B",
     "status": "active",
     "categoryStatus": "ok",
-    "checkedAt": "2026-10-31T16:40:30.239Z",
+    "checkedAt": "2026-10-31T16:48:44.030Z",
     "module": "sources/subo/Rex-Subo-VOD.js",
     "version": "0.1.10",
     "m3u8Only": true
@@ -358,7 +358,7 @@
     "tier": "B",
     "status": "active",
     "categoryStatus": "ok",
-    "checkedAt": "2026-10-31T16:40:30.240Z",
+    "checkedAt": "2026-10-31T16:48:44.030Z",
     "module": "sources/jinying/Rex-Jinying-VOD.js",
     "version": "0.1.10",
     "m3u8Only": true
@@ -371,7 +371,7 @@
     "tier": "B",
     "status": "active",
     "categoryStatus": "ok",
-    "checkedAt": "2026-10-31T16:40:30.240Z",
+    "checkedAt": "2026-10-31T16:48:44.031Z",
     "module": "sources/diyi/Rex-Diyi-VOD.js",
     "version": "0.1.10",
     "m3u8Only": true
@@ -384,7 +384,7 @@
     "tier": "B",
     "status": "active",
     "categoryStatus": "ok",
-    "checkedAt": "2026-10-31T16:40:30.240Z",
+    "checkedAt": "2026-10-31T16:48:44.031Z",
     "module": "sources/changzhang/Rex-Changzhang-VOD.js",
     "version": "0.1.10",
     "m3u8Only": true
@@ -397,7 +397,7 @@
     "tier": "B",
     "status": "active",
     "categoryStatus": "ok",
-    "checkedAt": "2026-10-31T16:40:30.241Z",
+    "checkedAt": "2026-10-31T16:48:44.031Z",
     "module": "sources/xingye/Rex-Xingye-VOD.js",
     "version": "0.1.10",
     "m3u8Only": true
@@ -410,7 +410,7 @@
     "tier": "B",
     "status": "active",
     "categoryStatus": "ok",
-    "checkedAt": "2026-10-31T16:40:30.241Z",
+    "checkedAt": "2026-10-31T16:48:44.032Z",
     "module": "sources/fanqie/Rex-Fanqie-VOD.js",
     "version": "0.1.10",
     "m3u8Only": true
@@ -423,7 +423,7 @@
     "tier": "B",
     "status": "active",
     "categoryStatus": "ok",
-    "checkedAt": "2026-10-31T16:40:33.713Z",
+    "checkedAt": "2026-10-31T16:48:47.183Z",
     "module": "sources/dadi/Rex-Dadi-VOD.js",
     "version": "0.1.10",
     "m3u8Only": true
@@ -436,7 +436,7 @@
     "tier": "C",
     "status": "degraded",
     "categoryStatus": "ok",
-    "checkedAt": "2026-10-31T16:40:33.714Z",
+    "checkedAt": "2026-10-31T16:48:47.184Z",
     "module": "sources/baidu/Rex-Baidu-VOD.js",
     "version": "0.1.10",
     "m3u8Only": true
@@ -449,7 +449,7 @@
     "tier": "C",
     "status": "degraded",
     "categoryStatus": "ok",
-    "checkedAt": "2026-10-31T16:40:33.715Z",
+    "checkedAt": "2026-10-31T16:48:47.185Z",
     "module": "sources/yaya/Rex-Yaya-VOD.js",
     "version": "0.1.10",
     "m3u8Only": true
@@ -457,14 +457,14 @@
   {
     "priority": 36,
     "id": "zy1080",
-    "name": "一零八零资源",
+    "name": "1080资源",
     "api": "https://api.1080zyku.com/inc/apijson.php",
     "tier": "C",
     "status": "active",
     "categoryStatus": "ok",
-    "checkedAt": "2026-10-31T16:40:33.716Z",
+    "checkedAt": "2026-10-31T16:48:47.186Z",
     "module": "sources/zy1080/Rex-1080-VOD.js",
-    "version": "0.1.10",
+    "version": "0.1.11",
     "m3u8Only": true
   },
   {
@@ -475,7 +475,7 @@
     "tier": "C",
     "status": "active",
     "categoryStatus": "ok",
-    "checkedAt": "2026-10-31T16:40:33.717Z",
+    "checkedAt": "2026-10-31T16:48:47.186Z",
     "module": "sources/piaoling/Rex-Piaoling-VOD.js",
     "version": "0.1.10",
     "m3u8Only": true
@@ -487,8 +487,8 @@
     "api": "https://caiji.maotaizy.cc/api.php/provide/vod/",
     "tier": "C",
     "status": "degraded",
-    "categoryStatus": "ok",
-    "checkedAt": "2026-10-31T16:40:33.717Z",
+    "categoryStatus": "previous",
+    "checkedAt": "2026-10-31T16:48:47.187Z",
     "module": "sources/maotai/Rex-Maotai-VOD.js",
     "version": "0.1.10",
     "m3u8Only": true
@@ -501,7 +501,7 @@
     "tier": "D",
     "status": "degraded",
     "categoryStatus": "ok",
-    "checkedAt": "2026-10-31T16:40:33.718Z",
+    "checkedAt": "2026-10-31T16:48:47.188Z",
     "module": "sources/douban/Rex-Douban-VOD.js",
     "version": "0.1.10",
     "m3u8Only": true
@@ -514,7 +514,7 @@
     "tier": "D",
     "status": "degraded",
     "categoryStatus": "ok",
-    "checkedAt": "2026-10-31T16:40:33.718Z",
+    "checkedAt": "2026-10-31T16:48:47.188Z",
     "module": "sources/iqiyi/Rex-Iqiyi-VOD.js",
     "version": "0.1.10",
     "m3u8Only": true
