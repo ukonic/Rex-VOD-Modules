@@ -24,6 +24,15 @@ for (const [item, edition, base] of cases) {
 if (context.cvLineEdition({ title: "HD国语" }, { vod_lang: "粤语" }) !== "国语") {
   throw new Error("episode-level edition did not override item language");
 }
+if (context.cvMediaType({ type_name: "爱情片", vod_class: "剧情" }) !== "movie") {
+  throw new Error("aggregate misclassified a drama movie as TV");
+}
+if (context.cvMediaType({ type_name: "国产剧", vod_class: "剧情" }) !== "tv") {
+  throw new Error("aggregate failed to classify an explicit TV category");
+}
+if (context.cvMediaType({ type_name: "动画电影", vod_class: "动画" }) !== "movie") {
+  throw new Error("aggregate misclassified an animated movie as TV");
+}
 
 const source = { slug: "sample", name: "示例资源", shortName: "示例" };
 function item(language, url) {
@@ -56,6 +65,18 @@ const standalone = { console, setTimeout, clearTimeout, URL, Widget: { http: { g
 }) } } };
 vm.createContext(standalone);
 vm.runInContext(fs.readFileSync(standaloneFile, "utf8"), standalone, { filename: standaloneFile });
+if (standalone.sourceMediaType({ type_name: "爱情片", vod_class: "剧情" }) !== "movie") {
+  throw new Error("standalone misclassified a drama movie as TV");
+}
+if (standalone.sourceMediaType({ type_name: "国产剧", vod_class: "剧情" }) !== "tv") {
+  throw new Error("standalone failed to classify an explicit TV category");
+}
+if (standalone.sourceMediaType({ type_name: "动画电影", vod_class: "动画" }) !== "movie") {
+  throw new Error("standalone misclassified an animated movie as TV");
+}
+if (standalone.sourceBaseTitle("千与千寻国语") !== standalone.sourceBaseTitle("千与千寻")) {
+  throw new Error("standalone edition suffix was not removed from the base title");
+}
 
 (async () => {
   const resources = await standalone.loadResource({

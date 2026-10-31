@@ -108,7 +108,9 @@ function cvBlocked(item) {
 }
 function cvMediaType(item) {
   var value = cvText((item && item.type_name) || "") + " " + cvText((item && item.vod_class) || "");
-  return /剧|连续|电视|动漫|动画|综艺|短剧/i.test(value) ? "tv" : "movie";
+  if (/电影|影片|动作片|喜剧片|爱情片|科幻片|恐怖片|剧情片|战争片|纪录片|悬疑片|犯罪片|灾难片|惊悚片|家庭片|古装片|历史片|动画片|短片|影视解说/i.test(value)) return "movie";
+  return /电视剧|连续剧|剧集|国产剧|内地剧|大陆剧|香港剧|港剧|台湾剧|台剧|韩国剧|韩剧|欧美剧|美剧|日本剧|日剧|泰国剧|泰剧|海外剧|短剧|动漫|动画|综艺|电视/i.test(value)
+    ? "tv" : "movie";
 }
 function cvLink(source, id) { return "cineverse://" + source.slug + "/" + encodeURIComponent(cvText(id)); }
 function cvParseLink(link) {

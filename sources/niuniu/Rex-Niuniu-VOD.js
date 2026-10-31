@@ -10,7 +10,7 @@ var SOURCE_CONFIG = {
   "api": "https://api.niuniuzy.me/api.php/provide/vod/",
   "site": "https://api.niuniuzy.me/",
   "icon": "https://api.niuniuzy.me/favicon.ico",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "priority": 16,
   "tier": "A",
   "categories": {
@@ -291,7 +291,9 @@ function sourceBlocked(item) {
 
 function sourceMediaType(item) {
   var value = sourceText((item && item.type_name) || "") + " " + sourceText((item && item.vod_class) || "");
-  return /剧|连续|电视|动漫|动画|综艺|短剧/i.test(value) ? "tv" : "movie";
+  if (/电影|影片|动作片|喜剧片|爱情片|科幻片|恐怖片|剧情片|战争片|纪录片|悬疑片|犯罪片|灾难片|惊悚片|家庭片|古装片|历史片|动画片|短片|影视解说/i.test(value)) return "movie";
+  return /电视剧|连续剧|剧集|国产剧|内地剧|大陆剧|香港剧|港剧|台湾剧|台剧|韩国剧|韩剧|欧美剧|美剧|日本剧|日剧|泰国剧|泰剧|海外剧|短剧|动漫|动画|综艺|电视/i.test(value)
+    ? "tv" : "movie";
 }
 
 function sourceLink(id) {
@@ -473,6 +475,10 @@ function sourceNormalize(value) {
   return sourceStrip(value).toLowerCase().replace(/[（(][^）)]*[）)]/g, "").replace(/[\s·•:：,，.。!！?？'\"“”‘’\-_/\\]/g, "");
 }
 
+function sourceBaseTitle(value) {
+  return sourceNormalize(value).replace(/国粤双语|国语粤语|粤国双语|国语版?|普通话版?|国配版?|粤语版?|粤配版?|台配国语|台配版?|英语版?|英配版?|日语版?|日配版?|韩语版?|韩配版?|原声版?|导演剪辑版?|加长版|加长剪辑|未删减版?|修复版?/g, "");
+}
+
 function sourceSeason(value) {
   var text = sourceStrip(value);
   var match = text.match(/第\s*([0-9一二三四五六七八九十]+)\s*季/i);
@@ -480,13 +486,13 @@ function sourceSeason(value) {
 }
 
 function sourcePicks(list, keyword, params) {
-  var wanted = sourceNormalize(keyword);
+  var wanted = sourceBaseTitle(keyword);
   var requestedYear = sourceText(params && params.year).trim();
   var requestedType = sourceText(params && (params.type || params.mediaType)).toLowerCase();
   var requestedSeason = sourceSeason(keyword) || sourceText(params && params.season).trim();
   var candidates = (Array.isArray(list) ? list : []).filter(function (item) {
     if (!item || sourceBlocked(item) || !sourcePlayLines(item).length) return false;
-    if (sourceNormalize(item.vod_name) !== wanted) return false;
+    if (sourceBaseTitle(item.vod_name) !== wanted) return false;
     if (requestedYear && sourceText(item.vod_year).trim() && sourceText(item.vod_year).trim() !== requestedYear) return false;
     if ((requestedType === "tv" || requestedType === "movie") && sourceMediaType(item) !== requestedType) return false;
     var itemSeason = sourceSeason(item.vod_name) || sourceSeason(item.vod_remarks);
