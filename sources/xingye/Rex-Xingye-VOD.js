@@ -10,7 +10,7 @@ var SOURCE_CONFIG = {
   "api": "https://xyezy.com/api.php/provide/vod/",
   "site": "https://xyezy.com/",
   "icon": "https://xyezy.com/favicon.ico",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "priority": 31,
   "tier": "B",
   "categories": {
@@ -386,7 +386,8 @@ function sourceUnique(items) {
 }
 
 async function loadSourceHome(params) {
-  var result = await sourceGet({ ac: "list", pg: sourcePage(params && params.page) });
+  var result;
+  try { result = await sourceGet({ ac: "list", pg: sourcePage(params && params.page) }); } catch (_) { return []; }
   return sourceMapList(result.list);
 }
 
@@ -415,14 +416,16 @@ async function searchSource(params) {
   params = params || {};
   var keyword = sourceStrip(params.keyword || params.wd || params.query);
   if (!keyword) return [];
-  var result = await sourceGet({ ac: "detail", wd: keyword, pg: sourcePage(params.page) });
+  var result;
+  try { result = await sourceGet({ ac: "detail", wd: keyword, pg: sourcePage(params.page) }); } catch (_) { return []; }
   return sourceMapList(result.list);
 }
 
 async function loadDetail(link) {
   var id = sourceId(link);
   if (!id) return null;
-  var result = await sourceGet({ ac: "detail", ids: id });
+  var result;
+  try { result = await sourceGet({ ac: "detail", ids: id }); } catch (_) { return null; }
   var list = Array.isArray(result.list) ? result.list : [];
   for (var i = 0; i < list.length; i += 1) {
     if (sourceText(list[i] && list[i].vod_id) === id) return sourceDetailItem(list[i]);
@@ -470,12 +473,12 @@ async function loadResource(params) {
   var result;
   var detail;
   if (id) {
-    result = await sourceGet({ ac: "detail", ids: id });
+    try { result = await sourceGet({ ac: "detail", ids: id }); } catch (_) { return []; }
     detail = Array.isArray(result.list) && result.list.length ? result.list[0] : null;
   } else {
     var keyword = sourceStrip(params.seriesName || params.title || params.name);
     if (!keyword) return [];
-    result = await sourceGet({ ac: "detail", wd: keyword });
+    try { result = await sourceGet({ ac: "detail", wd: keyword }); } catch (_) { return []; }
     detail = sourcePick(result.list, keyword, params);
   }
   if (!detail) return [];

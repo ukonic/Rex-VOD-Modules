@@ -4,6 +4,8 @@
  */
 var CINEVERSE_CONFIG = __AGG_CONFIG__;
 var CINEVERSE_SOURCES = CINEVERSE_CONFIG.sources;
+var CV_MATCH_CACHE = {};
+var CV_MATCH_CACHE_TTL = 180000;
 
 function cvText(value) { return value === null || value === undefined ? "" : String(value); }
 function cvSourceOptions() { return CINEVERSE_SOURCES.map(function (source) { return { title: source.name, value: source.slug }; }); }
@@ -301,6 +303,14 @@ function cvCandidate(item, keyword, params) {
   return true;
 }
 async function cvFindMatches(keyword, params) {
+  var cacheKey = [
+    cvBaseTitle(keyword),
+    cvText(params && (params.year || params.releaseYear || params.releaseDate)).match(/(?:19|20)\d{2}/) || "",
+    Math.floor(Number(params && (params.season || params.seasonNumber))) || cvSeasonNumber(keyword) || 0,
+    cvText(params && params.type).toLowerCase()
+  ].join("|");
+  var cached = CV_MATCH_CACHE[cacheKey];
+  if (cached && Date.now() - cached.time < CV_MATCH_CACHE_TTL) return cached.rows.slice();
   var responses = await cvBatches(CINEVERSE_SOURCES, function (source) {
     return cvSafeGet(source, { ac: "detail", wd: keyword }).then(function (payload) {
       return { source: source, list: payload.list || [] };
@@ -332,13 +342,18 @@ async function cvFindMatches(keyword, params) {
   }
   var exact = [];
   if (!requestedYear && !requestedSeason) {
-    var years = pool.map(function (row) { return Number(row.item.vod_year); }).filter(function (year) { return isFinite(year) && year >= 1900 && year <= 2100; });
-    if (years.length) {
-      var earliestYear = Math.min.apply(Math, years);
-      pool = pool.filter(function (row) { return Number(row.item.vod_year) === earliestYear; });
+    exact = pool.filter(function (row) { return cvBaseTitle(row.item.vod_name) === wanted; });
+    if (exact.length) {
+      pool = exact;
     } else {
-      var shortest = Math.min.apply(Math, pool.map(function (row) { return cvNormalize(row.item.vod_name).length; }));
-      pool = pool.filter(function (row) { return cvNormalize(row.item.vod_name).length === shortest; });
+      var years = pool.map(function (row) { return Number(row.item.vod_year); }).filter(function (year) { return isFinite(year) && year >= 1900 && year <= 2100; });
+      if (years.length) {
+        var earliestYear = Math.min.apply(Math, years);
+        pool = pool.filter(function (row) { return Number(row.item.vod_year) === earliestYear; });
+      } else {
+        var shortest = Math.min.apply(Math, pool.map(function (row) { return cvNormalize(row.item.vod_name).length; }));
+        pool = pool.filter(function (row) { return cvNormalize(row.item.vod_name).length === shortest; });
+      }
     }
   }
   exact = pool.filter(function (row) { return cvBaseTitle(row.item.vod_name) === wanted; });
@@ -364,13 +379,16 @@ async function cvFindMatches(keyword, params) {
     return cvNormalize(a.item.vod_name).length - cvNormalize(b.item.vod_name).length;
   });
   var picked = {};
-  return pool.filter(function (row) {
+  var result = pool.filter(function (row) {
     var editionKey = cvEdition(row.item) || "default";
     var key = row.source.slug + "|" + editionKey;
     if (picked[key]) return false;
     picked[key] = true;
     return true;
   });
+  if (Object.keys(CV_MATCH_CACHE).length >= 50) CV_MATCH_CACHE = {};
+  CV_MATCH_CACHE[cacheKey] = { time: Date.now(), rows: result.slice() };
+  return result;
 }
 function cvEpisodeItems(matches, base) {
   var items = [];
@@ -391,7 +409,7 @@ function cvEpisodeItems(matches, base) {
 async function loadDetail(link) {
   var parsed = cvParseLink(link);
   if (!parsed || !parsed.source) return null;
-  var payload = await cvGet(parsed.source, { ac: "detail", ids: parsed.id });
+  var payload = await cvSafeGet(parsed.source, { ac: "detail", ids: parsed.id });
   var raw = (payload.list || [])[0];
   if (!raw) return null;
   var base = cvListItem(raw, parsed.source);

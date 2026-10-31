@@ -1,7 +1,7 @@
 "use strict";
 
 module.exports = [
-  { slug: "feifan", name: "非凡资源", shortName: "非凡", api: "https://api.ffzyapi.com/api.php/provide/vod/from/ffm3u8/", priority: 1, tier: "S", version: "0.1.8", legacy: true },
+  { slug: "feifan", name: "非凡资源", shortName: "非凡", api: "https://api.ffzyapi.com/api.php/provide/vod/from/ffm3u8/", priority: 1, tier: "S", version: "0.1.9", legacy: true },
   { slug: "liangzi", name: "量子资源", shortName: "量子", api: "https://cj.lziapi.com/api.php/provide/vod/", priority: 2, tier: "S" },
   { slug: "zuida", name: "最大资源", shortName: "最大", api: "https://api.zuidapi.com/api.php/provide/vod/", priority: 3, tier: "S" },
   { slug: "wujin", name: "无尽资源", shortName: "无尽", api: "https://api.wujinapi.com/api.php/provide/vod/", priority: 4, tier: "S" },
@@ -40,5 +40,11 @@ module.exports = [
   { slug: "piaoling", name: "飘零资源", shortName: "飘零", api: "https://p2100.net/api.php/provide/vod/", priority: 37, tier: "C" },
   { slug: "maotai", name: "茅台资源", shortName: "茅台", api: "https://caiji.maotaizy.cc/api.php/provide/vod/", priority: 38, tier: "C", status: "degraded" },
   { slug: "douban", name: "豆瓣资源", shortName: "豆瓣", api: "https://dbzy.tv/api.php/provide/vod/", priority: 39, tier: "D", status: "degraded" },
-  { slug: "iqiyi", name: "爱奇艺资源", shortName: "爱奇艺", api: "http://iqiyizyapi.com/api.php/provide/vod/", priority: 40, tier: "D", status: "degraded" }
+  { slug: "iqiyi", name: "爱奇艺资源", shortName: "爱奇艺", api: "http://iqiyizyapi.com/api.php/provide/vod/", priority: 40, tier: "D", status: "degraded", categories: {
+    movie: [["电影", "7"], ["动作片", "10"], ["喜剧片", "11"], ["爱情片", "12"], ["科幻片", "13"], ["恐怖片", "14"], ["剧情片", "15"], ["战争片", "16"], ["惊悚片", "17"], ["家庭片", "18"], ["古装片", "19"], ["历史片", "20"], ["悬疑片", "21"], ["犯罪片", "22"], ["灾难片", "23"], ["记录片", "24"], ["短片", "25"]].map(([title, value]) => ({ title, value })),
+    tv: [["连续剧", "8"], ["国产剧", "26"], ["香港剧", "27"], ["韩国剧", "28"], ["欧美剧", "29"], ["台湾剧", "30"], ["日本剧", "31"], ["海外剧", "32"], ["泰国剧", "33"]].map(([title, value]) => ({ title, value })),
+    variety: [["综艺", "9"], ["大陆综艺", "34"], ["港台综艺", "35"], ["日韩综艺", "36"], ["欧美综艺", "37"]].map(([title, value]) => ({ title, value })),
+    anime: [["国产动漫", "1"], ["日韩动漫", "2"], ["欧美动漫", "3"], ["港台动漫", "4"], ["动漫电影", "5"], ["动漫", "40"]].map(([title, value]) => ({ title, value })),
+    short: [{ title: "短剧", value: "38" }]
+  } }
 ];

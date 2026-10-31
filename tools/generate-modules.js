@@ -7,6 +7,11 @@ const sources = require("./source-configs");
 const root = path.resolve(__dirname, "..");
 const templatePath = path.join(__dirname, "templates", "standalone.template.js");
 const template = fs.readFileSync(templatePath, "utf8");
+const generatedPath = path.join(__dirname, "generated-sources.json");
+const previousSources = fs.existsSync(generatedPath)
+  ? JSON.parse(fs.readFileSync(generatedPath, "utf8"))
+  : [];
+const previousBySlug = new Map(previousSources.map(source => [source.slug, source]));
 
 const fallback = {
   movie: [
@@ -101,11 +106,12 @@ async function enrich(source) {
     const payload = await getJson(source.api);
     categories = classify(payload.class);
   } catch (error) {
-    categories = fallbackCategories();
-    apiStatus = "fallback";
-    console.warn(`${source.name}: ${error.message}; using fallback categories`);
+    const previous = previousBySlug.get(source.slug);
+    categories = source.categories || (previous && previous.categories) || fallbackCategories();
+    apiStatus = source.categories ? "configured" : (previous && previous.categories ? "previous" : "fallback");
+    console.warn(`${source.name}: ${error.message}; using ${apiStatus} categories`);
   }
-  const version = source.version || "0.1.3";
+  const version = source.version || "0.1.4";
   const site = origin(source.api);
   return {
     ...source,
@@ -173,7 +179,7 @@ async function main() {
     m3u8Only: true
   }));
   fs.writeFileSync(path.join(root, "registry.json"), JSON.stringify(registry, null, 2) + "\n", "utf8");
-  fs.writeFileSync(path.join(__dirname, "generated-sources.json"), JSON.stringify(enriched, null, 2) + "\n", "utf8");
+  fs.writeFileSync(generatedPath, JSON.stringify(enriched, null, 2) + "\n", "utf8");
   console.log(`Generated ${enriched.length} standalone modules.`);
 }
 

@@ -8,7 +8,7 @@ var WidgetMetadata = {
   id: "rex.feifan.vod",
   title: "非凡资源",
   icon: "https://ffzy.tv/favicon.ico",
-  version: "0.1.8",
+  version: "0.1.9",
   requiredVersion: "0.0.1",
   description: "非凡资源网 ffm3u8 专用 JSON 接口：分类、搜索、详情与直接 M3U8 播放",
   author: "ukonic",
@@ -160,7 +160,7 @@ var WidgetMetadata = {
 
 var FF_API = "https://api.ffzyapi.com/api.php/provide/vod/from/ffm3u8/";
 var FF_SITE = "https://ffzy.tv/";
-var FF_UA = "Mozilla/5.0 (Rex ForwardWidget; Feifan VOD/0.1.8)";
+var FF_UA = "Mozilla/5.0 (Rex ForwardWidget; Feifan VOD/0.1.9)";
 var FF_BLOCKED_TYPE_IDS = { "34": true };
 var FF_BLOCKED_WORDS = [
   "伦理片", "伦理", "福利", "里番", "无码", "有码", "情色", "色情",
@@ -447,7 +447,8 @@ async function loadFeifanList(params) {
   if (FF_BLOCKED_TYPE_IDS[category]) return [];
   var query = { ac: "list", pg: ffPositiveInt(params.page, 1) };
   if (category && category !== "0") query.t = category;
-  var result = await ffGet(query);
+  var result;
+  try { result = await ffGet(query); } catch (_) { return []; }
   return ffMapList(result.list);
 }
 
@@ -474,18 +475,22 @@ async function searchFeifan(params) {
   params = params || {};
   var keyword = ffStripHtml(params.keyword || params.wd || params.query);
   if (!keyword) return [];
-  var result = await ffGet({
-    ac: "detail",
-    wd: keyword,
-    pg: ffPositiveInt(params.page, 1)
-  });
+  var result;
+  try {
+    result = await ffGet({
+      ac: "detail",
+      wd: keyword,
+      pg: ffPositiveInt(params.page, 1)
+    });
+  } catch (_) { return []; }
   return ffMapList(result.list);
 }
 
 async function loadDetail(link) {
   var id = ffVodId(link);
   if (!id) return null;
-  var result = await ffGet({ ac: "detail", ids: id });
+  var result;
+  try { result = await ffGet({ ac: "detail", ids: id }); } catch (_) { return null; }
   var list = Array.isArray(result.list) ? result.list : [];
   for (var i = 0; i < list.length; i += 1) {
     if (ffText(list[i] && list[i].vod_id) === id) return ffDetailItem(list[i]);
@@ -608,13 +613,13 @@ async function loadResource(params) {
   var result;
   var seedDetail = null;
   if (vodId) {
-    result = await ffGet({ ac: "detail", ids: vodId });
+    try { result = await ffGet({ ac: "detail", ids: vodId }); } catch (_) { return []; }
     var detailList = Array.isArray(result.list) ? result.list : [];
     seedDetail = detailList.length ? detailList[0] : null;
   }
   var keyword = ffStripHtml(params.seriesName || (seedDetail && seedDetail.vod_name) || params.title || params.name);
   if (!keyword) return [];
-  result = await ffGet({ ac: "detail", wd: ffSearchTitle(keyword) || keyword });
+  try { result = await ffGet({ ac: "detail", wd: ffSearchTitle(keyword) || keyword }); } catch (_) { return seedDetail ? ffFallbackResources(seedDetail, params) : []; }
   var details = ffHomeMatches(result.list, keyword, params);
   if (seedDetail && !details.some(function (item) { return ffText(item.vod_id) === ffText(seedDetail.vod_id); })) details.unshift(seedDetail);
   if (!details.length && seedDetail) details = [seedDetail];
@@ -629,6 +634,12 @@ async function loadResource(params) {
     });
   });
   return resources;
+}
+
+function ffFallbackResources(detail, params) {
+  return ffPickResourceLines(ffParsePlayLines(detail), params, ffMediaType(detail)).map(function (line) {
+    return ffVideoResource(line, detail);
+  });
 }
 
 function ffPickResourceLines(lines, params, mediaType) {
