@@ -804,11 +804,13 @@
     "slug": "zy360",
     "name": "360资源",
     "shortName": "360",
+    "moduleName": "三六零资源",
+    "moduleShortName": "三六零",
     "playbackName": "三六零资源",
     "api": "https://360zy.com/api.php/provide/vod/",
     "priority": 6,
     "tier": "S",
-    "version": "0.1.11",
+    "version": "0.1.12",
     "site": "https://360zy.com/",
     "icon": "https://360zy.com/favicon.ico",
     "categories": {
@@ -1009,7 +1011,7 @@
     },
     "status": "active",
     "apiStatus": "ok",
-    "checkedAt": "2026-10-31T16:48:31.195Z",
+    "checkedAt": "2026-10-31T17:24:54.923Z",
     "file": "Rex-360-VOD.js"
   },
   {
@@ -5583,11 +5585,13 @@
     "slug": "zy1080",
     "name": "1080资源",
     "shortName": "1080",
+    "moduleName": "一零八零资源",
+    "moduleShortName": "一零八零",
     "playbackName": "一零八零资源",
     "api": "https://api.1080zyku.com/inc/apijson.php",
     "priority": 36,
     "tier": "C",
-    "version": "0.1.11",
+    "version": "0.1.12",
     "site": "https://api.1080zyku.com/",
     "icon": "https://api.1080zyku.com/favicon.ico",
     "categories": {
@@ -5724,7 +5728,7 @@
     },
     "status": "active",
     "apiStatus": "ok",
-    "checkedAt": "2026-10-31T16:48:47.186Z",
+    "checkedAt": "2026-10-31T17:24:55.032Z",
     "file": "Rex-1080-VOD.js"
   },
   {

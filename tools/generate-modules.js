@@ -12,6 +12,7 @@ const previousSources = fs.existsSync(generatedPath)
   ? JSON.parse(fs.readFileSync(generatedPath, "utf8"))
   : [];
 const previousBySlug = new Map(previousSources.map(source => [source.slug, source]));
+const requestedSlugs = new Set(process.argv.slice(2));
 
 const fallback = {
   movie: [
@@ -127,10 +128,13 @@ async function enrich(source) {
 }
 
 function moduleSource(config) {
+  const moduleName = config.moduleName || config.name;
+  const moduleShortName = config.moduleShortName || config.shortName;
   const runtimeConfig = {
     slug: config.slug,
-    name: config.name,
-    shortName: config.shortName,
+    name: moduleName,
+    shortName: moduleShortName,
+    sourceName: config.name,
     api: config.api,
     site: config.site,
     icon: config.icon,
@@ -141,18 +145,28 @@ function moduleSource(config) {
     categories: config.categories
   };
   return template
-    .replaceAll("__MODULE_NAME__", config.name)
+    .replaceAll("__MODULE_NAME__", moduleName)
     .replace("__SOURCE_CONFIG__", JSON.stringify(runtimeConfig, null, 2));
 }
 
 function readme(config) {
-  return `# ${config.name}\n\nRex / ForwardWidgets 独立 VOD 模块，仅保留直接 M3U8 线路。\n\n## 导入\n\n\`\`\`text\nhttps://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/main/sources/${config.slug}/${config.file}\n\`\`\`\n\n## 功能\n\n- ${config.name}最近更新\n- ${config.shortName}电影、剧集、综艺、动漫、短剧\n- 搜索${config.name}\n- 加载${config.shortName}播放源\n\n接口：\`${config.api}\`\n`;
+  const moduleName = config.moduleName || config.name;
+  const moduleShortName = config.moduleShortName || config.shortName;
+  return `# ${moduleName}\n\nRex / ForwardWidgets 独立 VOD 模块，仅保留直接 M3U8 线路。\n\n## 导入\n\n\`\`\`text\nhttps://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/main/sources/${config.slug}/${config.file}\n\`\`\`\n\n## 功能\n\n- ${moduleName}最近更新\n- ${moduleShortName}电影、剧集、综艺、动漫、短剧\n- 搜索${moduleName}\n- 加载${moduleShortName}播放源\n\n资源站登记名：${config.name}\n\n接口：\`${config.api}\`\n`;
 }
 
 async function main() {
+  const selectedSources = requestedSlugs.size
+    ? sources.filter(source => requestedSlugs.has(source.slug))
+    : sources;
+  if (requestedSlugs.size && selectedSources.length !== requestedSlugs.size) {
+    const found = new Set(selectedSources.map(source => source.slug));
+    const missing = Array.from(requestedSlugs).filter(slug => !found.has(slug));
+    throw new Error(`Unknown source slug(s): ${missing.join(", ")}`);
+  }
   const enriched = [];
-  for (let index = 0; index < sources.length; index += 8) {
-    const batch = await Promise.all(sources.slice(index, index + 8).map(enrich));
+  for (let index = 0; index < selectedSources.length; index += 8) {
+    const batch = await Promise.all(selectedSources.slice(index, index + 8).map(enrich));
     enriched.push(...batch);
   }
 
@@ -167,7 +181,14 @@ async function main() {
     fs.writeFileSync(path.join(folder, "README.md"), readme(config), "utf8");
   }
 
-  const registry = enriched.map(config => ({
+  const updatedBySlug = new Map(enriched.map(config => [config.slug, config]));
+  const allConfigs = requestedSlugs.size
+    ? previousSources.map(config => updatedBySlug.get(config.slug) || config)
+    : enriched;
+  for (const config of enriched) {
+    if (!allConfigs.some(item => item.slug === config.slug)) allConfigs.push(config);
+  }
+  const registry = allConfigs.map(config => ({
     priority: config.priority,
     id: config.slug,
     name: config.name,
@@ -181,7 +202,7 @@ async function main() {
     m3u8Only: true
   }));
   fs.writeFileSync(path.join(root, "registry.json"), JSON.stringify(registry, null, 2) + "\n", "utf8");
-  fs.writeFileSync(generatedPath, JSON.stringify(enriched, null, 2) + "\n", "utf8");
+  fs.writeFileSync(generatedPath, JSON.stringify(allConfigs, null, 2) + "\n", "utf8");
   console.log(`Generated ${enriched.length} standalone modules.`);
 }
 

@@ -72,9 +72,9 @@
     "tier": "S",
     "status": "active",
     "categoryStatus": "ok",
-    "checkedAt": "2026-10-31T16:48:31.195Z",
+    "checkedAt": "2026-10-31T17:24:54.923Z",
     "module": "sources/zy360/Rex-360-VOD.js",
-    "version": "0.1.11",
+    "version": "0.1.12",
     "m3u8Only": true
   },
   {
@@ -462,9 +462,9 @@
     "tier": "C",
     "status": "active",
     "categoryStatus": "ok",
-    "checkedAt": "2026-10-31T16:48:47.186Z",
+    "checkedAt": "2026-10-31T17:24:55.032Z",
     "module": "sources/zy1080/Rex-1080-VOD.js",
-    "version": "0.1.11",
+    "version": "0.1.12",
     "m3u8Only": true
   },
   {

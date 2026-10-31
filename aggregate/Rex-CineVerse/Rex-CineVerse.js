@@ -3,7 +3,7 @@
  * 40站聚合、严格匹配、仅直接 M3U8。运行时不依赖 registry.json 或其他文件。
  */
 var CINEVERSE_CONFIG = {
-  "version": "0.1.15",
+  "version": "0.1.16",
   "sources": [
     {
       "slug": "feifan",
@@ -6279,9 +6279,13 @@ var CINEVERSE_CONFIG = {
 var CINEVERSE_SOURCES = CINEVERSE_CONFIG.sources;
 var CV_MATCH_CACHE = {};
 var CV_MATCH_CACHE_TTL = 180000;
+var CV_AUTO_MIN_SOURCES = 3;
 
 function cvText(value) { return value === null || value === undefined ? "" : String(value); }
-function cvSourceOptions() { return CINEVERSE_SOURCES.map(function (source) { return { title: source.name, value: source.slug }; }); }
+function cvPrioritySource(source) { return source && (source.tier === "S" || source.tier === "A"); }
+function cvSourceOptions() { return CINEVERSE_SOURCES.map(function (source) {
+  return { title: (cvPrioritySource(source) ? "优先 · " : "备用 · ") + source.name, value: source.slug };
+}); }
 function cvPageParams() { return [{ name: "page", title: "页码", type: "page", value: "1" }]; }
 
 var WidgetMetadata = {
@@ -6294,6 +6298,16 @@ var WidgetMetadata = {
   author: "ukonic",
   site: "https://github.com/ukonic/Rex-VOD-Modules",
   detailCacheDuration: 180,
+  globalParams: [
+    {
+      name: "sourceStrategy", title: "播放源策略", type: "enumeration", value: "complete",
+      enumOptions: [
+        { title: "全部资源站（完整）", value: "complete" },
+        { title: "自动分级（不足时降级）", value: "auto" },
+        { title: "仅优先资源站（快速）", value: "priority" }
+      ]
+    }
+  ],
   modules: [
     { id: "loadResource", title: "多源播放", functionName: "loadResource", type: "stream", cacheDuration: 0, params: [] },
     { id: "cineverseHome", title: "寰宇影源", description: "多站去重后的近期更新", functionName: "loadCineverseHome", cacheDuration: 180, params: cvPageParams() },
@@ -6360,6 +6374,37 @@ function cvPage(value) { var number = Math.floor(Number(value)); return isFinite
 function cvSource(slug) {
   for (var i = 0; i < CINEVERSE_SOURCES.length; i += 1) if (CINEVERSE_SOURCES[i].slug === slug) return CINEVERSE_SOURCES[i];
   return null;
+}
+function cvSourceStrategy(params) {
+  var value = cvText(params && params.sourceStrategy).toLowerCase();
+  return value === "auto" || value === "priority" ? value : "complete";
+}
+function cvPlaybackSourceGroups(params) {
+  var strategy = cvSourceStrategy(params);
+  var priority = CINEVERSE_SOURCES.filter(cvPrioritySource);
+  if (strategy === "complete") return { strategy: strategy, primary: CINEVERSE_SOURCES.slice(), fallback: [] };
+  return {
+    strategy: strategy,
+    primary: priority,
+    fallback: strategy === "auto" ? CINEVERSE_SOURCES.filter(function (source) { return !cvPrioritySource(source); }) : []
+  };
+}
+function cvSourceCount(matches) {
+  var seen = {};
+  (matches || []).forEach(function (match) { if (match && match.source) seen[match.source.slug] = true; });
+  return Object.keys(seen).length;
+}
+function cvMergeMatches(matches) {
+  var seen = {};
+  return (matches || []).filter(function (match) {
+    if (!match || !match.source || !match.item) return false;
+    var key = match.source.slug + "|" + cvIdentityTitle(match.item.vod_name);
+    if (seen[key]) return false;
+    seen[key] = true;
+    return true;
+  }).sort(function (a, b) {
+    return Number(a.source.priority || 999) - Number(b.source.priority || 999);
+  });
 }
 function cvApiUrl(source, params) {
   var pairs = [];
@@ -6679,17 +6724,20 @@ function cvCandidate(item, keyword, params) {
   if ((type === "tv" || type === "movie") && cvMediaType(item) !== type) return false;
   return true;
 }
-async function cvFindMatches(keyword, params) {
+async function cvFindMatches(keyword, params, sources) {
+  var sourcePool = Array.isArray(sources) && sources.length ? sources : CINEVERSE_SOURCES;
+  var sourceScope = sourcePool.map(function (source) { return source.slug; }).join(",");
   var cacheKey = [
     cvIdentityTitle(keyword),
     cvText(params && (params.year || params.releaseYear || params.releaseDate)).match(/(?:19|20)\d{2}/) || "",
     Math.floor(Number(params && (params.season || params.seasonNumber))) || cvSeasonNumber(keyword) || 0,
-    cvText(params && (params.type || params.mediaType)).toLowerCase()
+    cvText(params && (params.type || params.mediaType)).toLowerCase(),
+    sourceScope
   ].join("|");
   var cached = CV_MATCH_CACHE[cacheKey];
   if (cached && Date.now() - cached.time < CV_MATCH_CACHE_TTL) return cached.rows.slice();
   var queries = cvSearchQueries(keyword);
-  var responses = await cvBatches(CINEVERSE_SOURCES, function (source) {
+  var responses = await cvBatches(sourcePool, function (source) {
     return Promise.all(queries.map(function (query) {
       var pages = cvIdentityTitle(query).length <= 4 ? [1, 2] : [1];
       return Promise.all(pages.map(function (page) { return cvSafeGet(source, { ac: "detail", wd: query, pg: page }); }));
@@ -6752,6 +6800,13 @@ async function cvFindMatches(keyword, params) {
   if (Object.keys(CV_MATCH_CACHE).length >= 50) CV_MATCH_CACHE = {};
   CV_MATCH_CACHE[cacheKey] = { time: Date.now(), rows: result.slice() };
   return result;
+}
+async function cvFindPlaybackMatches(keyword, params) {
+  var groups = cvPlaybackSourceGroups(params);
+  var primaryMatches = await cvFindMatches(keyword, params, groups.primary);
+  if (groups.strategy !== "auto" || cvSourceCount(primaryMatches) >= CV_AUTO_MIN_SOURCES) return primaryMatches;
+  var fallbackMatches = await cvFindMatches(keyword, params, groups.fallback);
+  return cvMergeMatches(primaryMatches.concat(fallbackMatches));
 }
 function cvEpisodeItems(matches, base) {
   if (base.mediaType === "movie") {
@@ -6862,7 +6917,7 @@ async function loadResource(params) {
   var matches = [];
   for (var keywordIndex = 0; keywordIndex < keywords.length; keywordIndex += 1) {
     keyword = keywords[keywordIndex];
-    matches = await cvFindMatches(keyword, params);
+    matches = await cvFindPlaybackMatches(keyword, params);
     if (matches.length) break;
   }
   if (!matches.length) return [];

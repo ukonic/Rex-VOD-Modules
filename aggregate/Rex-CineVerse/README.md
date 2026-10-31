@@ -8,6 +8,12 @@
 https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/main/aggregate/Rex-CineVerse/Rex-CineVerse.js
 ```
 
+## 播放源策略
+
+- 全部资源站（默认）：搜索全部40个资源站，保留完整播放源。
+- 自动分级：先搜索 S/A 级优先资源站；少于3个资源站命中时，再搜索 B/C/D 级备用资源站。
+- 仅优先资源站：只搜索 S/A 级资源站，速度更快。
+
 ## 功能入口
 
 - 寰宇影源
