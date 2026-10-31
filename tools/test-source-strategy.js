@@ -103,7 +103,8 @@ async function run(strategy, target, matches) {
   const target = context.WidgetMetadata.globalParams.find(item => item.name === "sourceTarget");
   assert(strategy && strategy.value === "auto" && strategy.enumOptions.length === 3,
     "Source strategy setting is missing or has the wrong default");
-  assert(target && target.value === "3" && /1–20/.test(target.description) && /不是播放线路数量/.test(target.description),
+  assert(target && target.value === "3" && /仅自动模式/.test(target.title) && /仅在“自动分层”模式下生效/.test(target.description)
+    && /1–20/.test(target.description) && /不是播放线路数量/.test(target.description),
     "Source target setting or explanation is incomplete");
   console.log("Source strategy modes passed: complete 37, core S, auto S to A to B+C, target validation, D disabled.");
 })().catch(error => { console.error(error); process.exitCode = 1; });

@@ -39,8 +39,8 @@ var WidgetMetadata = {
       ]
     },
     {
-      name: "sourceTarget", title: "自动分层目标数", type: "input", value: "3",
-      description: "填写1–20。表示自动分层至少需要命中的资源站数量，不是播放线路数量；留空或填写错误时使用默认值3。"
+      name: "sourceTarget", title: "自动分层目标数（仅自动模式）", type: "input", value: "3",
+      description: "仅在“自动分层”模式下生效。填写1–20，表示至少需要命中的资源站数量，不是播放线路数量；留空或填写错误时使用默认值3。"
     }
   ],
   modules: [
@@ -217,7 +217,7 @@ function cvEdition(item) {
   var languageText = cvStrip(item && item.vod_lang);
   var rules = [
     [/国粤双语|国语粤语|粤国双语/i, "国粤双语"],
-    [/国语版|普通话版|国语|普通话|国配版|国配/i, "国语"],
+    [/国语版|普通话版|中配版|中文配音版|国语|普通话|国配版|国配|中配|中文配音/i, "国语"],
     [/粤语版|粤语|粤配版|粤配/i, "粤语"],
     [/台配版|台配国语|台配/i, "台配"],
     [/英语版|英语|英配版|英配/i, "英语"],
@@ -238,7 +238,7 @@ function cvEdition(item) {
 function cvExplicitEdition(item) {
   var text = [item && item.vod_name, item && item.vod_sub, item && item.vod_remarks,
     item && item.vod_note].map(cvStrip).join(" ");
-  return /国粤双语|国语粤语|粤国双语|国语版|普通话版|国配|粤语版|粤配|台配|英语版|英配|日语版|日配|韩语版|韩配|原声版|导演剪辑|加长版|加长剪辑|未删减|修复版|HD国语|HD粤语/i.test(text);
+  return /国粤双语|国语粤语|粤国双语|国语版|普通话版|国配|中配|中文配音|粤语版|粤配|台配|英语版|英配|日语版|日配|韩语版|韩配|原声版|导演剪辑|加长版|加长剪辑|未删减|修复版|HD国语|HD粤语/i.test(text);
 }
 function cvLineEdition(line, item) {
   var lineEdition = cvEdition({ vod_name: line && line.title });
@@ -260,11 +260,13 @@ function cvShowEditionLabels(matches) {
   return Object.keys(editions).length > 1 || explicit;
 }
 function cvBaseTitle(value) {
-  return cvNormalize(value).replace(/国粤双语|国语粤语|粤国双语|国语版?|普通话版?|国配版?|粤语版?|粤配版?|台配国语|台配版?|英语版?|英配版?|日语版?|日配版?|韩语版?|韩配版?|原声版?|导演剪辑版?|加长版|加长剪辑|未删减版?|修复版?/g, "");
+  return cvNormalize(value).replace(/国粤双语|国语粤语|粤国双语|国语版?|普通话版?|国配版?|中配版?|中文配音版?|粤语版?|粤配版?|台配国语|台配版?|英语版?|英配版?|日语版?|日配版?|韩语版?|韩配版?|原声版?|导演剪辑版?|加长版|加长剪辑|未删减版?|修复版?/g, "");
 }
 function cvTitleEdition(value) { return cvEdition({ vod_name: value }); }
 function cvSearchTitle(value) {
-  return cvStrip(value).replace(/(?:国粤双语|国语粤语|粤国双语|国语版?|普通话版?|国配版?|粤语版?|粤配版?|台配国语|台配版?|英语版?|英配版?|日语版?|日配版?|韩语版?|韩配版?|原声版?|导演剪辑版?|加长版|加长剪辑|未删减版?|修复版?)/gi, "").trim();
+  return cvStrip(value)
+    .replace(/(?:国粤双语|国语粤语|粤国双语|国语版?|普通话版?|国配版?|中配版?|中文配音版?|粤语版?|粤配版?|台配国语|台配版?|英语版?|英配版?|日语版?|日配版?|韩语版?|韩配版?|原声版?|导演剪辑版?|加长版|加长剪辑|未删减版?|修复版?)/gi, "")
+    .replace(/[（(\[【]\s*[）)\]】]/g, " ").replace(/\s+/g, " ").trim();
 }
 function cvSearchQueries(value) {
   var raw = cvStrip(value);
@@ -522,14 +524,26 @@ async function cvFindMatches(keyword, params, sources) {
   }
   var wantedIdentity = cvIdentityTitle(keyword);
   var wantedEdition = cvTitleEdition(keyword);
-  pool = pool.filter(function (row) {
-    if (cvBaseTitle(row.item.vod_name) !== wanted) return false;
-    var edition = cvTitleEdition(row.item.vod_name);
-    return wantedEdition ? edition === wantedEdition : !edition;
+  var sourceGroups = {};
+  pool.forEach(function (row) {
+    if (cvBaseTitle(row.item.vod_name) !== wanted) return;
+    if (!sourceGroups[row.source.slug]) sourceGroups[row.source.slug] = [];
+    sourceGroups[row.source.slug].push(row);
+  });
+  pool = [];
+  Object.keys(sourceGroups).forEach(function (slug) {
+    var candidates = sourceGroups[slug];
+    if (wantedEdition) {
+      var sameEdition = candidates.filter(function (row) { return cvTitleEdition(row.item.vod_name) === wantedEdition; });
+      candidates = sameEdition.length ? sameEdition : candidates.filter(function (row) { return !cvTitleEdition(row.item.vod_name); });
+    } else {
+      candidates = candidates.filter(function (row) { return !cvTitleEdition(row.item.vod_name); });
+    }
+    if (!candidates.length) return;
+    var exact = candidates.filter(function (row) { return cvIdentityTitle(row.item.vod_name) === wantedIdentity; });
+    pool = pool.concat(exact.length ? exact : candidates);
   });
   if (!pool.length) return [];
-  var exact = pool.filter(function (row) { return cvIdentityTitle(row.item.vod_name) === wantedIdentity; });
-  if (exact.length) pool = exact;
 
   pool.sort(function (a, b) {
     var aExact = cvIdentityTitle(a.item.vod_name) === wantedIdentity ? 0 : 1;
@@ -590,7 +604,7 @@ async function loadDetail(link) {
   base.description = cvDescription(raw, parsed.source, true);
   base.backdropPath = base.coverUrl;
   base.backdropPaths = base.coverUrl ? [base.coverUrl] : [];
-  var matches = await cvFindMatches(cvStrip(raw.vod_name), { year: raw.vod_year, type: cvMediaType(raw) });
+  var matches = await cvFindPlaybackMatches(cvStrip(raw.vod_name), { year: raw.vod_year, type: cvMediaType(raw) });
   base.episodeItems = cvEpisodeItems(matches, base);
   if (!base.episodeItems.length) base.description += "\n\n当前没有匹配到可直接播放的 M3U8。";
   return cvPublic(base);

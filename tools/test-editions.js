@@ -11,6 +11,8 @@ vm.runInContext(fs.readFileSync(file, "utf8"), context, { filename: file });
 
 const cases = [
   [{ vod_name: "示例电影国语版" }, "国语", "示例电影"],
+  [{ vod_name: "示例电影（中配）" }, "国语", "示例电影"],
+  [{ vod_name: "示例电影中文配音版" }, "国语", "示例电影"],
   [{ vod_name: "示例电影", vod_lang: "粤语" }, "粤语", "示例电影"],
   [{ vod_name: "示例电影（国粤双语）" }, "国粤双语", "示例电影"],
   [{ vod_name: "示例电影（原声版）", vod_lang: "英语 / 汉语普通话" }, "原声", "示例电影"],
@@ -20,6 +22,9 @@ const cases = [
 for (const [item, edition, base] of cases) {
   if (context.cvEdition(item) !== edition) throw new Error(`edition mismatch: ${JSON.stringify(item)}`);
   if (context.cvBaseTitle(item.vod_name) !== context.cvBaseTitle(base)) throw new Error(`base title mismatch: ${item.vod_name}`);
+}
+if (context.cvSearchTitle("名侦探柯南（中配）") !== "名侦探柯南") {
+  throw new Error("Mandarin alias search title retained an empty edition marker");
 }
 if (context.cvLineEdition({ title: "HD国语" }, { vod_lang: "粤语" }) !== "国语") {
   throw new Error("episode-level edition did not override item language");
