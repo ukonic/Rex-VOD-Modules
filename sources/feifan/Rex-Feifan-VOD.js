@@ -8,7 +8,7 @@ var WidgetMetadata = {
   id: "rex.feifan.vod",
   title: "非凡资源",
   icon: "https://ffzy.tv/favicon.ico",
-  version: "0.1.11",
+  version: "0.1.12",
   requiredVersion: "0.0.1",
   description: "非凡资源网 ffm3u8 专用 JSON 接口：分类、搜索、详情与直接 M3U8 播放",
   author: "ukonic",
@@ -160,7 +160,7 @@ var WidgetMetadata = {
 
 var FF_API = "https://api.ffzyapi.com/api.php/provide/vod/from/ffm3u8/";
 var FF_SITE = "https://ffzy.tv/";
-var FF_UA = "Mozilla/5.0 (Rex ForwardWidget; Feifan VOD/0.1.11)";
+var FF_UA = "Mozilla/5.0 (Rex ForwardWidget; Feifan VOD/0.1.12)";
 var FF_BLOCKED_TYPE_IDS = { "34": true };
 var FF_BLOCKED_WORDS = [
   "伦理片", "伦理", "福利", "里番", "无码", "有码", "情色", "色情",
@@ -367,6 +367,40 @@ function ffUniqueItems(items) {
   });
 }
 
+function ffUniqueRawItems(items) {
+  var seen = {};
+  return (Array.isArray(items) ? items : []).filter(function (item) {
+    var id = ffText(item && item.vod_id).trim();
+    if (!id || seen[id]) return false;
+    seen[id] = true;
+    return true;
+  });
+}
+
+async function ffEnrichListItems(items) {
+  var rows = ffUniqueRawItems(items);
+  var missing = rows.filter(function (item) { return !ffText(item && item.vod_pic).trim(); });
+  if (!missing.length) return rows;
+  var details = [];
+  for (var index = 0; index < missing.length; index += 30) {
+    var ids = missing.slice(index, index + 30).map(function (item) { return item.vod_id; }).join(",");
+    try {
+      var result = await ffGet({ ac: "detail", ids: ids });
+      details = details.concat(Array.isArray(result.list) ? result.list : []);
+    } catch (_) {}
+  }
+  var detailById = {};
+  details.forEach(function (item) { detailById[ffText(item && item.vod_id)] = item; });
+  return rows.map(function (item) {
+    var detail = detailById[ffText(item && item.vod_id)];
+    if (!detail) return item;
+    var merged = {};
+    Object.keys(item).forEach(function (key) { merged[key] = item[key]; });
+    Object.keys(detail).forEach(function (key) { merged[key] = detail[key]; });
+    return merged;
+  });
+}
+
 function ffIsDirectM3u8(url) {
   var clean = ffText(url).trim();
   return /^https?:\/\//i.test(clean) &&
@@ -463,7 +497,7 @@ async function loadFeifanList(params) {
   if (category && category !== "0") query.t = category;
   var result;
   try { result = await ffGet(query); } catch (_) { return []; }
-  return ffMapList(result.list);
+  return ffMapList(await ffEnrichListItems(result.list));
 }
 
 async function loadFeifanChannel(params, categoryIds) {
@@ -474,9 +508,10 @@ async function loadFeifanChannel(params, categoryIds) {
   var results = await Promise.all(categoryIds.map(function (id) {
     return ffGet({ ac: "list", t: id, pg: page }).catch(function () { return { list: [] }; });
   }));
-  var items = [];
-  results.forEach(function (result) { items = items.concat(ffMapList(result.list)); });
-  return ffUniqueItems(items).slice(0, 60);
+  var rawItems = [];
+  results.forEach(function (result) { rawItems = rawItems.concat(result.list || []); });
+  rawItems = ffUniqueRawItems(rawItems).slice(0, 60);
+  return ffUniqueItems(ffMapList(await ffEnrichListItems(rawItems))).slice(0, 60);
 }
 
 function loadFeifanMovies(params) { return loadFeifanChannel(params, ["6", "7", "8", "9", "10", "11", "12", "20"]); }
