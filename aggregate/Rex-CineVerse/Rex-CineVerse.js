@@ -3,7 +3,7 @@
  * 40站聚合、严格匹配、仅直接 M3U8。运行时不依赖 registry.json 或其他文件。
  */
 var CINEVERSE_CONFIG = {
-  "version": "0.1.13",
+  "version": "0.1.14",
   "sources": [
     {
       "slug": "feifan",
@@ -787,8 +787,8 @@ var CINEVERSE_CONFIG = {
     },
     {
       "slug": "zy360",
-      "name": "360资源",
-      "shortName": "360",
+      "name": "三六零资源",
+      "shortName": "三六零",
       "api": "https://360zy.com/api.php/provide/vod/",
       "site": "https://360zy.com/",
       "icon": "https://360zy.com/favicon.ico",
@@ -5445,8 +5445,8 @@ var CINEVERSE_CONFIG = {
     },
     {
       "slug": "zy1080",
-      "name": "1080资源库",
-      "shortName": "1080",
+      "name": "一零八零资源",
+      "shortName": "一零八零",
       "api": "https://api.1080zyku.com/inc/apijson.php",
       "site": "https://api.1080zyku.com/",
       "icon": "https://api.1080zyku.com/favicon.ico",
@@ -6866,7 +6866,6 @@ async function loadResource(params) {
   if (!matches.length) return [];
   var seen = {};
   var choices = [];
-  var showEditions = cvShowEditionLabels(matches);
   matches.forEach(function (match) {
     cvPickLines(cvPlayLines(match.item), params, cvMediaType(match.item)).forEach(function (line) {
       if (!line || seen[line.url]) return;
@@ -6880,9 +6879,8 @@ async function loadResource(params) {
     var line = choice.line;
     var matchedTitle = cvStrip(match.item.vod_name);
     var variant = cvBaseTitle(matchedTitle) !== cvBaseTitle(keyword) ? (" · " + matchedTitle) : "";
-    var edition = choice.edition;
-    resources.push({ name: match.source.name + variant + (showEditions && edition ? " · " + edition : "") + " · " + line.title,
-      description: "来源：" + match.source.name + (variant ? "\n匹配：" + matchedTitle : "") + (showEditions && edition ? "\n版本：" + edition : ""),
+    resources.push({ name: match.source.name + variant + " · " + line.title,
+      description: "来源：" + match.source.name + (variant ? "\n匹配：" + matchedTitle : ""),
       url: line.url, playerType: "app" });
   });
   return resources;

@@ -8,7 +8,7 @@ var WidgetMetadata = {
   id: "rex.feifan.vod",
   title: "非凡资源",
   icon: "https://ffzy.tv/favicon.ico",
-  version: "0.1.15",
+  version: "0.1.16",
   requiredVersion: "0.0.1",
   description: "非凡资源网 ffm3u8 专用 JSON 接口：分类、搜索、详情与直接 M3U8 播放",
   author: "ukonic",
@@ -161,7 +161,7 @@ var WidgetMetadata = {
 var FF_API = "https://api.ffzyapi.com/api.php/provide/vod/from/ffm3u8/";
 var FF_SEARCH_API = "https://api.ffzyapi.com/api.php/provide/vod/";
 var FF_SITE = "https://ffzy.tv/";
-var FF_UA = "Mozilla/5.0 (Rex ForwardWidget; Feifan VOD/0.1.15)";
+var FF_UA = "Mozilla/5.0 (Rex ForwardWidget; Feifan VOD/0.1.16)";
 var FF_BLOCKED_TYPE_IDS = { "34": true };
 var FF_BLOCKED_WORDS = [
   "伦理片", "伦理", "福利", "里番", "无码", "有码", "情色", "色情",
@@ -567,11 +567,10 @@ async function loadDetail(link) {
   return list.length ? ffDetailItem(list[0]) : null;
 }
 
-function ffVideoResource(line, item) {
-  var edition = ffLineEdition(line, item);
+function ffVideoResource(line) {
   return {
-    name: "非凡资源" + (edition ? (" · " + edition) : "") + " · " + (line.title || "M3U8"),
-    description: "来源：非凡资源" + (edition ? ("\n版本：" + edition) : "") + "\n线路：" + (line.source || "ffm3u8"),
+    name: "非凡资源 · " + (line.title || "M3U8"),
+    description: "来源：非凡资源\n线路：" + (line.source || "ffm3u8"),
     url: line.url,
     playerType: "app"
   };

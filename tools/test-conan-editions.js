@@ -45,7 +45,8 @@ function assertM3u8(resources, label) {
   if (!feifanBase.every(row => /1277/.test(row.name))) throw new Error("Feifan selected the wrong Conan episode 1277");
   const feifanMandarin = await feifan.loadResource({ title: "名侦探柯南国语", year: "1996", type: "tv", episode: 1277 });
   assertM3u8(feifanMandarin, "Feifan Conan Mandarin entry");
-  if (!feifanMandarin.every(row => /国语/.test(row.name))) throw new Error("Feifan Mandarin title matched another entry");
+  if (feifanMandarin.some(row => /国语/.test(row.name))) throw new Error("Feifan added a redundant Mandarin display label");
+  if (feifanMandarin.some(row => feifanBase.some(base => base.url === row.url))) throw new Error("Feifan Mandarin title matched another entry");
 
   const feifanDetail = await feifan.loadDetail("https://api.ffzyapi.com/api.php/provide/vod/from/ffm3u8/?ac=detail&ids=40057");
   if (!feifanDetail || feifanDetail.videoUrl) throw new Error("Feifan detail fixed a direct videoUrl instead of deferring to loadResource");

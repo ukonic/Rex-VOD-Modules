@@ -11,7 +11,7 @@ var SOURCE_CONFIG = {
   "site": "https://m3u8.apiyhzy.com/",
   "icon": "https://m3u8.apiyhzy.com/favicon.ico",
   "blockedCoverHosts": [],
-  "version": "0.1.9",
+  "version": "0.1.10",
   "priority": 26,
   "tier": "B",
   "categories": {
@@ -625,10 +625,9 @@ function sourceEdition(item) {
   return "";
 }
 
-function sourceVideoResource(line, detail, showEdition) {
-  var edition = sourceEdition({ vod_name: line && line.title }) || sourceTitleEdition(detail && detail.vod_name);
-  return { name: (showEdition && edition ? (edition + " · ") : "") + (line.title || (SOURCE_CONFIG.shortName + " M3U8")),
-    description: "来源：" + SOURCE_CONFIG.name + (showEdition && edition ? ("\n版本：" + edition) : ""),
+function sourceVideoResource(line) {
+  return { name: line.title || (SOURCE_CONFIG.shortName + " M3U8"),
+    description: "来源：" + SOURCE_CONFIG.name,
     url: line.url, playerType: "app" };
 }
 
@@ -742,7 +741,7 @@ function sourceResourceList(rows, showEdition) {
     if (!line || !line.url || seen[line.url]) return false;
     seen[line.url] = true;
     return true;
-  }).map(function (row) { return sourceVideoResource(row.line, row.detail, showEdition); });
+  }).map(function (row) { return sourceVideoResource(row.line); });
 }
 function sourceEpisodeNumber(value) {
   var title = sourceStrip(value);

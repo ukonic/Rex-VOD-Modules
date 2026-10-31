@@ -1,12 +1,12 @@
 "use strict";
 
 module.exports = [
-  { slug: "feifan", name: "非凡资源", shortName: "非凡", api: "https://api.ffzyapi.com/api.php/provide/vod/from/ffm3u8/", searchApi: "https://api.ffzyapi.com/api.php/provide/vod/", priority: 1, tier: "S", version: "0.1.15", legacy: true },
+  { slug: "feifan", name: "非凡资源", shortName: "非凡", api: "https://api.ffzyapi.com/api.php/provide/vod/from/ffm3u8/", searchApi: "https://api.ffzyapi.com/api.php/provide/vod/", priority: 1, tier: "S", version: "0.1.16", legacy: true },
   { slug: "liangzi", name: "量子资源", shortName: "量子", api: "https://cj.lziapi.com/api.php/provide/vod/", priority: 2, tier: "S" },
   { slug: "zuida", name: "最大资源", shortName: "最大", api: "https://api.zuidapi.com/api.php/provide/vod/", priority: 3, tier: "S" },
   { slug: "wujin", name: "无尽资源", shortName: "无尽", api: "https://api.wujinapi.com/api.php/provide/vod/", priority: 4, tier: "S" },
   { slug: "modu", name: "魔都资源", shortName: "魔都", api: "https://www.mdzyapi.com/api.php/provide/vod/", priority: 5, tier: "S" },
-  { slug: "zy360", name: "360资源", shortName: "360", api: "https://360zy.com/api.php/provide/vod/", priority: 6, tier: "S" },
+  { slug: "zy360", name: "三六零资源", shortName: "三六零", api: "https://360zy.com/api.php/provide/vod/", priority: 6, tier: "S" },
   { slug: "dytt", name: "电影天堂资源", shortName: "电影天堂", api: "https://caiji.dyttzyapi.com/api.php/provide/vod/", priority: 7, tier: "S" },
   { slug: "guangsu", name: "光速资源", shortName: "光速", api: "https://api.guangsuapi.com/api.php/provide/vod/", priority: 8, tier: "S" },
   { slug: "baofeng", name: "暴风资源", shortName: "暴风", api: "https://bfzyapi.com/api.php/provide/vod/", priority: 9, tier: "S" },
@@ -36,7 +36,7 @@ module.exports = [
   { slug: "dadi", name: "大地资源", shortName: "大地", api: "https://dadiapi.com/api.php/provide/vod/", priority: 33, tier: "B" },
   { slug: "baidu", name: "百度资源", shortName: "百度", api: "https://api.apibdzy.com/api.php/provide/vod/", priority: 34, tier: "C", status: "degraded" },
   { slug: "yaya", name: "丫丫资源", shortName: "丫丫", api: "https://cj.yayazy.net/api.php/provide/vod/", priority: 35, tier: "C", status: "degraded" },
-  { slug: "zy1080", name: "1080资源库", shortName: "1080", api: "https://api.1080zyku.com/inc/apijson.php", priority: 36, tier: "C" },
+  { slug: "zy1080", name: "一零八零资源", shortName: "一零八零", api: "https://api.1080zyku.com/inc/apijson.php", priority: 36, tier: "C" },
   { slug: "piaoling", name: "飘零资源", shortName: "飘零", api: "https://p2100.net/api.php/provide/vod/", priority: 37, tier: "C" },
   { slug: "maotai", name: "茅台资源", shortName: "茅台", api: "https://caiji.maotaizy.cc/api.php/provide/vod/", priority: 38, tier: "C", status: "degraded" },
   { slug: "douban", name: "豆瓣资源", shortName: "豆瓣", api: "https://dbzy.tv/api.php/provide/vod/", priority: 39, tier: "D", status: "degraded", blockedCoverHosts: ["dbzy5.com"] },

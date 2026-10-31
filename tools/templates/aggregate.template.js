@@ -595,7 +595,6 @@ async function loadResource(params) {
   if (!matches.length) return [];
   var seen = {};
   var choices = [];
-  var showEditions = cvShowEditionLabels(matches);
   matches.forEach(function (match) {
     cvPickLines(cvPlayLines(match.item), params, cvMediaType(match.item)).forEach(function (line) {
       if (!line || seen[line.url]) return;
@@ -609,9 +608,8 @@ async function loadResource(params) {
     var line = choice.line;
     var matchedTitle = cvStrip(match.item.vod_name);
     var variant = cvBaseTitle(matchedTitle) !== cvBaseTitle(keyword) ? (" · " + matchedTitle) : "";
-    var edition = choice.edition;
-    resources.push({ name: match.source.name + variant + (showEditions && edition ? " · " + edition : "") + " · " + line.title,
-      description: "来源：" + match.source.name + (variant ? "\n匹配：" + matchedTitle : "") + (showEditions && edition ? "\n版本：" + edition : ""),
+    resources.push({ name: match.source.name + variant + " · " + line.title,
+      description: "来源：" + match.source.name + (variant ? "\n匹配：" + matchedTitle : ""),
       url: line.url, playerType: "app" });
   });
   return resources;
