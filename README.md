@@ -18,7 +18,7 @@ https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/refs/heads/main/aggrega
 如Rex仍缓存旧版本，可使用当前固定版本地址重新导入：
 
 ```text
-https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/refs/heads/main/aggregate/Rex-CineVerse/versions/Rex-CineVerse-v0.1.16.js
+https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/refs/heads/main/aggregate/Rex-CineVerse/versions/Rex-CineVerse-v0.1.17.js
 ```
 
 功能入口：寰宇影源、寰宇电影、寰宇剧集、寰宇综艺、寰宇动漫、寰宇短剧、资源站库、全网搜索、多源播放。
@@ -70,11 +70,11 @@ Rex-VOD-Modules/
 | 31 | 星夜资源 | B | [JS](sources/xingye/Rex-Xingye-VOD.js) | `https://xyezy.com/api.php/provide/vod/` |
 | 32 | 番茄资源 | B | [JS](sources/fanqie/Rex-Fanqie-VOD.js) | `https://fqzy.me/api.php/provide/vod/` |
 | 33 | 大地资源 | B | [JS](sources/dadi/Rex-Dadi-VOD.js) | `https://dadiapi.com/api.php/provide/vod/` |
-| 34 | 百度资源 | C | [JS](sources/baidu/Rex-Baidu-VOD.js) | `https://api.apibdzy.com/api.php/provide/vod/` |
-| 35 | 丫丫资源 | C | [JS](sources/yaya/Rex-Yaya-VOD.js) | `https://cj.yayazy.net/api.php/provide/vod/` |
-| 36 | 1080资源 | C | [JS](sources/zy1080/Rex-1080-VOD.js) | `https://api.1080zyku.com/inc/apijson.php` |
-| 37 | 飘零资源 | C | [JS](sources/piaoling/Rex-Piaoling-VOD.js) | `https://p2100.net/api.php/provide/vod/` |
-| 38 | 茅台资源 | C | [JS](sources/maotai/Rex-Maotai-VOD.js) | `https://caiji.maotaizy.cc/api.php/provide/vod/` |
+| 34 | 丫丫资源 | B | [JS](sources/yaya/Rex-Yaya-VOD.js) | `https://cj.yayazy.net/api.php/provide/vod/` |
+| 35 | 1080资源 | B | [JS](sources/zy1080/Rex-1080-VOD.js) | `https://api.1080zyku.com/inc/apijson.php` |
+| 36 | 飘零资源 | B | [JS](sources/piaoling/Rex-Piaoling-VOD.js) | `https://p2100.net/api.php/provide/vod/` |
+| 37 | 茅台资源 | C | [JS](sources/maotai/Rex-Maotai-VOD.js) | `https://caiji.maotaizy.cc/api.php/provide/vod/` |
+| 38 | 百度资源 | D | [JS](sources/baidu/Rex-Baidu-VOD.js) | `https://api.apibdzy.com/api.php/provide/vod/` |
 | 39 | 豆瓣资源 | D | [JS](sources/douban/Rex-Douban-VOD.js) | `https://dbzy.tv/api.php/provide/vod/` |
 | 40 | 爱奇艺资源 | D | [JS](sources/iqiyi/Rex-Iqiyi-VOD.js) | `http://iqiyizyapi.com/api.php/provide/vod/` |
 

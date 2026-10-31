@@ -6,24 +6,24 @@ const vm = require("vm");
 const generated = require("./generated-sources.json");
 
 const file = path.resolve(__dirname, "..", "aggregate", "Rex-CineVerse", "Rex-CineVerse.js");
-const priority = generated.filter(source => source.tier === "S" || source.tier === "A");
-const fallback = generated.filter(source => source.tier !== "S" && source.tier !== "A");
-const state = { priorityMatches: 1, calls: [] };
+const tiers = Object.fromEntries(["S", "A", "B", "C", "D"].map(tier => [tier, generated.filter(source => source.tier === tier)]));
+const state = { matches: { S: 1, A: 1, B: 1, C: 0, D: 1 }, calls: [] };
 
 function sourceForUrl(url) {
   return generated.find(source => [source.searchApi, source.api].filter(Boolean).some(api => url.startsWith(api)));
 }
 
 function responseFor(source) {
-  const priorityIndex = priority.findIndex(item => item.slug === source.slug);
-  const shouldMatch = priorityIndex >= 0 ? priorityIndex < state.priorityMatches : source.slug === fallback[0].slug;
+  const tierRows = tiers[source.tier] || [];
+  const tierIndex = tierRows.findIndex(item => item.slug === source.slug);
+  const shouldMatch = tierIndex >= 0 && tierIndex < (state.matches[source.tier] || 0);
   return {
     statusCode: 200,
     data: {
       code: 1,
       list: shouldMatch ? [{
         vod_id: source.slug,
-        vod_name: "自动分级测试电影",
+        vod_name: "自动分层测试电影",
         vod_year: "2026",
         type_name: "电影片",
         vod_play_from: "m3u8",
@@ -48,36 +48,62 @@ vm.runInContext(fs.readFileSync(file, "utf8"), context, { filename: file });
 function assert(condition, message) {
   if (!condition) throw new Error(message);
 }
-function calledFallback() {
-  const fallbackSlugs = new Set(fallback.map(source => source.slug));
-  return state.calls.some(slug => fallbackSlugs.has(slug));
+function calledTier(tier) {
+  const slugs = new Set((tiers[tier] || []).map(source => source.slug));
+  return state.calls.some(slug => slugs.has(slug));
 }
-async function run(strategy, priorityMatches) {
-  state.priorityMatches = priorityMatches;
+async function run(strategy, target, matches) {
+  state.matches = Object.assign({ S: 0, A: 0, B: 0, C: 0, D: 0 }, matches || {});
   state.calls = [];
   context.CV_MATCH_CACHE = {};
-  return context.loadResource({ title: "自动分级测试电影", type: "movie", year: "2026", sourceStrategy: strategy });
+  return context.loadResource({
+    title: "自动分层测试电影", type: "movie", year: "2026",
+    sourceStrategy: strategy, sourceTarget: target
+  });
 }
 
 (async () => {
-  let resources = await run("complete", 1);
-  assert(resources.length === 2, "Complete strategy did not keep priority and fallback resources");
-  assert(calledFallback(), "Complete strategy did not search fallback sources");
+  let resources = await run("complete", "3", { S: 1, A: 1, B: 1, C: 1, D: 1 });
+  assert(resources.length === 4, "Complete strategy did not search every enabled tier");
+  assert(calledTier("S") && calledTier("A") && calledTier("B") && calledTier("C"),
+    "Complete strategy skipped an enabled tier");
+  assert(!calledTier("D"), "Complete strategy queried a disabled D-tier source");
 
-  resources = await run("priority", 1);
-  assert(resources.length === 1, "Priority strategy returned a fallback resource");
-  assert(!calledFallback(), "Priority strategy queried fallback sources");
+  resources = await run("core", "3", { S: 2, A: 2, B: 2, D: 1 });
+  assert(resources.length === 2, "Core strategy did not return only S-tier matches");
+  assert(calledTier("S") && !calledTier("A") && !calledTier("B") && !calledTier("D"),
+    "Core strategy queried a non-S tier");
 
-  resources = await run("auto", 1);
-  assert(resources.length === 2, "Auto strategy did not degrade when priority matches were insufficient");
-  assert(calledFallback(), "Auto strategy did not query fallback sources after insufficient matches");
+  resources = await run("auto", "2", { S: 1, A: 1, B: 1, D: 1 });
+  assert(resources.length === 2, "Auto strategy did not stop after reaching the target in A tier");
+  assert(calledTier("S") && calledTier("A") && !calledTier("B") && !calledTier("D"),
+    "Auto strategy did not follow S to A staging");
 
-  resources = await run("auto", 3);
-  assert(resources.length === 3, "Auto strategy did not keep the three priority matches");
-  assert(!calledFallback(), "Auto strategy queried fallback sources despite enough priority matches");
+  resources = await run("auto", "3", { S: 1, A: 1, B: 1, D: 1 });
+  assert(resources.length === 3, "Auto strategy did not continue into B+C to reach the target");
+  assert(calledTier("S") && calledTier("A") && calledTier("B") && calledTier("C") && !calledTier("D"),
+    "Auto strategy did not follow S to A to B+C staging");
 
-  const setting = context.WidgetMetadata.globalParams.find(item => item.name === "sourceStrategy");
-  assert(setting && setting.value === "complete" && setting.enumOptions.length === 3,
-    "Source strategy global setting is missing or has the wrong default");
-  console.log("Source strategy modes passed: complete, priority, auto fallback, auto no-fallback.");
+  resources = await run("auto", "invalid", { S: 3, A: 1, B: 1 });
+  assert(resources.length === 3 && !calledTier("A"), "Invalid target did not fall back to default 3");
+  assert(context.cvSourceTarget({ sourceTarget: "0" }) === 3, "Zero target did not use default 3");
+  assert(context.cvSourceTarget({ sourceTarget: "99" }) === 20, "Target was not capped at 20");
+
+  state.matches = { S: 1, A: 1, B: 1, C: 1, D: 1 };
+  state.calls = [];
+  await context.searchCineverse({ keyword: "自动分层测试电影", page: 1 });
+  assert(!calledTier("D"), "Aggregate search queried a disabled D-tier source");
+
+  const optionTitles = context.cvSourceOptions().map(item => item.title);
+  assert(optionTitles.some(title => title.indexOf("优先 · ") === 0) && optionTitles.some(title => title.indexOf("备用 · ") === 0)
+    && optionTitles.some(title => title.indexOf("补充 · ") === 0) && optionTitles.some(title => title.indexOf("停用 · ") === 0),
+    "Source library does not show all tier roles");
+
+  const strategy = context.WidgetMetadata.globalParams.find(item => item.name === "sourceStrategy");
+  const target = context.WidgetMetadata.globalParams.find(item => item.name === "sourceTarget");
+  assert(strategy && strategy.value === "auto" && strategy.enumOptions.length === 3,
+    "Source strategy setting is missing or has the wrong default");
+  assert(target && target.value === "3" && /1–20/.test(target.description) && /不是播放线路数量/.test(target.description),
+    "Source target setting or explanation is incomplete");
+  console.log("Source strategy modes passed: complete 37, core S, auto S to A to B+C, target validation, D disabled.");
 })().catch(error => { console.error(error); process.exitCode = 1; });

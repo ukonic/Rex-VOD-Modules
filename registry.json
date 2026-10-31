@@ -429,12 +429,12 @@
     "m3u8Only": true
   },
   {
-    "priority": 34,
+    "priority": 38,
     "id": "baidu",
     "name": "百度资源",
     "api": "https://api.apibdzy.com/api.php/provide/vod/",
-    "tier": "C",
-    "status": "degraded",
+    "tier": "D",
+    "status": "disabled",
     "categoryStatus": "ok",
     "checkedAt": "2026-10-31T16:48:47.184Z",
     "module": "sources/baidu/Rex-Baidu-VOD.js",
@@ -442,12 +442,12 @@
     "m3u8Only": true
   },
   {
-    "priority": 35,
+    "priority": 34,
     "id": "yaya",
     "name": "丫丫资源",
     "api": "https://cj.yayazy.net/api.php/provide/vod/",
-    "tier": "C",
-    "status": "degraded",
+    "tier": "B",
+    "status": "active",
     "categoryStatus": "ok",
     "checkedAt": "2026-10-31T16:48:47.185Z",
     "module": "sources/yaya/Rex-Yaya-VOD.js",
@@ -455,11 +455,11 @@
     "m3u8Only": true
   },
   {
-    "priority": 36,
+    "priority": 35,
     "id": "zy1080",
     "name": "1080资源",
     "api": "https://api.1080zyku.com/inc/apijson.php",
-    "tier": "C",
+    "tier": "B",
     "status": "active",
     "categoryStatus": "ok",
     "checkedAt": "2026-10-31T17:24:55.032Z",
@@ -468,11 +468,11 @@
     "m3u8Only": true
   },
   {
-    "priority": 37,
+    "priority": 36,
     "id": "piaoling",
     "name": "飘零资源",
     "api": "https://p2100.net/api.php/provide/vod/",
-    "tier": "C",
+    "tier": "B",
     "status": "active",
     "categoryStatus": "ok",
     "checkedAt": "2026-10-31T16:48:47.186Z",
@@ -481,7 +481,7 @@
     "m3u8Only": true
   },
   {
-    "priority": 38,
+    "priority": 37,
     "id": "maotai",
     "name": "茅台资源",
     "api": "https://caiji.maotaizy.cc/api.php/provide/vod/",
@@ -499,7 +499,7 @@
     "name": "豆瓣资源",
     "api": "https://dbzy.tv/api.php/provide/vod/",
     "tier": "D",
-    "status": "degraded",
+    "status": "disabled",
     "categoryStatus": "ok",
     "checkedAt": "2026-10-31T16:48:47.188Z",
     "module": "sources/douban/Rex-Douban-VOD.js",
@@ -512,7 +512,7 @@
     "name": "爱奇艺资源",
     "api": "http://iqiyizyapi.com/api.php/provide/vod/",
     "tier": "D",
-    "status": "degraded",
+    "status": "disabled",
     "categoryStatus": "ok",
     "checkedAt": "2026-10-31T16:48:47.188Z",
     "module": "sources/iqiyi/Rex-Iqiyi-VOD.js",

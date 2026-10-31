@@ -6,12 +6,16 @@ var CINEVERSE_CONFIG = __AGG_CONFIG__;
 var CINEVERSE_SOURCES = CINEVERSE_CONFIG.sources;
 var CV_MATCH_CACHE = {};
 var CV_MATCH_CACHE_TTL = 180000;
-var CV_AUTO_MIN_SOURCES = 3;
 
 function cvText(value) { return value === null || value === undefined ? "" : String(value); }
-function cvPrioritySource(source) { return source && (source.tier === "S" || source.tier === "A"); }
+function cvSourceTier(source) { return cvText(source && source.tier).toUpperCase(); }
+function cvEnabledSources() { return CINEVERSE_SOURCES.filter(function (source) { return cvSourceTier(source) !== "D"; }); }
+function cvSourceRole(source) {
+  var tier = cvSourceTier(source);
+  return tier === "S" ? "优先" : (tier === "A" ? "备用" : (tier === "D" ? "停用" : "补充"));
+}
 function cvSourceOptions() { return CINEVERSE_SOURCES.map(function (source) {
-  return { title: (cvPrioritySource(source) ? "优先 · " : "备用 · ") + source.name, value: source.slug };
+  return { title: cvSourceRole(source) + " · " + source.name, value: source.slug };
 }); }
 function cvPageParams() { return [{ name: "page", title: "页码", type: "page", value: "1" }]; }
 
@@ -27,12 +31,16 @@ var WidgetMetadata = {
   detailCacheDuration: 180,
   globalParams: [
     {
-      name: "sourceStrategy", title: "播放源策略", type: "enumeration", value: "complete",
+      name: "sourceStrategy", title: "播放源策略", type: "enumeration", value: "auto",
       enumOptions: [
-        { title: "全部资源站（完整）", value: "complete" },
-        { title: "自动分级（不足时降级）", value: "auto" },
-        { title: "仅优先资源站（快速）", value: "priority" }
+        { title: "自动分层（S→A→B+C）", value: "auto" },
+        { title: "完整聚合（S+A+B+C）", value: "complete" },
+        { title: "仅核心站（S级）", value: "core" }
       ]
+    },
+    {
+      name: "sourceTarget", title: "自动分层目标数", type: "input", value: "3",
+      description: "填写1–20。表示自动分层至少需要命中的资源站数量，不是播放线路数量；留空或填写错误时使用默认值3。"
     }
   ],
   modules: [
@@ -104,16 +112,27 @@ function cvSource(slug) {
 }
 function cvSourceStrategy(params) {
   var value = cvText(params && params.sourceStrategy).toLowerCase();
-  return value === "auto" || value === "priority" ? value : "complete";
+  return value === "complete" || value === "core" ? value : "auto";
 }
-function cvPlaybackSourceGroups(params) {
+function cvSourceTarget(params) {
+  var value = Math.floor(Number(params && params.sourceTarget));
+  if (!isFinite(value) || value < 1) return 3;
+  return Math.min(20, value);
+}
+function cvPlaybackSourceStages(params) {
   var strategy = cvSourceStrategy(params);
-  var priority = CINEVERSE_SOURCES.filter(cvPrioritySource);
-  if (strategy === "complete") return { strategy: strategy, primary: CINEVERSE_SOURCES.slice(), fallback: [] };
+  var enabled = cvEnabledSources();
+  if (strategy === "complete") return { strategy: strategy, target: 20, stages: [enabled] };
+  var core = enabled.filter(function (source) { return cvSourceTier(source) === "S"; });
+  if (strategy === "core") return { strategy: strategy, target: 20, stages: [core] };
   return {
     strategy: strategy,
-    primary: priority,
-    fallback: strategy === "auto" ? CINEVERSE_SOURCES.filter(function (source) { return !cvPrioritySource(source); }) : []
+    target: cvSourceTarget(params),
+    stages: [
+      core,
+      enabled.filter(function (source) { return cvSourceTier(source) === "A"; }),
+      enabled.filter(function (source) { var tier = cvSourceTier(source); return tier === "B" || tier === "C"; })
+    ]
   };
 }
 function cvSourceCount(matches) {
@@ -413,7 +432,7 @@ async function searchCineverse(params) {
   var keyword = cvStrip(params.keyword || params.wd || params.query);
   if (!keyword) return [];
   var queries = cvSearchQueries(keyword);
-  var responses = await cvBatches(CINEVERSE_SOURCES, function (source) {
+  var responses = await cvBatches(cvEnabledSources(), function (source) {
     return Promise.all(queries.map(function (query) {
       var startPage = cvPage(params.page);
       var pages = cvIdentityTitle(query).length <= 4 ? [startPage, startPage + 1] : [startPage];
@@ -452,7 +471,8 @@ function cvCandidate(item, keyword, params) {
   return true;
 }
 async function cvFindMatches(keyword, params, sources) {
-  var sourcePool = Array.isArray(sources) && sources.length ? sources : CINEVERSE_SOURCES;
+  var sourcePool = Array.isArray(sources) ? sources : cvEnabledSources();
+  if (!sourcePool.length) return [];
   var sourceScope = sourcePool.map(function (source) { return source.slug; }).join(",");
   var cacheKey = [
     cvIdentityTitle(keyword),
@@ -529,11 +549,13 @@ async function cvFindMatches(keyword, params, sources) {
   return result;
 }
 async function cvFindPlaybackMatches(keyword, params) {
-  var groups = cvPlaybackSourceGroups(params);
-  var primaryMatches = await cvFindMatches(keyword, params, groups.primary);
-  if (groups.strategy !== "auto" || cvSourceCount(primaryMatches) >= CV_AUTO_MIN_SOURCES) return primaryMatches;
-  var fallbackMatches = await cvFindMatches(keyword, params, groups.fallback);
-  return cvMergeMatches(primaryMatches.concat(fallbackMatches));
+  var plan = cvPlaybackSourceStages(params);
+  var matches = [];
+  for (var stageIndex = 0; stageIndex < plan.stages.length; stageIndex += 1) {
+    matches = cvMergeMatches(matches.concat(await cvFindMatches(keyword, params, plan.stages[stageIndex])));
+    if (plan.strategy === "auto" && cvSourceCount(matches) >= plan.target) break;
+  }
+  return matches;
 }
 function cvEpisodeItems(matches, base) {
   if (base.mediaType === "movie") {

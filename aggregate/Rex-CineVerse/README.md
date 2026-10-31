@@ -11,14 +11,17 @@ https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/refs/heads/main/aggrega
 如Rex仍缓存旧版本，可使用当前固定版本地址重新导入：
 
 ```text
-https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/refs/heads/main/aggregate/Rex-CineVerse/versions/Rex-CineVerse-v0.1.16.js
+https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/refs/heads/main/aggregate/Rex-CineVerse/versions/Rex-CineVerse-v0.1.17.js
 ```
 
 ## 播放源策略
 
-- 全部资源站（默认）：搜索全部40个资源站，保留完整播放源。
-- 自动分级：先搜索 S/A 级优先资源站；少于3个资源站命中时，再搜索 B/C/D 级备用资源站。
-- 仅优先资源站：只搜索 S/A 级资源站，速度更快。
+- 自动分层（默认）：按 S → A → B+C 逐级搜索，达到用户填写的目标资源站数量后停止。
+- 完整聚合：搜索 S、A、B、C 级共37个可用资源站。
+- 仅核心站：只搜索10个 S 级资源站。
+- D级百度、豆瓣、爱奇艺默认关闭，不参与自动分层和完整聚合。
+
+自动分层目标数默认为3，可在全局设置中填写1–20；统计的是不同资源站数量，不是播放线路数量。
 
 ## 功能入口
 
