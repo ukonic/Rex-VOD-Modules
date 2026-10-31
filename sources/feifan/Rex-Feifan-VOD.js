@@ -8,7 +8,7 @@ var WidgetMetadata = {
   id: "rex.feifan.vod",
   title: "非凡资源",
   icon: "https://ffzy.tv/favicon.ico",
-  version: "0.1.5",
+  version: "0.1.7",
   requiredVersion: "0.0.1",
   description: "非凡资源网 ffm3u8 专用 JSON 接口：分类、搜索、详情与直接 M3U8 播放",
   author: "ukonic",
@@ -574,19 +574,34 @@ async function loadResource(params) {
   var lines = ffParsePlayLines(detail);
   if (!lines.length) return [];
 
-  var episode = ffPositiveInt(params.episode, 0);
-  if (episode > 0 && lines[episode - 1]) {
-    return [ffVideoResource(lines[episode - 1])];
-  }
-
-  var episodeName = ffStripHtml(params.episodeName || params.title);
+  var episodeName = ffStripHtml(params.episodeName);
   if (episodeName) {
     for (var lineIndex = 0; lineIndex < lines.length; lineIndex += 1) {
       if (lines[lineIndex].title === episodeName) {
         return [ffVideoResource(lines[lineIndex])];
       }
     }
+    return [];
+  }
+
+  var episode = ffPositiveInt(params.episode, 0);
+  if (episode > 0) {
+    var hasNumberedTitles = false;
+    for (var numberedIndex = 0; numberedIndex < lines.length; numberedIndex += 1) {
+      var number = ffEpisodeNumber(lines[numberedIndex].title);
+      if (number > 0) hasNumberedTitles = true;
+      if (number === episode) return [ffVideoResource(lines[numberedIndex])];
+    }
+    return hasNumberedTitles || !lines[episode - 1] ? [] : [ffVideoResource(lines[episode - 1])];
   }
 
   return [ffVideoResource(lines[0])];
+}
+
+function ffEpisodeNumber(value) {
+  var title = ffStripHtml(value);
+  var match = title.match(/第\s*0*(\d+)\s*(?:集|话|期|回)/i) || title.match(/(?:EP|E)\s*0*(\d+)$/i);
+  if (match) return Number(match[1]);
+  match = title.match(/^0*(\d{1,4})$/);
+  return match ? Number(match[1]) : 0;
 }

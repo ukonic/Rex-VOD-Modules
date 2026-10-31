@@ -407,13 +407,29 @@ async function loadDetail(link) {
   return cvPublic(base);
 }
 function cvPickLine(lines, params) {
-  var episode = Math.floor(Number(params && params.episode));
-  if (isFinite(episode) && episode > 0 && lines[episode - 1]) return lines[episode - 1];
   var episodeName = cvStrip(params && params.episodeName);
   if (episodeName) {
     for (var i = 0; i < lines.length; i += 1) if (cvStrip(lines[i].title) === episodeName) return lines[i];
+    return null;
+  }
+  var episode = Math.floor(Number(params && params.episode));
+  if (isFinite(episode) && episode > 0) {
+    var hasNumberedTitles = false;
+    for (var lineIndex = 0; lineIndex < lines.length; lineIndex += 1) {
+      var number = cvEpisodeNumber(lines[lineIndex].title);
+      if (number > 0) hasNumberedTitles = true;
+      if (number === episode) return lines[lineIndex];
+    }
+    return hasNumberedTitles ? null : (lines[episode - 1] || null);
   }
   return lines[0] || null;
+}
+function cvEpisodeNumber(value) {
+  var title = cvStrip(value);
+  var match = title.match(/第\s*0*(\d+)\s*(?:集|话|期|回)/i) || title.match(/(?:EP|E)\s*0*(\d+)$/i);
+  if (match) return Number(match[1]);
+  match = title.match(/^0*(\d{1,4})$/);
+  return match ? Number(match[1]) : 0;
 }
 async function loadResource(params) {
   params = params || {};

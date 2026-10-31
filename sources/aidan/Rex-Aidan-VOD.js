@@ -10,7 +10,7 @@ var SOURCE_CONFIG = {
   "api": "https://lovedan.net/api.php/provide/vod/",
   "site": "https://lovedan.net/",
   "icon": "https://lovedan.net/favicon.ico",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "priority": 25,
   "tier": "B",
   "categories": {
@@ -502,13 +502,29 @@ async function loadResource(params) {
   if (!detail) return [];
   var lines = sourcePlayLines(detail);
   if (!lines.length) return [];
-  var episode = Math.floor(Number(params.episode));
-  if (isFinite(episode) && episode > 0 && lines[episode - 1]) return [sourceVideoResource(lines[episode - 1])];
   var episodeName = sourceStrip(params.episodeName);
   if (episodeName) {
     for (var lineIndex = 0; lineIndex < lines.length; lineIndex += 1) {
       if (sourceStrip(lines[lineIndex].title) === episodeName) return [sourceVideoResource(lines[lineIndex])];
     }
+    return [];
+  }
+  var episode = Math.floor(Number(params.episode));
+  if (isFinite(episode) && episode > 0) {
+    var hasNumberedTitles = false;
+    for (var numberedIndex = 0; numberedIndex < lines.length; numberedIndex += 1) {
+      var number = sourceEpisodeNumber(lines[numberedIndex].title);
+      if (number > 0) hasNumberedTitles = true;
+      if (number === episode) return [sourceVideoResource(lines[numberedIndex])];
+    }
+    return hasNumberedTitles || !lines[episode - 1] ? [] : [sourceVideoResource(lines[episode - 1])];
   }
   return [sourceVideoResource(lines[0])];
+}
+function sourceEpisodeNumber(value) {
+  var title = sourceStrip(value);
+  var match = title.match(/第\s*0*(\d+)\s*(?:集|话|期|回)/i) || title.match(/(?:EP|E)\s*0*(\d+)$/i);
+  if (match) return Number(match[1]);
+  match = title.match(/^0*(\d{1,4})$/);
+  return match ? Number(match[1]) : 0;
 }

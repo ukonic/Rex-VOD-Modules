@@ -105,7 +105,7 @@ async function enrich(source) {
     apiStatus = "fallback";
     console.warn(`${source.name}: ${error.message}; using fallback categories`);
   }
-  const version = source.version || "0.1.0";
+  const version = source.version || "0.1.2";
   const site = origin(source.api);
   return {
     ...source,
