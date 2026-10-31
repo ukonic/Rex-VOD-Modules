@@ -111,7 +111,7 @@ async function enrich(source) {
     apiStatus = source.categories ? "configured" : (previous && previous.categories ? "previous" : "fallback");
     console.warn(`${source.name}: ${error.message}; using ${apiStatus} categories`);
   }
-  const version = source.version || "0.1.6";
+  const version = source.version || "0.1.9";
   const site = origin(source.api);
   return {
     ...source,
@@ -134,6 +134,7 @@ function moduleSource(config) {
     api: config.api,
     site: config.site,
     icon: config.icon,
+    blockedCoverHosts: config.blockedCoverHosts || [],
     version: config.version,
     priority: config.priority,
     tier: config.tier,
@@ -156,6 +157,7 @@ async function main() {
   }
 
   for (const config of enriched) {
+    if (config.legacy) continue;
     const folder = path.join(root, "sources", config.slug);
     const versions = path.join(folder, "versions");
     fs.mkdirSync(versions, { recursive: true });

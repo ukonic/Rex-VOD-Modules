@@ -4,9 +4,10 @@
     "name": "非凡资源",
     "shortName": "非凡",
     "api": "https://api.ffzyapi.com/api.php/provide/vod/from/ffm3u8/",
+    "searchApi": "https://api.ffzyapi.com/api.php/provide/vod/",
     "priority": 1,
     "tier": "S",
-    "version": "0.1.10",
+    "version": "0.1.15",
     "legacy": true,
     "site": "https://api.ffzyapi.com/",
     "icon": "https://api.ffzyapi.com/favicon.ico",
@@ -144,7 +145,7 @@
     },
     "status": "active",
     "apiStatus": "ok",
-    "checkedAt": "2026-10-31T13:36:43.407Z",
+    "checkedAt": "2026-10-31T16:01:54.844Z",
     "file": "Rex-Feifan-VOD.js"
   },
   {
@@ -154,7 +155,7 @@
     "api": "https://cj.lziapi.com/api.php/provide/vod/",
     "priority": 2,
     "tier": "S",
-    "version": "0.1.6",
+    "version": "0.1.9",
     "site": "https://cj.lziapi.com/",
     "icon": "https://cj.lziapi.com/favicon.ico",
     "categories": {
@@ -303,7 +304,7 @@
     },
     "status": "active",
     "apiStatus": "ok",
-    "checkedAt": "2026-10-31T13:36:43.490Z",
+    "checkedAt": "2026-10-31T16:01:54.889Z",
     "file": "Rex-Liangzi-VOD.js"
   },
   {
@@ -313,7 +314,7 @@
     "api": "https://api.zuidapi.com/api.php/provide/vod/",
     "priority": 3,
     "tier": "S",
-    "version": "0.1.6",
+    "version": "0.1.9",
     "site": "https://api.zuidapi.com/",
     "icon": "https://api.zuidapi.com/favicon.ico",
     "categories": {
@@ -454,7 +455,7 @@
     },
     "status": "active",
     "apiStatus": "ok",
-    "checkedAt": "2026-10-31T13:36:43.492Z",
+    "checkedAt": "2026-10-31T16:01:54.890Z",
     "file": "Rex-Zuida-VOD.js"
   },
   {
@@ -464,7 +465,7 @@
     "api": "https://api.wujinapi.com/api.php/provide/vod/",
     "priority": 4,
     "tier": "S",
-    "version": "0.1.6",
+    "version": "0.1.9",
     "site": "https://api.wujinapi.com/",
     "icon": "https://api.wujinapi.com/favicon.ico",
     "categories": {
@@ -621,7 +622,7 @@
     },
     "status": "active",
     "apiStatus": "ok",
-    "checkedAt": "2026-10-31T13:36:43.493Z",
+    "checkedAt": "2026-10-31T16:01:54.890Z",
     "file": "Rex-Wujin-VOD.js"
   },
   {
@@ -631,7 +632,7 @@
     "api": "https://www.mdzyapi.com/api.php/provide/vod/",
     "priority": 5,
     "tier": "S",
-    "version": "0.1.6",
+    "version": "0.1.9",
     "site": "https://www.mdzyapi.com/",
     "icon": "https://www.mdzyapi.com/favicon.ico",
     "categories": {
@@ -796,7 +797,7 @@
     },
     "status": "active",
     "apiStatus": "ok",
-    "checkedAt": "2026-10-31T13:36:43.495Z",
+    "checkedAt": "2026-10-31T16:01:54.891Z",
     "file": "Rex-Modu-VOD.js"
   },
   {
@@ -806,7 +807,7 @@
     "api": "https://360zy.com/api.php/provide/vod/",
     "priority": 6,
     "tier": "S",
-    "version": "0.1.6",
+    "version": "0.1.9",
     "site": "https://360zy.com/",
     "icon": "https://360zy.com/favicon.ico",
     "categories": {
@@ -1007,7 +1008,7 @@
     },
     "status": "active",
     "apiStatus": "ok",
-    "checkedAt": "2026-10-31T13:36:43.496Z",
+    "checkedAt": "2026-10-31T16:01:54.892Z",
     "file": "Rex-360-VOD.js"
   },
   {
@@ -1017,7 +1018,7 @@
     "api": "https://caiji.dyttzyapi.com/api.php/provide/vod/",
     "priority": 7,
     "tier": "S",
-    "version": "0.1.6",
+    "version": "0.1.9",
     "site": "https://caiji.dyttzyapi.com/",
     "icon": "https://caiji.dyttzyapi.com/favicon.ico",
     "categories": {
@@ -1158,7 +1159,7 @@
     },
     "status": "active",
     "apiStatus": "ok",
-    "checkedAt": "2026-10-31T13:36:43.497Z",
+    "checkedAt": "2026-10-31T16:01:54.893Z",
     "file": "Rex-Dytt-VOD.js"
   },
   {
@@ -1168,7 +1169,7 @@
     "api": "https://api.guangsuapi.com/api.php/provide/vod/",
     "priority": 8,
     "tier": "S",
-    "version": "0.1.6",
+    "version": "0.1.9",
     "site": "https://api.guangsuapi.com/",
     "icon": "https://api.guangsuapi.com/favicon.ico",
     "categories": {
@@ -1329,7 +1330,7 @@
     },
     "status": "active",
     "apiStatus": "ok",
-    "checkedAt": "2026-10-31T13:36:43.498Z",
+    "checkedAt": "2026-10-31T16:01:54.894Z",
     "file": "Rex-Guangsu-VOD.js"
   },
   {
@@ -1339,7 +1340,7 @@
     "api": "https://bfzyapi.com/api.php/provide/vod/",
     "priority": 9,
     "tier": "S",
-    "version": "0.1.6",
+    "version": "0.1.9",
     "site": "https://bfzyapi.com/",
     "icon": "https://bfzyapi.com/favicon.ico",
     "categories": {
@@ -1524,7 +1525,7 @@
     },
     "status": "active",
     "apiStatus": "ok",
-    "checkedAt": "2026-10-31T13:36:46.105Z",
+    "checkedAt": "2026-10-31T16:01:59.229Z",
     "file": "Rex-Baofeng-VOD.js"
   },
   {
@@ -1534,7 +1535,7 @@
     "api": "https://www.hongniuzy2.com/api.php/provide/vod/",
     "priority": 10,
     "tier": "S",
-    "version": "0.1.6",
+    "version": "0.1.9",
     "site": "https://www.hongniuzy2.com/",
     "icon": "https://www.hongniuzy2.com/favicon.ico",
     "categories": {
@@ -1651,7 +1652,7 @@
     },
     "status": "active",
     "apiStatus": "ok",
-    "checkedAt": "2026-10-31T13:36:46.105Z",
+    "checkedAt": "2026-10-31T16:01:59.235Z",
     "file": "Rex-Hongniu-VOD.js"
   },
   {
@@ -1661,7 +1662,7 @@
     "api": "https://jszyapi.com/api.php/provide/vod/",
     "priority": 11,
     "tier": "A",
-    "version": "0.1.6",
+    "version": "0.1.9",
     "site": "https://jszyapi.com/",
     "icon": "https://jszyapi.com/favicon.ico",
     "categories": {
@@ -1842,7 +1843,7 @@
     },
     "status": "active",
     "apiStatus": "ok",
-    "checkedAt": "2026-10-31T13:36:46.106Z",
+    "checkedAt": "2026-10-31T16:01:59.238Z",
     "file": "Rex-Jisu-VOD.js"
   },
   {
@@ -1852,7 +1853,7 @@
     "api": "https://cj.rycjapi.com/api.php/provide/vod/",
     "priority": 12,
     "tier": "A",
-    "version": "0.1.6",
+    "version": "0.1.9",
     "site": "https://cj.rycjapi.com/",
     "icon": "https://cj.rycjapi.com/favicon.ico",
     "categories": {
@@ -2001,7 +2002,7 @@
     },
     "status": "active",
     "apiStatus": "ok",
-    "checkedAt": "2026-10-31T13:36:46.107Z",
+    "checkedAt": "2026-10-31T16:01:59.239Z",
     "file": "Rex-Ruyi-VOD.js"
   },
   {
@@ -2011,7 +2012,7 @@
     "api": "https://ikunzyapi.com/api.php/provide/vod/",
     "priority": 13,
     "tier": "A",
-    "version": "0.1.6",
+    "version": "0.1.9",
     "site": "https://ikunzyapi.com/",
     "icon": "https://ikunzyapi.com/favicon.ico",
     "categories": {
@@ -2176,7 +2177,7 @@
     },
     "status": "active",
     "apiStatus": "ok",
-    "checkedAt": "2026-10-31T13:36:46.107Z",
+    "checkedAt": "2026-10-31T16:01:59.241Z",
     "file": "Rex-IKUN-VOD.js"
   },
   {
@@ -2186,7 +2187,7 @@
     "api": "https://api.ukuapi.com/api.php/provide/vod/",
     "priority": 14,
     "tier": "A",
-    "version": "0.1.6",
+    "version": "0.1.9",
     "site": "https://api.ukuapi.com/",
     "icon": "https://api.ukuapi.com/favicon.ico",
     "categories": {
@@ -2291,7 +2292,7 @@
     },
     "status": "active",
     "apiStatus": "ok",
-    "checkedAt": "2026-10-31T13:36:46.108Z",
+    "checkedAt": "2026-10-31T16:01:59.242Z",
     "file": "Rex-Youku-VOD.js"
   },
   {
@@ -2301,7 +2302,7 @@
     "api": "https://suoniapi.com/api.php/provide/vod/",
     "priority": 15,
     "tier": "A",
-    "version": "0.1.6",
+    "version": "0.1.9",
     "site": "https://suoniapi.com/",
     "icon": "https://suoniapi.com/favicon.ico",
     "categories": {
@@ -2442,7 +2443,7 @@
     },
     "status": "active",
     "apiStatus": "ok",
-    "checkedAt": "2026-10-31T13:36:46.108Z",
+    "checkedAt": "2026-10-31T16:01:59.244Z",
     "file": "Rex-Suoni-VOD.js"
   },
   {
@@ -2452,7 +2453,7 @@
     "api": "https://api.niuniuzy.me/api.php/provide/vod/",
     "priority": 16,
     "tier": "A",
-    "version": "0.1.6",
+    "version": "0.1.9",
     "site": "https://api.niuniuzy.me/",
     "icon": "https://api.niuniuzy.me/favicon.ico",
     "categories": {
@@ -2593,7 +2594,7 @@
     },
     "status": "active",
     "apiStatus": "ok",
-    "checkedAt": "2026-10-31T13:36:46.108Z",
+    "checkedAt": "2026-10-31T16:01:59.246Z",
     "file": "Rex-Niuniu-VOD.js"
   },
   {
@@ -2603,7 +2604,7 @@
     "api": "https://sdzyapi.com/api.php/provide/vod/",
     "priority": 17,
     "tier": "A",
-    "version": "0.1.6",
+    "version": "0.1.9",
     "site": "https://sdzyapi.com/",
     "icon": "https://sdzyapi.com/favicon.ico",
     "categories": {
@@ -2744,7 +2745,7 @@
     },
     "status": "active",
     "apiStatus": "ok",
-    "checkedAt": "2026-10-31T13:36:49.812Z",
+    "checkedAt": "2026-10-31T16:02:04.157Z",
     "file": "Rex-Shandian-VOD.js"
   },
   {
@@ -2754,7 +2755,7 @@
     "api": "https://api.okzyw.net/api.php/provide/vod/",
     "priority": 18,
     "tier": "A",
-    "version": "0.1.6",
+    "version": "0.1.9",
     "site": "https://api.okzyw.net/",
     "icon": "https://api.okzyw.net/favicon.ico",
     "categories": {
@@ -2895,7 +2896,7 @@
     },
     "status": "active",
     "apiStatus": "ok",
-    "checkedAt": "2026-10-31T13:36:49.813Z",
+    "checkedAt": "2026-10-31T16:02:04.158Z",
     "file": "Rex-OK-VOD.js"
   },
   {
@@ -2905,7 +2906,7 @@
     "api": "https://api.maoyanapi.top/api.php/provide/vod/",
     "priority": 19,
     "tier": "A",
-    "version": "0.1.6",
+    "version": "0.1.9",
     "site": "https://api.maoyanapi.top/",
     "icon": "https://api.maoyanapi.top/favicon.ico",
     "categories": {
@@ -3110,7 +3111,7 @@
     },
     "status": "active",
     "apiStatus": "ok",
-    "checkedAt": "2026-10-31T13:36:49.813Z",
+    "checkedAt": "2026-10-31T16:02:04.160Z",
     "file": "Rex-Maoyan-VOD.js"
   },
   {
@@ -3120,7 +3121,7 @@
     "api": "https://caiji.kuaichezy.org/api.php/provide/vod/",
     "priority": 20,
     "tier": "A",
-    "version": "0.1.6",
+    "version": "0.1.9",
     "site": "https://caiji.kuaichezy.org/",
     "icon": "https://caiji.kuaichezy.org/favicon.ico",
     "categories": {
@@ -3261,7 +3262,7 @@
     },
     "status": "active",
     "apiStatus": "ok",
-    "checkedAt": "2026-10-31T13:36:49.814Z",
+    "checkedAt": "2026-10-31T16:02:04.162Z",
     "file": "Rex-Kuaiche-VOD.js"
   },
   {
@@ -3271,7 +3272,7 @@
     "api": "https://tyyszyapi.com/api.php/provide/vod/",
     "priority": 21,
     "tier": "B",
-    "version": "0.1.6",
+    "version": "0.1.9",
     "site": "https://tyyszyapi.com/",
     "icon": "https://tyyszyapi.com/favicon.ico",
     "categories": {
@@ -3412,7 +3413,7 @@
     },
     "status": "active",
     "apiStatus": "ok",
-    "checkedAt": "2026-10-31T13:36:49.814Z",
+    "checkedAt": "2026-10-31T16:02:04.163Z",
     "file": "Rex-Tianya-VOD.js"
   },
   {
@@ -3422,7 +3423,7 @@
     "api": "https://www.huyaapi.com/api.php/provide/vod/",
     "priority": 22,
     "tier": "B",
-    "version": "0.1.6",
+    "version": "0.1.9",
     "site": "https://www.huyaapi.com/",
     "icon": "https://www.huyaapi.com/favicon.ico",
     "categories": {
@@ -3587,7 +3588,7 @@
     },
     "status": "active",
     "apiStatus": "ok",
-    "checkedAt": "2026-10-31T13:36:49.815Z",
+    "checkedAt": "2026-10-31T16:02:04.164Z",
     "file": "Rex-Huya-VOD.js"
   },
   {
@@ -3597,7 +3598,7 @@
     "api": "http://api.xinlangapi.com/xinlangapi.php/provide/vod/",
     "priority": 23,
     "tier": "B",
-    "version": "0.1.6",
+    "version": "0.1.9",
     "site": "http://api.xinlangapi.com/",
     "icon": "http://api.xinlangapi.com/favicon.ico",
     "categories": {
@@ -3778,7 +3779,7 @@
     },
     "status": "active",
     "apiStatus": "ok",
-    "checkedAt": "2026-10-31T13:36:49.815Z",
+    "checkedAt": "2026-10-31T16:02:04.167Z",
     "file": "Rex-Xinlang-VOD.js"
   },
   {
@@ -3788,7 +3789,7 @@
     "api": "https://hhzyapi.com/api.php/provide/vod/",
     "priority": 24,
     "tier": "B",
-    "version": "0.1.6",
+    "version": "0.1.9",
     "site": "https://hhzyapi.com/",
     "icon": "https://hhzyapi.com/favicon.ico",
     "categories": {
@@ -3969,7 +3970,7 @@
     },
     "status": "active",
     "apiStatus": "ok",
-    "checkedAt": "2026-10-31T13:36:49.815Z",
+    "checkedAt": "2026-10-31T16:02:04.169Z",
     "file": "Rex-Haohua-VOD.js"
   },
   {
@@ -3979,7 +3980,7 @@
     "api": "https://lovedan.net/api.php/provide/vod/",
     "priority": 25,
     "tier": "B",
-    "version": "0.1.6",
+    "version": "0.1.9",
     "site": "https://lovedan.net/",
     "icon": "https://lovedan.net/favicon.ico",
     "categories": {
@@ -4108,7 +4109,7 @@
     },
     "status": "active",
     "apiStatus": "ok",
-    "checkedAt": "2026-10-31T13:36:51.220Z",
+    "checkedAt": "2026-10-31T16:02:09.909Z",
     "file": "Rex-Aidan-VOD.js"
   },
   {
@@ -4118,7 +4119,7 @@
     "api": "https://m3u8.apiyhzy.com/api.php/provide/vod/",
     "priority": 26,
     "tier": "B",
-    "version": "0.1.6",
+    "version": "0.1.9",
     "site": "https://m3u8.apiyhzy.com/",
     "icon": "https://m3u8.apiyhzy.com/favicon.ico",
     "categories": {
@@ -4255,7 +4256,7 @@
     },
     "status": "active",
     "apiStatus": "ok",
-    "checkedAt": "2026-10-31T13:36:51.220Z",
+    "checkedAt": "2026-10-31T16:02:09.909Z",
     "file": "Rex-Yinghua-VOD.js"
   },
   {
@@ -4265,7 +4266,7 @@
     "api": "https://subocaiji.com/api.php/provide/vod/",
     "priority": 27,
     "tier": "B",
-    "version": "0.1.6",
+    "version": "0.1.9",
     "site": "https://subocaiji.com/",
     "icon": "https://subocaiji.com/favicon.ico",
     "categories": {
@@ -4430,7 +4431,7 @@
     },
     "status": "active",
     "apiStatus": "ok",
-    "checkedAt": "2026-10-31T13:36:51.221Z",
+    "checkedAt": "2026-10-31T16:02:09.910Z",
     "file": "Rex-Subo-VOD.js"
   },
   {
@@ -4440,7 +4441,7 @@
     "api": "https://jyzyapi.com/api.php/provide/vod/",
     "priority": 28,
     "tier": "B",
-    "version": "0.1.6",
+    "version": "0.1.9",
     "site": "https://jyzyapi.com/",
     "icon": "https://jyzyapi.com/favicon.ico",
     "categories": {
@@ -4605,7 +4606,7 @@
     },
     "status": "active",
     "apiStatus": "ok",
-    "checkedAt": "2026-10-31T13:36:51.221Z",
+    "checkedAt": "2026-10-31T16:02:09.911Z",
     "file": "Rex-Jinying-VOD.js"
   },
   {
@@ -4615,7 +4616,7 @@
     "api": "https://caiji.diyizy.net/api.php/provide/vod/",
     "priority": 29,
     "tier": "B",
-    "version": "0.1.6",
+    "version": "0.1.9",
     "site": "https://caiji.diyizy.net/",
     "icon": "https://caiji.diyizy.net/favicon.ico",
     "categories": {
@@ -4752,7 +4753,7 @@
     },
     "status": "active",
     "apiStatus": "ok",
-    "checkedAt": "2026-10-31T13:36:51.221Z",
+    "checkedAt": "2026-10-31T16:02:09.912Z",
     "file": "Rex-Diyi-VOD.js"
   },
   {
@@ -4762,7 +4763,7 @@
     "api": "https://api.changzhang.tv/api.php/provide/vod/from/changzhangm3u8/",
     "priority": 30,
     "tier": "B",
-    "version": "0.1.6",
+    "version": "0.1.9",
     "site": "https://api.changzhang.tv/",
     "icon": "https://api.changzhang.tv/favicon.ico",
     "categories": {
@@ -4935,7 +4936,7 @@
     },
     "status": "active",
     "apiStatus": "ok",
-    "checkedAt": "2026-10-31T13:36:51.222Z",
+    "checkedAt": "2026-10-31T16:02:09.912Z",
     "file": "Rex-Changzhang-VOD.js"
   },
   {
@@ -4945,7 +4946,7 @@
     "api": "https://xyezy.com/api.php/provide/vod/",
     "priority": 31,
     "tier": "B",
-    "version": "0.1.6",
+    "version": "0.1.9",
     "site": "https://xyezy.com/",
     "icon": "https://xyezy.com/favicon.ico",
     "categories": {
@@ -5050,7 +5051,7 @@
     },
     "status": "active",
     "apiStatus": "ok",
-    "checkedAt": "2026-10-31T13:36:51.222Z",
+    "checkedAt": "2026-10-31T16:02:09.916Z",
     "file": "Rex-Xingye-VOD.js"
   },
   {
@@ -5060,7 +5061,7 @@
     "api": "https://fqzy.me/api.php/provide/vod/",
     "priority": 32,
     "tier": "B",
-    "version": "0.1.6",
+    "version": "0.1.9",
     "site": "https://fqzy.me/",
     "icon": "https://fqzy.me/favicon.ico",
     "categories": {
@@ -5169,7 +5170,7 @@
     },
     "status": "active",
     "apiStatus": "ok",
-    "checkedAt": "2026-10-31T13:36:51.222Z",
+    "checkedAt": "2026-10-31T16:02:09.920Z",
     "file": "Rex-Fanqie-VOD.js"
   },
   {
@@ -5179,7 +5180,7 @@
     "api": "https://dadiapi.com/api.php/provide/vod/",
     "priority": 33,
     "tier": "B",
-    "version": "0.1.6",
+    "version": "0.1.9",
     "site": "https://dadiapi.com/",
     "icon": "https://dadiapi.com/favicon.ico",
     "categories": {
@@ -5284,7 +5285,7 @@
     },
     "status": "active",
     "apiStatus": "ok",
-    "checkedAt": "2026-10-31T13:36:54.200Z",
+    "checkedAt": "2026-10-31T16:02:12.178Z",
     "file": "Rex-Dadi-VOD.js"
   },
   {
@@ -5295,7 +5296,7 @@
     "priority": 34,
     "tier": "C",
     "status": "degraded",
-    "version": "0.1.6",
+    "version": "0.1.9",
     "site": "https://api.apibdzy.com/",
     "icon": "https://api.apibdzy.com/favicon.ico",
     "categories": {
@@ -5423,7 +5424,7 @@
       ]
     },
     "apiStatus": "ok",
-    "checkedAt": "2026-10-31T13:36:54.201Z",
+    "checkedAt": "2026-10-31T16:02:12.179Z",
     "file": "Rex-Baidu-VOD.js"
   },
   {
@@ -5434,7 +5435,7 @@
     "priority": 35,
     "tier": "C",
     "status": "degraded",
-    "version": "0.1.6",
+    "version": "0.1.9",
     "site": "https://cj.yayazy.net/",
     "icon": "https://cj.yayazy.net/favicon.ico",
     "categories": {
@@ -5574,7 +5575,7 @@
       ]
     },
     "apiStatus": "ok",
-    "checkedAt": "2026-10-31T13:36:54.202Z",
+    "checkedAt": "2026-10-31T16:02:12.179Z",
     "file": "Rex-Yaya-VOD.js"
   },
   {
@@ -5584,7 +5585,7 @@
     "api": "https://api.1080zyku.com/inc/apijson.php",
     "priority": 36,
     "tier": "C",
-    "version": "0.1.6",
+    "version": "0.1.9",
     "site": "https://api.1080zyku.com/",
     "icon": "https://api.1080zyku.com/favicon.ico",
     "categories": {
@@ -5721,7 +5722,7 @@
     },
     "status": "active",
     "apiStatus": "ok",
-    "checkedAt": "2026-10-31T13:36:54.202Z",
+    "checkedAt": "2026-10-31T16:02:12.179Z",
     "file": "Rex-1080-VOD.js"
   },
   {
@@ -5731,7 +5732,7 @@
     "api": "https://p2100.net/api.php/provide/vod/",
     "priority": 37,
     "tier": "C",
-    "version": "0.1.6",
+    "version": "0.1.9",
     "site": "https://p2100.net/",
     "icon": "https://p2100.net/favicon.ico",
     "categories": {
@@ -5836,7 +5837,7 @@
     },
     "status": "active",
     "apiStatus": "ok",
-    "checkedAt": "2026-10-31T13:36:54.203Z",
+    "checkedAt": "2026-10-31T16:02:12.180Z",
     "file": "Rex-Piaoling-VOD.js"
   },
   {
@@ -5847,7 +5848,7 @@
     "priority": 38,
     "tier": "C",
     "status": "degraded",
-    "version": "0.1.6",
+    "version": "0.1.9",
     "site": "https://caiji.maotaizy.cc/",
     "icon": "https://caiji.maotaizy.cc/favicon.ico",
     "categories": {
@@ -6039,7 +6040,7 @@
       ]
     },
     "apiStatus": "ok",
-    "checkedAt": "2026-10-31T13:36:54.203Z",
+    "checkedAt": "2026-10-31T16:02:12.180Z",
     "file": "Rex-Maotai-VOD.js"
   },
   {
@@ -6050,7 +6051,10 @@
     "priority": 39,
     "tier": "D",
     "status": "degraded",
-    "version": "0.1.6",
+    "blockedCoverHosts": [
+      "dbzy5.com"
+    ],
+    "version": "0.1.9",
     "site": "https://dbzy.tv/",
     "icon": "https://dbzy.tv/favicon.ico",
     "categories": {
@@ -6242,7 +6246,7 @@
       ]
     },
     "apiStatus": "ok",
-    "checkedAt": "2026-10-31T13:36:54.204Z",
+    "checkedAt": "2026-10-31T16:02:12.181Z",
     "file": "Rex-Douban-VOD.js"
   },
   {
@@ -6417,11 +6421,11 @@
         }
       ]
     },
-    "version": "0.1.6",
+    "version": "0.1.9",
     "site": "http://iqiyizyapi.com/",
     "icon": "http://iqiyizyapi.com/favicon.ico",
     "apiStatus": "ok",
-    "checkedAt": "2026-10-31T13:36:54.204Z",
+    "checkedAt": "2026-10-31T16:02:12.183Z",
     "file": "Rex-Iqiyi-VOD.js"
   }
 ]

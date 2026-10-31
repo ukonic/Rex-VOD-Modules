@@ -79,12 +79,15 @@ if (standalone.sourceBaseTitle("千与千寻国语") !== standalone.sourceBaseTi
 }
 
 (async () => {
-  const resources = await standalone.loadResource({
+  const baseResources = await standalone.loadResource({
     title: "蝙蝠侠：黑暗骑士", seriesName: "The Dark Knight", year: "2008", mediaType: "movie", episode: 1
   });
-  if (resources.length !== 2) throw new Error(`standalone multi-edition playback returned ${resources.length} resources`);
-  if (!resources.some(row => /国语/.test(row.name)) || !resources.some(row => /原声/.test(row.name))) {
-    throw new Error("standalone multi-edition labels are missing");
+  if (baseResources.length !== 0) throw new Error("standalone mixed separate edition entries into the base title");
+  const mandarin = await standalone.loadResource({
+    title: "蝙蝠侠：黑暗骑士国语版", year: "2008", mediaType: "movie", episode: 1
+  });
+  if (mandarin.length !== 1 || !mandarin[0].url.endsWith("batman-mandarin.m3u8")) {
+    throw new Error("standalone did not retain the selected Mandarin entry identity");
   }
-  console.log("Standalone multi-edition playback context passed.");
+  console.log("Standalone edition entries remain separate during playback matching.");
 })().catch(error => { console.error(error); process.exitCode = 1; });

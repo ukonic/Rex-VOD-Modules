@@ -8,7 +8,7 @@ var WidgetMetadata = {
   id: "rex.feifan.vod",
   title: "非凡资源",
   icon: "https://ffzy.tv/favicon.ico",
-  version: "0.1.12",
+  version: "0.1.15",
   requiredVersion: "0.0.1",
   description: "非凡资源网 ffm3u8 专用 JSON 接口：分类、搜索、详情与直接 M3U8 播放",
   author: "ukonic",
@@ -159,12 +159,13 @@ var WidgetMetadata = {
 };
 
 var FF_API = "https://api.ffzyapi.com/api.php/provide/vod/from/ffm3u8/";
+var FF_SEARCH_API = "https://api.ffzyapi.com/api.php/provide/vod/";
 var FF_SITE = "https://ffzy.tv/";
-var FF_UA = "Mozilla/5.0 (Rex ForwardWidget; Feifan VOD/0.1.12)";
+var FF_UA = "Mozilla/5.0 (Rex ForwardWidget; Feifan VOD/0.1.15)";
 var FF_BLOCKED_TYPE_IDS = { "34": true };
 var FF_BLOCKED_WORDS = [
   "伦理片", "伦理", "福利", "里番", "无码", "有码", "情色", "色情",
-  "成人", "成人视频", "写真", "SWAG"
+  "成人", "成人视频", "写真", "SWAG", "口爆", "吞精", "掰穴", "AV在线", "DASS-"
 ];
 
 function ffText(value) {
@@ -201,9 +202,23 @@ function ffStripHtml(value) {
 
 function ffHttps(value) {
   var url = ffText(value).trim();
+  var nested = url.match(/^https?:\/\/[^/]+\/(https?:\/\/.+)$/i);
+  if (nested) url = nested[1];
   if (url.indexOf("//") === 0) return "https:" + url;
   if (url.indexOf("http://") === 0) return "https://" + url.slice(7);
   return url;
+}
+
+function ffCover(item) {
+  var values = [item && item.vod_pic, item && item.vod_pic_thumb, item && item.vod_pic_slide,
+    item && item.vod_pic_screenshot].map(function (value) { return ffText(value).trim(); }).filter(Boolean);
+  values.sort(function (left, right) {
+    return (/^(?:https?:)?\/\//i.test(right) ? 1 : 0) - (/^(?:https?:)?\/\//i.test(left) ? 1 : 0);
+  });
+  if (!values.length) return "";
+  var cover = ffHttps(values[0]);
+  if (cover && !/^https?:\/\//i.test(cover)) return FF_SITE.replace(/\/+$/, "") + "/" + cover.replace(/^\/+/, "");
+  return cover;
 }
 
 function ffPositiveInt(value, fallback) {
@@ -211,14 +226,15 @@ function ffPositiveInt(value, fallback) {
   return isFinite(number) && number > 0 ? number : fallback;
 }
 
-function ffUrl(params) {
+function ffUrl(params, api) {
   var pairs = [];
   Object.keys(params || {}).forEach(function (key) {
     var value = params[key];
     if (value === undefined || value === null || value === "") return;
     pairs.push(encodeURIComponent(key) + "=" + encodeURIComponent(String(value)));
   });
-  return FF_API + "?" + pairs.join("&");
+  api = api || FF_API;
+  return api + (api.indexOf("?") >= 0 ? "&" : "?") + pairs.join("&");
 }
 
 function ffHeaders() {
@@ -229,8 +245,8 @@ function ffHeaders() {
   };
 }
 
-async function ffGet(params) {
-  var url = ffUrl(params);
+async function ffGet(params, api) {
+  var url = ffUrl(params, api);
   var response;
   try {
     response = await Widget.http.get(url, { headers: ffHeaders() });
@@ -332,7 +348,7 @@ function ffListItem(item) {
   if (!item || ffIsBlocked(item)) return null;
   var id = ffText(item.vod_id).trim();
   if (!id) return null;
-  var cover = ffHttps(item.vod_pic);
+  var cover = ffCover(item) || WidgetMetadata.icon;
   return {
     id: ffVodLink(id),
     type: "url",
@@ -379,7 +395,7 @@ function ffUniqueRawItems(items) {
 
 async function ffEnrichListItems(items) {
   var rows = ffUniqueRawItems(items);
-  var missing = rows.filter(function (item) { return !ffText(item && item.vod_pic).trim(); });
+  var missing = rows.filter(function (item) { return !ffCover(item); });
   if (!missing.length) return rows;
   var details = [];
   for (var index = 0; index < missing.length; index += 30) {
@@ -435,7 +451,7 @@ function ffParsePlayLines(item) {
 }
 
 function ffEpisodeItems(item, lines) {
-  var cover = ffHttps(item && item.vod_pic);
+  var cover = ffCover(item) || WidgetMetadata.icon;
   var baseTitle = ffStripHtml(item && item.vod_name);
   var link = ffVodLink(item && item.vod_id);
   if (ffMediaType(item) === "movie" && lines.length) {
@@ -524,15 +540,19 @@ async function searchFeifan(params) {
   params = params || {};
   var keyword = ffStripHtml(params.keyword || params.wd || params.query);
   if (!keyword) return [];
-  var result;
-  try {
-    result = await ffGet({
-      ac: "detail",
-      wd: keyword,
-      pg: ffPositiveInt(params.page, 1)
-    });
-  } catch (_) { return []; }
-  return ffMapList(result.list);
+  var rows = [];
+  var queries = ffSearchQueries(keyword);
+  for (var index = 0; index < queries.length; index += 1) {
+    var startPage = ffPositiveInt(params.page, 1);
+    var pages = ffIdentityTitle(queries[index]).length <= 4 ? [startPage, startPage + 1] : [startPage];
+    for (var pageIndex = 0; pageIndex < pages.length; pageIndex += 1) {
+      try {
+        var result = await ffGet({ ac: "detail", wd: queries[index], pg: pages[pageIndex] }, FF_SEARCH_API);
+        rows = rows.concat(result.list || []);
+      } catch (_) {}
+    }
+  }
+  return ffMapList(await ffEnrichListItems(ffUniqueRawItems(rows)));
 }
 
 async function loadDetail(link) {
@@ -590,11 +610,19 @@ function ffEdition(item) {
 }
 
 function ffLineEdition(line, item) {
-  return ffEdition({ vod_name: line && line.title }) || ffEdition(item);
+  return ffEdition({ vod_name: line && line.title }) || ffTitleEdition(item && item.vod_name);
 }
 
 function ffBaseTitle(value) {
   return ffMatchTitle(value).replace(/国粤双语|国语粤语|粤国双语|国语版?|普通话版?|国配版?|粤语版?|粤配版?|台配国语|台配版?|英语版?|英配版?|日语版?|日配版?|韩语版?|韩配版?|原声版?|导演剪辑版?|加长版|加长剪辑|未删减版?|修复版?/g, "");
+}
+
+function ffIdentityTitle(value) {
+  return ffStripHtml(value).toLowerCase().replace(/[（）()\[\]【】]/g, "").replace(/[\s·•:：,，.。!！?？'\"“”‘’\-_/\\]/g, "");
+}
+
+function ffTitleEdition(value) {
+  return ffEdition({ vod_name: value });
 }
 
 function ffSearchTitle(value) {
@@ -603,19 +631,25 @@ function ffSearchTitle(value) {
 
 function ffHomeMatches(list, keyword, params) {
   var wanted = ffBaseTitle(keyword);
+  var wantedIdentity = ffIdentityTitle(keyword);
+  var wantedEdition = ffTitleEdition(keyword);
   var requestedType = ffText(params && (params.type || params.mediaType)).toLowerCase();
   var requestedYear = ffText(params && (params.year || params.releaseYear || params.releaseDate)).match(/(?:19|20)\d{2}/);
   requestedYear = requestedYear ? requestedYear[0] : "";
   var matches = (Array.isArray(list) ? list : []).filter(function (item) {
     if (!item || ffIsBlocked(item) || !ffParsePlayLines(item).length) return false;
     if (ffBaseTitle(item.vod_name) !== wanted) return false;
+    var itemEdition = ffTitleEdition(item.vod_name);
+    if (wantedEdition ? itemEdition !== wantedEdition : !!itemEdition) return false;
     if ((requestedType === "tv" || requestedType === "movie") && ffMediaType(item) !== requestedType) return false;
     if (requestedYear && ffText(item.vod_year).trim() && ffText(item.vod_year).trim() !== requestedYear) return false;
     return true;
   });
+  var exact = matches.filter(function (item) { return ffIdentityTitle(item.vod_name) === wantedIdentity; });
+  var pool = exact.length ? exact : matches;
   var seen = {};
-  return matches.filter(function (item) {
-    var key = ffEdition(item) || ffMatchTitle(item.vod_name);
+  return pool.filter(function (item) {
+    var key = ffIdentityTitle(item.vod_name);
     if (seen[key]) return false;
     seen[key] = true;
     return true;
@@ -669,6 +703,7 @@ async function loadResource(params) {
     try { result = await ffGet({ ac: "detail", ids: vodId }); } catch (_) { return []; }
     var detailList = Array.isArray(result.list) ? result.list : [];
     seedDetail = detailList.length ? detailList[0] : null;
+    return seedDetail ? ffFallbackResources(seedDetail, params) : [];
   }
   var keywords = ffPlaybackKeywords(params, seedDetail);
   if (!keywords.length) return [];
@@ -676,11 +711,17 @@ async function loadResource(params) {
   var details = [];
   for (var keywordIndex = 0; keywordIndex < keywords.length && !details.length; keywordIndex += 1) {
     keyword = keywords[keywordIndex];
-    try { result = await ffGet({ ac: "detail", wd: ffSearchTitle(keyword) || keyword }); } catch (_) { continue; }
-    details = ffHomeMatches(result.list, keyword, params);
+    var queries = ffSearchQueries(keyword);
+    var found = [];
+    for (var queryIndex = 0; queryIndex < queries.length; queryIndex += 1) {
+      var pages = ffIdentityTitle(queries[queryIndex]).length <= 4 ? [1, 2] : [1];
+      for (var pageIndex = 0; pageIndex < pages.length; pageIndex += 1) {
+        try { result = await ffGet({ ac: "detail", wd: queries[queryIndex], pg: pages[pageIndex] }, FF_SEARCH_API); } catch (_) { continue; }
+        found = found.concat(result.list || []);
+      }
+    }
+    details = ffHomeMatches(ffUniqueRawItems(found), keyword, params);
   }
-  if (seedDetail && !details.some(function (item) { return ffText(item.vod_id) === ffText(seedDetail.vod_id); })) details.unshift(seedDetail);
-  if (!details.length && seedDetail) details = [seedDetail];
   if (!details.length) return [];
   var resources = [];
   var seen = {};
@@ -714,6 +755,25 @@ function ffFallbackResources(detail, params) {
   });
 }
 
+function ffSearchQueries(value) {
+  var raw = ffStripHtml(value);
+  var broad = ffSearchTitle(raw);
+  var compact = broad.replace(/[\s·•:：,，.。!！?？'\"“”‘’\-_/\\（）()\[\]【】]/g, "");
+  var candidates = [raw];
+  if (broad) candidates.push(broad);
+  if (/[\u3400-\u9fff]/.test(compact) && compact.length >= 6) {
+    candidates.push(compact.slice(0, 3));
+    candidates.push(compact.slice(-4));
+  }
+  var seen = {};
+  return candidates.filter(function (query) {
+    var key = ffIdentityTitle(query);
+    if (!key || seen[key]) return false;
+    seen[key] = true;
+    return true;
+  });
+}
+
 function ffPickResourceLines(lines, params, mediaType) {
   if (!lines.length) return [];
   if (mediaType === "movie") return lines;
@@ -728,8 +788,9 @@ function ffPickResourceLines(lines, params, mediaType) {
     var numbered = [];
     for (var numberedIndex = 0; numberedIndex < lines.length; numberedIndex += 1) {
       var number = ffEpisodeNumber(lines[numberedIndex].title);
+      var range = ffEpisodeRange(lines[numberedIndex].title);
       if (number > 0) hasNumberedTitles = true;
-      if (number === episode) numbered.push(lines[numberedIndex]);
+      if (number === episode || (range && episode >= range.start && episode <= range.end)) numbered.push(lines[numberedIndex]);
     }
     if (numbered.length) return numbered;
     return hasNumberedTitles || !lines[episode - 1] ? [] : [lines[episode - 1]];
@@ -738,8 +799,19 @@ function ffPickResourceLines(lines, params, mediaType) {
   return mediaType === "movie" ? lines : [lines[0]];
 }
 
+function ffEpisodeRange(value) {
+  var title = ffStripHtml(value);
+  var match = title.match(/第\s*0*(\d+)\s*(?:-|~|—|–|至|到)\s*0*(\d+)\s*(?:集|话|期|回)/i);
+  if (!match) return null;
+  var start = Number(match[1]);
+  var end = Number(match[2]);
+  return start > 0 && end >= start ? { start: start, end: end } : null;
+}
+
 function ffEpisodeNumber(value) {
   var title = ffStripHtml(value);
+  var range = ffEpisodeRange(title);
+  if (range) return range.start;
   var match = title.match(/第\s*0*(\d+)\s*(?:集|话|期|回)/i) || title.match(/(?:EP|E)\s*0*(\d+)$/i);
   if (match) return Number(match[1]);
   match = title.match(/^0*(\d{1,4})$/);

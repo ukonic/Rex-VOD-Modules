@@ -27,7 +27,7 @@ async function check(title, forbidden, extra) {
 }
 
 (async () => {
-  await check("花儿与少年", "第八季");
+  await check("花儿与少年第一季", "第八季");
   await check("花儿与少年第八季", "第一季");
   await check("披荆斩棘", "第六季");
   await check("蝙蝠侠：黑暗骑士", null, { year: "2008", type: "movie", seriesName: "The Dark Knight" });

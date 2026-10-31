@@ -48,12 +48,14 @@ function assert(condition, message) {
   assert(exact.length > 0, "exact-title test returned no resources");
   assert(exact.every(row => row.url.endsWith("/exact.m3u8")), "exact title lost to an older alias title");
   const generic = await context.loadResource({ title: "花儿与少年", type: "tv", episode: 1 });
-  assert(generic.length > 0, "generic-title test returned no resources");
-  assert(generic.every(row => row.url.endsWith("/season-1.m3u8")), "generic title did not retain earliest-series fallback");
+  assert(generic.length === 0, "generic title guessed a season instead of preserving the selected entry identity");
+  const seasonEight = await context.loadResource({ title: "花儿与少年第八季", year: "2026", type: "tv", episode: 1 });
+  assert(seasonEight.length > 0 && seasonEight.every(row => row.url.endsWith("/season-8.m3u8")),
+    "explicit season title did not retain its selected entry identity");
   const mixedTitles = await context.loadResource({
     title: "蝙蝠侠：黑暗骑士", seriesName: "The Dark Knight", year: "2008", mediaType: "movie", episode: 1
   });
   assert(mixedTitles.length > 0, "localized movie title was overridden by English seriesName");
   assert(mixedTitles.every(row => row.url.endsWith("/dark-knight.m3u8")), "mixed-title movie selected the wrong resource");
-  console.log("Exact-title priority, generic-series fallback, and localized movie-title fallback passed.");
+  console.log("Exact-title identity, explicit season matching, and localized movie-title fallback passed.");
 })().catch(error => { console.error(error); process.exitCode = 1; });

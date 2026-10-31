@@ -23,7 +23,8 @@ const context = {
   Widget: { http: { get: async url => {
     requests.push(url);
     const isDetail = /[?&]ac=detail(?:&|$)/.test(url);
-    return { statusCode: 200, data: { code: 1, list: isDetail ? detailItems : listItems } };
+    const isSearch = /[?&]wd=/.test(url);
+    return { statusCode: 200, data: { code: 1, list: isDetail && !isSearch ? detailItems : listItems } };
   } } }
 };
 vm.createContext(context);
@@ -39,5 +40,13 @@ vm.runInContext(fs.readFileSync(path.join(root, "sources/feifan/Rex-Feifan-VOD.j
   if (!detailRequest || !/[?&]ids=101%2C102(?:&|$)/.test(detailRequest)) {
     throw new Error("Feifan list covers were not requested in one ID batch");
   }
-  console.log("Feifan list covers are enriched with one batched detail request.");
+  requests.length = 0;
+  const searchItems = await context.searchFeifan({ keyword: "封面测试一" });
+  if (searchItems.length !== 2 || searchItems.some(item => !/^https:\/\/example\.com\/\d+\.jpg$/.test(item.coverUrl))) {
+    throw new Error("Feifan search covers were not enriched from the detail API");
+  }
+  if (!requests.some(url => /[?&]ids=101%2C102(?:&|$)/.test(url))) {
+    throw new Error("Feifan search covers were not requested in one ID batch");
+  }
+  console.log("Feifan list and search covers are enriched with batched detail requests.");
 })().catch(error => { console.error(error); process.exitCode = 1; });

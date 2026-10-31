@@ -50,7 +50,7 @@ var WidgetMetadata = {
   }
 };
 
-var CV_BLOCKED = ["伦理片", "伦理", "福利", "里番", "无码", "有码", "情色", "色情", "成人", "成人视频", "写真", "SWAG"];
+var CV_BLOCKED = ["伦理片", "伦理", "福利", "里番", "无码", "有码", "情色", "色情", "成人", "成人视频", "写真", "SWAG", "口爆", "吞精", "掰穴", "AV在线", "DASS-"];
 
 function cvJson(value) { return typeof value === "string" ? JSON.parse(value) : (value || {}); }
 function cvStrip(value) {
@@ -59,7 +59,30 @@ function cvStrip(value) {
     .replace(/&lt;/gi, "<").replace(/&gt;/gi, ">").replace(/&quot;/gi, "\"")
     .replace(/&#39;|&apos;/gi, "'").replace(/\s+/g, " ").trim();
 }
-function cvUrl(value) { var url = cvText(value).trim(); return url.indexOf("//") === 0 ? "https:" + url : url; }
+function cvUrl(value) {
+  var url = cvText(value).trim();
+  var nested = url.match(/^https?:\/\/[^/]+\/(https?:\/\/.+)$/i);
+  if (nested) url = nested[1];
+  if (url.indexOf("//") === 0) return "https:" + url;
+  if (url.indexOf("http://") === 0) return "https://" + url.slice(7);
+  return url;
+}
+function cvCover(item, source) {
+  var values = [item && item.vod_pic, item && item.vod_pic_thumb, item && item.vod_pic_slide,
+    item && item.vod_pic_screenshot].map(function (value) { return cvText(value).trim(); }).filter(Boolean);
+  values.sort(function (left, right) {
+    return (/^(?:https?:)?\/\//i.test(right) ? 1 : 0) - (/^(?:https?:)?\/\//i.test(left) ? 1 : 0);
+  });
+  for (var index = 0; index < values.length; index += 1) {
+    var cover = cvUrl(values[index]);
+    if (cover && !/^https?:\/\//i.test(cover) && source) cover = cvText(source.site).replace(/\/+$/, "") + "/" + cover.replace(/^\/+/, "");
+    var blocked = source && (source.blockedCoverHosts || []).some(function (host) {
+      return cover.toLowerCase().indexOf("//" + cvText(host).toLowerCase() + "/") >= 0;
+    });
+    if (cover && !blocked) return cover;
+  }
+  return "";
+}
 function cvPage(value) { var number = Math.floor(Number(value)); return isFinite(number) && number > 0 ? number : 1; }
 function cvSource(slug) {
   for (var i = 0; i < CINEVERSE_SOURCES.length; i += 1) if (CINEVERSE_SOURCES[i].slug === slug) return CINEVERSE_SOURCES[i];
@@ -72,7 +95,8 @@ function cvApiUrl(source, params) {
     if (value === undefined || value === null || value === "") return;
     pairs.push(encodeURIComponent(key) + "=" + encodeURIComponent(String(value)));
   });
-  return source.api + (source.api.indexOf("?") >= 0 ? "&" : "?") + pairs.join("&");
+  var api = params && params.wd && source.searchApi ? source.searchApi : source.api;
+  return api + (api.indexOf("?") >= 0 ? "&" : "?") + pairs.join("&");
 }
 function cvStatus(response) {
   var status = response && (response.statusCode || response.status);
@@ -120,6 +144,9 @@ function cvParseLink(link) {
 function cvNormalize(value) {
   return cvStrip(value).toLowerCase().replace(/[（(][^）)]*[）)]/g, "").replace(/[\s·•:：,，.。!！?？'\"“”‘’\-_/\\]/g, "");
 }
+function cvIdentityTitle(value) {
+  return cvStrip(value).toLowerCase().replace(/[（）()\[\]【】]/g, "").replace(/[\s·•:：,，.。!！?？'\"“”‘’\-_/\\]/g, "");
+}
 function cvEdition(item) {
   var explicitText = [item && item.vod_name, item && item.vod_sub, item && item.vod_remarks,
     item && item.vod_note].map(cvStrip).join(" ");
@@ -151,13 +178,13 @@ function cvExplicitEdition(item) {
 }
 function cvLineEdition(line, item) {
   var lineEdition = cvEdition({ vod_name: line && line.title });
-  return lineEdition || cvEdition(item);
+  return lineEdition || cvTitleEdition(item && item.vod_name);
 }
 function cvShowEditionLabels(matches) {
   var editions = {};
   var explicit = false;
   matches.forEach(function (match) {
-    var edition = cvEdition(match.item);
+    var edition = cvTitleEdition(match.item && match.item.vod_name);
     if (edition) editions[edition] = true;
     if (cvExplicitEdition(match.item)) explicit = true;
     cvPlayLines(match.item).forEach(function (line) {
@@ -170,6 +197,28 @@ function cvShowEditionLabels(matches) {
 }
 function cvBaseTitle(value) {
   return cvNormalize(value).replace(/国粤双语|国语粤语|粤国双语|国语版?|普通话版?|国配版?|粤语版?|粤配版?|台配国语|台配版?|英语版?|英配版?|日语版?|日配版?|韩语版?|韩配版?|原声版?|导演剪辑版?|加长版|加长剪辑|未删减版?|修复版?/g, "");
+}
+function cvTitleEdition(value) { return cvEdition({ vod_name: value }); }
+function cvSearchTitle(value) {
+  return cvStrip(value).replace(/(?:国粤双语|国语粤语|粤国双语|国语版?|普通话版?|国配版?|粤语版?|粤配版?|台配国语|台配版?|英语版?|英配版?|日语版?|日配版?|韩语版?|韩配版?|原声版?|导演剪辑版?|加长版|加长剪辑|未删减版?|修复版?)/gi, "").trim();
+}
+function cvSearchQueries(value) {
+  var raw = cvStrip(value);
+  var broad = cvSearchTitle(raw);
+  var compact = broad.replace(/[\s·•:：,，.。!！?？'\"“”‘’\-_/\\（）()\[\]【】]/g, "");
+  var candidates = [raw];
+  if (broad) candidates.push(broad);
+  if (/[\u3400-\u9fff]/.test(compact) && compact.length >= 6) {
+    candidates.push(compact.slice(0, 3));
+    candidates.push(compact.slice(-4));
+  }
+  var seen = {};
+  return candidates.filter(function (query) {
+    var key = cvIdentityTitle(query);
+    if (!key || seen[key]) return false;
+    seen[key] = true;
+    return true;
+  });
 }
 function cvSeason(value) {
   var match = cvStrip(value).match(/第\s*([0-9一二三四五六七八九十]+)\s*季/i);
@@ -212,7 +261,7 @@ function cvListItem(item, source) {
   if (!item || !source || cvBlocked(item)) return null;
   var id = cvText(item.vod_id).trim();
   if (!id) return null;
-  var cover = cvUrl(item.vod_pic);
+  var cover = cvCover(item, source) || "https://github.com/ukonic.png";
   return { id: cvLink(source, id), type: "url", title: cvStrip(item.vod_name), description: cvDescription(item, source, false),
     coverUrl: cover, posterPath: cover, detailPoster: cover, releaseDate: cvStrip(item.vod_pubdate || item.vod_year),
     mediaType: cvMediaType(item), genreTitle: cvStrip(item.type_name || item.vod_class), rating: cvStrip(item.vod_score),
@@ -230,7 +279,7 @@ function cvMerge(items) {
   items.forEach(function (item) {
     if (!item) return;
     var raw = item._raw || {};
-    var key = cvNormalize(item.title) + "|" + cvText(raw.vod_year).trim() + "|" + item.mediaType;
+    var key = cvIdentityTitle(item.title) + "|" + cvText(raw.vod_year).trim() + "|" + item.mediaType;
     if (!map[key]) { item._sourceCount = 1; map[key] = item; }
     else map[key]._sourceCount += 1;
   });
@@ -240,9 +289,41 @@ function cvMerge(items) {
     return cvPublic(item);
   });
 }
+function cvUniqueRaw(items) {
+  var seen = {};
+  return (Array.isArray(items) ? items : []).filter(function (item) {
+    var id = cvText(item && item.vod_id).trim();
+    if (!id || seen[id]) return false;
+    seen[id] = true;
+    return true;
+  });
+}
+async function cvEnrichSourceItems(source, items) {
+  var rows = cvUniqueRaw(items);
+  var missing = rows.filter(function (item) { return !cvCover(item, source); });
+  if (!missing.length) return rows;
+  var details = [];
+  for (var index = 0; index < missing.length; index += 30) {
+    var ids = missing.slice(index, index + 30).map(function (item) { return item.vod_id; }).join(",");
+    var payload = await cvSafeGet(source, { ac: "detail", ids: ids });
+    details = details.concat(payload.list || []);
+  }
+  var byId = {};
+  details.forEach(function (item) { byId[cvText(item && item.vod_id)] = item; });
+  return rows.map(function (item) {
+    var detail = byId[cvText(item && item.vod_id)];
+    if (!detail) return item;
+    var merged = {};
+    Object.keys(item).forEach(function (key) { merged[key] = item[key]; });
+    Object.keys(detail).forEach(function (key) { merged[key] = detail[key]; });
+    return merged;
+  });
+}
 async function cvBrowseSources(sources, paramsFactory) {
   var responses = await cvBatches(sources, function (source) {
-    return cvSafeGet(source, paramsFactory(source)).then(function (payload) { return { source: source, list: payload.list || [] }; });
+    return cvSafeGet(source, paramsFactory(source)).then(function (payload) {
+      return cvEnrichSourceItems(source, payload.list || []).then(function (list) { return { source: source, list: list }; });
+    });
   }, 8);
   var items = [];
   responses.forEach(function (response) {
@@ -275,19 +356,36 @@ async function loadSourceLibrary(params) {
   var ids = channel === "home" ? [""] : ((source.categories && source.categories[channel]) || []).map(function (row) { return cvText(row.value); }).slice(0, 6);
   if (!ids.length) return [];
   var responses = await Promise.all(ids.map(function (id) { return cvSafeGet(source, { ac: "list", t: id, pg: page }); }));
-  var items = [];
-  responses.forEach(function (response) {
-    (response.list || []).forEach(function (raw) { var item = cvListItem(raw, source); if (item) items.push(item); });
-  });
-  var seen = {};
-  return items.filter(function (item) { if (seen[item.id]) return false; seen[item.id] = true; return true; }).map(cvPublic).slice(0, 80);
+  var rawItems = [];
+  responses.forEach(function (response) { rawItems = rawItems.concat(response.list || []); });
+  rawItems = cvUniqueRaw(rawItems).slice(0, 80);
+  var enriched = await cvEnrichSourceItems(source, rawItems);
+  return enriched.map(function (raw) { return cvListItem(raw, source); }).filter(Boolean).map(cvPublic);
 }
 
 async function searchCineverse(params) {
   params = params || {};
   var keyword = cvStrip(params.keyword || params.wd || params.query);
   if (!keyword) return [];
-  return cvBrowseSources(CINEVERSE_SOURCES, function () { return { ac: "detail", wd: keyword, pg: cvPage(params.page) }; });
+  var queries = cvSearchQueries(keyword);
+  var responses = await cvBatches(CINEVERSE_SOURCES, function (source) {
+    return Promise.all(queries.map(function (query) {
+      var startPage = cvPage(params.page);
+      var pages = cvIdentityTitle(query).length <= 4 ? [startPage, startPage + 1] : [startPage];
+      return Promise.all(pages.map(function (page) { return cvSafeGet(source, { ac: "detail", wd: query, pg: page }); }));
+    })).then(function (payloadGroups) {
+      var rows = [];
+      payloadGroups.forEach(function (payloads) {
+        payloads.forEach(function (payload) { rows = rows.concat(payload.list || []); });
+      });
+      return cvEnrichSourceItems(source, cvUniqueRaw(rows)).then(function (list) { return { source: source, list: list }; });
+    });
+  }, 8);
+  var items = [];
+  responses.forEach(function (response) {
+    response.list.forEach(function (raw) { var item = cvListItem(raw, response.source); if (item) items.push(item); });
+  });
+  return cvMerge(items).slice(0, 80);
 }
 function cvSeasonNumber(value) {
   var season = cvSeason(value);
@@ -310,16 +408,24 @@ function cvCandidate(item, keyword, params) {
 }
 async function cvFindMatches(keyword, params) {
   var cacheKey = [
-    cvBaseTitle(keyword),
+    cvIdentityTitle(keyword),
     cvText(params && (params.year || params.releaseYear || params.releaseDate)).match(/(?:19|20)\d{2}/) || "",
     Math.floor(Number(params && (params.season || params.seasonNumber))) || cvSeasonNumber(keyword) || 0,
     cvText(params && (params.type || params.mediaType)).toLowerCase()
   ].join("|");
   var cached = CV_MATCH_CACHE[cacheKey];
   if (cached && Date.now() - cached.time < CV_MATCH_CACHE_TTL) return cached.rows.slice();
+  var queries = cvSearchQueries(keyword);
   var responses = await cvBatches(CINEVERSE_SOURCES, function (source) {
-    return cvSafeGet(source, { ac: "detail", wd: keyword }).then(function (payload) {
-      return { source: source, list: payload.list || [] };
+    return Promise.all(queries.map(function (query) {
+      var pages = cvIdentityTitle(query).length <= 4 ? [1, 2] : [1];
+      return Promise.all(pages.map(function (page) { return cvSafeGet(source, { ac: "detail", wd: query, pg: page }); }));
+    })).then(function (payloadGroups) {
+      var list = [];
+      payloadGroups.forEach(function (payloads) {
+        payloads.forEach(function (payload) { list = list.concat(payload.list || []); });
+      });
+      return { source: source, list: cvUniqueRaw(list) };
     });
   }, 8);
   var wanted = cvBaseTitle(keyword);
@@ -346,48 +452,26 @@ async function cvFindMatches(keyword, params) {
     });
     if (seasonMatches.length) pool = seasonMatches;
   }
-  var exact = [];
-  if (!requestedYear && !requestedSeason) {
-    exact = pool.filter(function (row) { return cvBaseTitle(row.item.vod_name) === wanted; });
-    if (exact.length) {
-      pool = exact;
-    } else {
-      var years = pool.map(function (row) { return Number(row.item.vod_year); }).filter(function (year) { return isFinite(year) && year >= 1900 && year <= 2100; });
-      if (years.length) {
-        var earliestYear = Math.min.apply(Math, years);
-        pool = pool.filter(function (row) { return Number(row.item.vod_year) === earliestYear; });
-      } else {
-        var shortest = Math.min.apply(Math, pool.map(function (row) { return cvNormalize(row.item.vod_name).length; }));
-        pool = pool.filter(function (row) { return cvNormalize(row.item.vod_name).length === shortest; });
-      }
-    }
-  }
-  exact = pool.filter(function (row) { return cvBaseTitle(row.item.vod_name) === wanted; });
+  var wantedIdentity = cvIdentityTitle(keyword);
+  var wantedEdition = cvTitleEdition(keyword);
+  pool = pool.filter(function (row) {
+    if (cvBaseTitle(row.item.vod_name) !== wanted) return false;
+    var edition = cvTitleEdition(row.item.vod_name);
+    return wantedEdition ? edition === wantedEdition : !edition;
+  });
+  if (!pool.length) return [];
+  var exact = pool.filter(function (row) { return cvIdentityTitle(row.item.vod_name) === wantedIdentity; });
   if (exact.length) pool = exact;
-  if (!exact.length && pool.length) {
-    var titleStats = {};
-    pool.forEach(function (row) {
-      var key = cvBaseTitle(row.item.vod_name);
-      if (!titleStats[key]) titleStats[key] = { key: key, length: key.length, count: 0 };
-      titleStats[key].count += 1;
-    });
-    var canonical = Object.keys(titleStats).map(function (key) { return titleStats[key]; }).sort(function (a, b) {
-      if (a.length !== b.length) return a.length - b.length;
-      return b.count - a.count;
-    })[0];
-    if (canonical) pool = pool.filter(function (row) { return cvBaseTitle(row.item.vod_name) === canonical.key; });
-  }
 
   pool.sort(function (a, b) {
-    var aExact = cvBaseTitle(a.item.vod_name) === wanted ? 0 : 1;
-    var bExact = cvBaseTitle(b.item.vod_name) === wanted ? 0 : 1;
+    var aExact = cvIdentityTitle(a.item.vod_name) === wantedIdentity ? 0 : 1;
+    var bExact = cvIdentityTitle(b.item.vod_name) === wantedIdentity ? 0 : 1;
     if (aExact !== bExact) return aExact - bExact;
-    return cvNormalize(a.item.vod_name).length - cvNormalize(b.item.vod_name).length;
+    return cvIdentityTitle(a.item.vod_name).length - cvIdentityTitle(b.item.vod_name).length;
   });
   var picked = {};
   var result = pool.filter(function (row) {
-    var editionKey = cvEdition(row.item) || "default";
-    var key = row.source.slug + "|" + editionKey;
+    var key = row.source.slug + "|" + cvIdentityTitle(row.item.vod_name);
     if (picked[key]) return false;
     picked[key] = true;
     return true;
@@ -446,13 +530,22 @@ function cvPickLines(lines, params, mediaType) {
     var hasNumberedTitles = false;
     for (var lineIndex = 0; lineIndex < lines.length; lineIndex += 1) {
       var number = cvEpisodeNumber(lines[lineIndex].title);
+      var range = cvEpisodeRange(lines[lineIndex].title);
       if (number > 0) hasNumberedTitles = true;
-      if (number === episode) return [lines[lineIndex]];
+      if (number === episode || (range && episode >= range.start && episode <= range.end)) return [lines[lineIndex]];
     }
     return hasNumberedTitles ? [] : (lines[episode - 1] ? [lines[episode - 1]] : []);
   }
   if (episodeName) return [];
   return lines[0] ? [lines[0]] : [];
+}
+function cvEpisodeRange(value) {
+  var title = cvStrip(value);
+  var match = title.match(/第\s*0*(\d+)\s*(?:-|~|—|–|至|到)\s*0*(\d+)\s*(?:集|话|期|回)/i);
+  if (!match) return null;
+  var start = Number(match[1]);
+  var end = Number(match[2]);
+  return start > 0 && end >= start ? { start: start, end: end } : null;
 }
 function cvPickLine(lines, params, mediaType) {
   var picked = cvPickLines(lines, params, mediaType || "tv");
@@ -460,6 +553,8 @@ function cvPickLine(lines, params, mediaType) {
 }
 function cvEpisodeNumber(value) {
   var title = cvStrip(value);
+  var range = cvEpisodeRange(title);
+  if (range) return range.start;
   var match = title.match(/第\s*0*(\d+)\s*(?:集|话|期|回)/i) || title.match(/(?:EP|E)\s*0*(\d+)$/i);
   if (match) return Number(match[1]);
   match = title.match(/^0*(\d{1,4})$/);

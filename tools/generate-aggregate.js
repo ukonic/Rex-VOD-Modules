@@ -6,7 +6,7 @@ const path = require("path");
 const root = path.resolve(__dirname, "..");
 const generated = JSON.parse(fs.readFileSync(path.join(__dirname, "generated-sources.json"), "utf8"));
 const template = fs.readFileSync(path.join(__dirname, "templates", "aggregate.template.js"), "utf8");
-const version = "0.1.10";
+const version = "0.1.13";
 const config = {
   version,
   sources: generated.map(source => ({
@@ -14,7 +14,10 @@ const config = {
     name: source.name,
     shortName: source.shortName,
     api: source.api,
+    searchApi: source.searchApi,
     site: source.site,
+    icon: source.icon,
+    blockedCoverHosts: source.blockedCoverHosts || [],
     priority: source.priority,
     tier: source.tier,
     categories: source.categories

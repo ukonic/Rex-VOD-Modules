@@ -10,7 +10,8 @@ var SOURCE_CONFIG = {
   "api": "http://api.xinlangapi.com/xinlangapi.php/provide/vod/",
   "site": "http://api.xinlangapi.com/",
   "icon": "http://api.xinlangapi.com/favicon.ico",
-  "version": "0.1.6",
+  "blockedCoverHosts": [],
+  "version": "0.1.9",
   "priority": 23,
   "tier": "B",
   "categories": {
@@ -242,7 +243,7 @@ var WidgetMetadata = {
 
 var SOURCE_BLOCKED_WORDS = [
   "伦理片", "伦理", "福利", "里番", "无码", "有码", "情色", "色情",
-  "成人", "成人视频", "写真", "SWAG"
+  "成人", "成人视频", "写真", "SWAG", "口爆", "吞精", "掰穴", "AV在线", "DASS-"
 ];
 
 function sourceJson(value) {
@@ -273,7 +274,28 @@ function sourceStrip(value) {
 
 function sourceUrl(value) {
   var url = sourceText(value).trim();
-  return url.indexOf("//") === 0 ? "https:" + url : url;
+  var nested = url.match(/^https?:\/\/[^/]+\/(https?:\/\/.+)$/i);
+  if (nested) url = nested[1];
+  if (url.indexOf("//") === 0) return "https:" + url;
+  if (url.indexOf("http://") === 0) return "https://" + url.slice(7);
+  if (url && !/^https?:\/\//i.test(url)) return sourceText(SOURCE_CONFIG.site).replace(/\/+$/, "") + "/" + url.replace(/^\/+/, "");
+  return url;
+}
+
+function sourceCover(item) {
+  var values = [item && item.vod_pic, item && item.vod_pic_thumb, item && item.vod_pic_slide,
+    item && item.vod_pic_screenshot].map(function (value) { return sourceText(value).trim(); }).filter(Boolean);
+  values.sort(function (left, right) {
+    return (/^(?:https?:)?\/\//i.test(right) ? 1 : 0) - (/^(?:https?:)?\/\//i.test(left) ? 1 : 0);
+  });
+  for (var index = 0; index < values.length; index += 1) {
+    var cover = sourceUrl(values[index]);
+    var blocked = (SOURCE_CONFIG.blockedCoverHosts || []).some(function (host) {
+      return cover.toLowerCase().indexOf("//" + sourceText(host).toLowerCase() + "/") >= 0;
+    });
+    if (cover && !blocked) return cover;
+  }
+  return "";
 }
 
 function sourcePage(value) {
@@ -383,7 +405,7 @@ function sourceListItem(item) {
   if (!item || sourceBlocked(item)) return null;
   var id = sourceText(item.vod_id).trim();
   if (!id) return null;
-  var cover = sourceUrl(item.vod_pic);
+  var cover = sourceCover(item) || "https://github.com/ukonic.png";
   return {
     id: sourceLink(id), type: "url", title: sourceStrip(item.vod_name) || (SOURCE_CONFIG.shortName + "影片 " + id),
     description: sourceDescription(item, false), coverUrl: cover, posterPath: cover, detailPoster: cover,
@@ -425,9 +447,15 @@ function sourcePlayLines(item) {
 }
 
 function sourceEpisodes(item, lines) {
-  var cover = sourceUrl(item && item.vod_pic);
+  var cover = sourceCover(item) || "https://github.com/ukonic.png";
   var title = sourceStrip(item && item.vod_name);
   var link = sourceLink(item && item.vod_id);
+  if (sourceMediaType(item) === "movie" && lines.length) {
+    return [{ id: link + "?episode=1", type: "url", title: "正片",
+      description: title + "\n来源：" + SOURCE_CONFIG.name + "\n起播时加载本站全部电影版本",
+      coverUrl: cover, posterPath: cover, mediaType: "movie", episode: 1,
+      link: link, playerType: "app" }];
+  }
   var seen = {};
   return lines.map(function (line, index) {
     var episode = sourceEpisodeNumber(line.title) || line.index || index + 1;
@@ -463,10 +491,44 @@ function sourceUnique(items) {
   });
 }
 
+function sourceUniqueRaw(items) {
+  var seen = {};
+  return (Array.isArray(items) ? items : []).filter(function (item) {
+    var id = sourceText(item && item.vod_id).trim();
+    if (!id || seen[id]) return false;
+    seen[id] = true;
+    return true;
+  });
+}
+
+async function sourceEnrichListItems(items) {
+  var rows = sourceUniqueRaw(items);
+  var missing = rows.filter(function (item) { return !sourceCover(item); });
+  if (!missing.length) return rows;
+  var details = [];
+  for (var index = 0; index < missing.length; index += 30) {
+    var ids = missing.slice(index, index + 30).map(function (item) { return item.vod_id; }).join(",");
+    try {
+      var result = await sourceGet({ ac: "detail", ids: ids });
+      details = details.concat(Array.isArray(result.list) ? result.list : []);
+    } catch (_) {}
+  }
+  var byId = {};
+  details.forEach(function (item) { byId[sourceText(item && item.vod_id)] = item; });
+  return rows.map(function (item) {
+    var detail = byId[sourceText(item && item.vod_id)];
+    if (!detail) return item;
+    var merged = {};
+    Object.keys(item).forEach(function (key) { merged[key] = item[key]; });
+    Object.keys(detail).forEach(function (key) { merged[key] = detail[key]; });
+    return merged;
+  });
+}
+
 async function loadSourceHome(params) {
   var result;
   try { result = await sourceGet({ ac: "list", pg: sourcePage(params && params.page) }); } catch (_) { return []; }
-  return sourceMapList(result.list);
+  return sourceMapList(await sourceEnrichListItems(result.list));
 }
 
 async function loadSourceChannel(params, channel) {
@@ -479,9 +541,10 @@ async function loadSourceChannel(params, channel) {
   var responses = await Promise.all(ids.map(function (id) {
     return sourceGet({ ac: "list", t: id, pg: page }).catch(function () { return { list: [] }; });
   }));
-  var items = [];
-  responses.forEach(function (response) { items = items.concat(sourceMapList(response.list)); });
-  return sourceUnique(items).slice(0, 60);
+  var rawItems = [];
+  responses.forEach(function (response) { rawItems = rawItems.concat(response.list || []); });
+  rawItems = sourceUniqueRaw(rawItems).slice(0, 60);
+  return sourceUnique(sourceMapList(await sourceEnrichListItems(rawItems))).slice(0, 60);
 }
 
 function loadSourceMovies(params) { return loadSourceChannel(params, "movie"); }
@@ -494,9 +557,19 @@ async function searchSource(params) {
   params = params || {};
   var keyword = sourceStrip(params.keyword || params.wd || params.query);
   if (!keyword) return [];
-  var result;
-  try { result = await sourceGet({ ac: "detail", wd: keyword, pg: sourcePage(params.page) }); } catch (_) { return []; }
-  return sourceMapList(result.list);
+  var rows = [];
+  var queries = sourceSearchQueries(keyword);
+  for (var index = 0; index < queries.length; index += 1) {
+    var startPage = sourcePage(params.page);
+    var pages = sourceIdentityTitle(queries[index]).length <= 4 ? [startPage, startPage + 1] : [startPage];
+    for (var pageIndex = 0; pageIndex < pages.length; pageIndex += 1) {
+      try {
+        var result = await sourceGet({ ac: "detail", wd: queries[index], pg: pages[pageIndex] });
+        rows = rows.concat(result.list || []);
+      } catch (_) {}
+    }
+  }
+  return sourceMapList(await sourceEnrichListItems(sourceUniqueRaw(rows)));
 }
 
 async function loadDetail(link) {
@@ -515,6 +588,30 @@ function sourceNormalize(value) {
   return sourceStrip(value).toLowerCase().replace(/[（(][^）)]*[）)]/g, "").replace(/[\s·•:：,，.。!！?？'\"“”‘’\-_/\\]/g, "");
 }
 
+function sourceIdentityTitle(value) {
+  return sourceStrip(value).toLowerCase().replace(/[（）()\[\]【】]/g, "").replace(/[\s·•:：,，.。!！?？'\"“”‘’\-_/\\]/g, "");
+}
+
+function sourceTitleEdition(value) {
+  var text = sourceStrip(value);
+  var rules = [
+    [/国粤双语|国语粤语|粤国双语/i, "国粤双语"],
+    [/国语版|普通话版|国语|普通话|国配版|国配/i, "国语"],
+    [/粤语版|粤语|粤配版|粤配/i, "粤语"],
+    [/台配版|台配国语|台配/i, "台配"],
+    [/英语版|英语|英配版|英配/i, "英语"],
+    [/日语版|日语|日配版|日配/i, "日语"],
+    [/韩语版|韩语|韩配版|韩配/i, "韩语"],
+    [/原声版|原声/i, "原声"],
+    [/导演剪辑版|导演剪辑/i, "导演剪辑版"],
+    [/加长版|加长剪辑/i, "加长版"],
+    [/未删减版|未删减/i, "未删减版"],
+    [/修复版|修复/i, "修复版"]
+  ];
+  for (var index = 0; index < rules.length; index += 1) if (rules[index][0].test(text)) return rules[index][1];
+  return "";
+}
+
 function sourceBaseTitle(value) {
   return sourceNormalize(value).replace(/国粤双语|国语粤语|粤国双语|国语版?|普通话版?|国配版?|粤语版?|粤配版?|台配国语|台配版?|英语版?|英配版?|日语版?|日配版?|韩语版?|韩配版?|原声版?|导演剪辑版?|加长版|加长剪辑|未删减版?|修复版?/g, "");
 }
@@ -527,19 +624,24 @@ function sourceSeason(value) {
 
 function sourcePicks(list, keyword, params) {
   var wanted = sourceBaseTitle(keyword);
+  var wantedIdentity = sourceIdentityTitle(keyword);
+  var wantedEdition = sourceTitleEdition(keyword);
   var requestedYear = sourceText(params && params.year).trim();
   var requestedType = sourceText(params && (params.type || params.mediaType)).toLowerCase();
   var requestedSeason = sourceSeason(keyword) || sourceText(params && params.season).trim();
   var candidates = (Array.isArray(list) ? list : []).filter(function (item) {
     if (!item || sourceBlocked(item) || !sourcePlayLines(item).length) return false;
     if (sourceBaseTitle(item.vod_name) !== wanted) return false;
+    var itemEdition = sourceTitleEdition(item.vod_name);
+    if (wantedEdition ? itemEdition !== wantedEdition : !!itemEdition) return false;
     if (requestedYear && sourceText(item.vod_year).trim() && sourceText(item.vod_year).trim() !== requestedYear) return false;
     if ((requestedType === "tv" || requestedType === "movie") && sourceMediaType(item) !== requestedType) return false;
     var itemSeason = sourceSeason(item.vod_name) || sourceSeason(item.vod_remarks);
     if (requestedSeason && itemSeason && itemSeason !== requestedSeason) return false;
     return true;
   });
-  return candidates;
+  var exact = candidates.filter(function (item) { return sourceIdentityTitle(item.vod_name) === wantedIdentity; });
+  return exact.length ? exact : candidates;
 }
 
 function sourceEdition(item) {
@@ -568,7 +670,7 @@ function sourceEdition(item) {
 }
 
 function sourceVideoResource(line, detail, showEdition) {
-  var edition = sourceEdition({ vod_name: line && line.title }) || sourceEdition(detail);
+  var edition = sourceEdition({ vod_name: line && line.title }) || sourceTitleEdition(detail && detail.vod_name);
   return { name: (showEdition && edition ? (edition + " · ") : "") + (line.title || (SOURCE_CONFIG.shortName + " M3U8")),
     description: "来源：" + SOURCE_CONFIG.name + (showEdition && edition ? ("\n版本：" + edition) : ""),
     url: line.url, playerType: "app" };
@@ -603,8 +705,16 @@ async function loadResource(params) {
     if (!keywords.length) return [];
     for (var keywordIndex = 0; keywordIndex < keywords.length && !details.length; keywordIndex += 1) {
       var keyword = keywords[keywordIndex];
-      try { result = await sourceGet({ ac: "detail", wd: keyword }); } catch (_) { continue; }
-      details = sourcePicks(result.list, keyword, params);
+      var queries = sourceSearchQueries(keyword);
+      var found = [];
+      for (var queryIndex = 0; queryIndex < queries.length; queryIndex += 1) {
+        var pages = sourceIdentityTitle(queries[queryIndex]).length <= 4 ? [1, 2] : [1];
+        for (var pageIndex = 0; pageIndex < pages.length; pageIndex += 1) {
+          try { result = await sourceGet({ ac: "detail", wd: queries[queryIndex], pg: pages[pageIndex] }); } catch (_) { continue; }
+          found = found.concat(result.list || []);
+        }
+      }
+      details = sourcePicks(sourceUniqueRaw(found), keyword, params);
     }
   }
   if (!details.length) return [];
@@ -618,6 +728,7 @@ async function loadResource(params) {
 function sourcePickResourceLines(detail, params) {
   var lines = sourcePlayLines(detail);
   if (!lines.length) return [];
+  if (sourceMediaType(detail) === "movie") return lines;
   var episodeName = sourceStrip(params.episodeName);
   if (episodeName) {
     var named = [];
@@ -632,14 +743,41 @@ function sourcePickResourceLines(detail, params) {
     var numbered = [];
     for (var numberedIndex = 0; numberedIndex < lines.length; numberedIndex += 1) {
       var number = sourceEpisodeNumber(lines[numberedIndex].title);
+      var range = sourceEpisodeRange(lines[numberedIndex].title);
       if (number > 0) hasNumberedTitles = true;
-      if (number === episode) numbered.push(lines[numberedIndex]);
+      if (number === episode || (range && episode >= range.start && episode <= range.end)) numbered.push(lines[numberedIndex]);
     }
     if (numbered.length) return numbered;
     return hasNumberedTitles || !lines[episode - 1] ? [] : [lines[episode - 1]];
   }
   if (episodeName) return [];
   return sourceMediaType(detail) === "movie" ? lines : [lines[0]];
+}
+function sourceSearchQueries(value) {
+  var raw = sourceStrip(value);
+  var broad = raw.replace(/(?:国粤双语|国语粤语|粤国双语|国语版?|普通话版?|国配版?|粤语版?|粤配版?|台配国语|台配版?|英语版?|英配版?|日语版?|日配版?|韩语版?|韩配版?|原声版?|导演剪辑版?|加长版|加长剪辑|未删减版?|修复版?)/gi, "").trim();
+  var compact = broad.replace(/[\s·•:：,，.。!！?？'\"“”‘’\-_/\\（）()\[\]【】]/g, "");
+  var candidates = [raw];
+  if (broad) candidates.push(broad);
+  if (/[\u3400-\u9fff]/.test(compact) && compact.length >= 6) {
+    candidates.push(compact.slice(0, 3));
+    candidates.push(compact.slice(-4));
+  }
+  var seen = {};
+  return candidates.filter(function (query) {
+    var key = sourceIdentityTitle(query);
+    if (!key || seen[key]) return false;
+    seen[key] = true;
+    return true;
+  });
+}
+function sourceEpisodeRange(value) {
+  var title = sourceStrip(value);
+  var match = title.match(/第\s*0*(\d+)\s*(?:-|~|—|–|至|到)\s*0*(\d+)\s*(?:集|话|期|回)/i);
+  if (!match) return null;
+  var start = Number(match[1]);
+  var end = Number(match[2]);
+  return start > 0 && end >= start ? { start: start, end: end } : null;
 }
 function sourceResourceList(rows, showEdition) {
   var seen = {};
@@ -652,6 +790,8 @@ function sourceResourceList(rows, showEdition) {
 }
 function sourceEpisodeNumber(value) {
   var title = sourceStrip(value);
+  var range = sourceEpisodeRange(title);
+  if (range) return range.start;
   var match = title.match(/第\s*0*(\d+)\s*(?:集|话|期|回)/i) || title.match(/(?:EP|E)\s*0*(\d+)$/i);
   if (match) return Number(match[1]);
   match = title.match(/^0*(\d{1,4})$/);
