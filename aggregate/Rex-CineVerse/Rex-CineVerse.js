@@ -3,7 +3,7 @@
  * 40站聚合、严格匹配、仅直接 M3U8。运行时不依赖 registry.json 或其他文件。
  */
 var CINEVERSE_CONFIG = {
-  "version": "0.1.1",
+  "version": "0.1.2",
   "sources": [
     {
       "slug": "feifan",
@@ -6471,9 +6471,8 @@ async function cvFindMatches(keyword, params) {
     });
     if (seasonMatches.length) pool = seasonMatches;
   }
-  var exact = pool.filter(function (row) { return cvNormalize(row.item.vod_name) === wanted; });
-  if (exact.length) pool = exact;
-  if (!exact.length && !requestedYear && !requestedSeason) {
+  var exact = [];
+  if (!requestedYear && !requestedSeason) {
     var years = pool.map(function (row) { return Number(row.item.vod_year); }).filter(function (year) { return isFinite(year) && year >= 1900 && year <= 2100; });
     if (years.length) {
       var earliestYear = Math.min.apply(Math, years);
@@ -6483,6 +6482,8 @@ async function cvFindMatches(keyword, params) {
       pool = pool.filter(function (row) { return cvNormalize(row.item.vod_name).length === shortest; });
     }
   }
+  exact = pool.filter(function (row) { return cvNormalize(row.item.vod_name) === wanted; });
+  if (exact.length) pool = exact;
   if (!exact.length && pool.length) {
     var titleStats = {};
     pool.forEach(function (row) {

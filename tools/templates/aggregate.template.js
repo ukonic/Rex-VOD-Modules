@@ -283,9 +283,8 @@ async function cvFindMatches(keyword, params) {
     });
     if (seasonMatches.length) pool = seasonMatches;
   }
-  var exact = pool.filter(function (row) { return cvNormalize(row.item.vod_name) === wanted; });
-  if (exact.length) pool = exact;
-  if (!exact.length && !requestedYear && !requestedSeason) {
+  var exact = [];
+  if (!requestedYear && !requestedSeason) {
     var years = pool.map(function (row) { return Number(row.item.vod_year); }).filter(function (year) { return isFinite(year) && year >= 1900 && year <= 2100; });
     if (years.length) {
       var earliestYear = Math.min.apply(Math, years);
@@ -295,6 +294,8 @@ async function cvFindMatches(keyword, params) {
       pool = pool.filter(function (row) { return cvNormalize(row.item.vod_name).length === shortest; });
     }
   }
+  exact = pool.filter(function (row) { return cvNormalize(row.item.vod_name) === wanted; });
+  if (exact.length) pool = exact;
   if (!exact.length && pool.length) {
     var titleStats = {};
     pool.forEach(function (row) {

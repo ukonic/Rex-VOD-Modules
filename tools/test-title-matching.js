@@ -29,5 +29,5 @@ async function check(title, forbidden, extra) {
 (async () => {
   await check("花儿与少年", "第八季");
   await check("花儿与少年第八季", "第一季");
-  await check("披荆斩棘", "第六季", { year: "2021" });
+  await check("披荆斩棘", "第六季");
 })().catch(error => { console.error(error); process.exitCode = 1; });
