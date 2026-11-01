@@ -7,11 +7,12 @@ var SOURCE_CONFIG = {
   "slug": "iqiyi",
   "name": "爱奇艺资源",
   "shortName": "爱奇艺",
+  "sourceName": "爱奇艺资源",
   "api": "http://iqiyizyapi.com/api.php/provide/vod/",
   "site": "http://iqiyizyapi.com/",
   "icon": "http://iqiyizyapi.com/favicon.ico",
   "blockedCoverHosts": [],
-  "version": "0.1.10",
+  "version": "0.1.11",
   "priority": 40,
   "tier": "D",
   "categories": {
@@ -350,12 +351,19 @@ function sourceLink(id) {
   return "rexvod://" + SOURCE_CONFIG.slug + "/" + encodeURIComponent(sourceText(id));
 }
 
+function sourceOwnApiUrl(value) {
+  var api = sourceText(SOURCE_CONFIG.api).trim().replace(/\/+$/, "");
+  value = sourceText(value).trim();
+  return !!api && /^https?:\/\//i.test(value) && value.toLowerCase().indexOf(api.toLowerCase()) === 0;
+}
+
 function sourceId(link) {
   var value = sourceText(link).trim();
   var pattern = new RegExp("^rexvod://" + SOURCE_CONFIG.slug + "/([^/?#]+)", "i");
   var match = value.match(pattern);
   if (match) return decodeURIComponent(match[1]);
   if (/^\d+$/.test(value)) return value;
+  if (!sourceOwnApiUrl(value)) return "";
   match = value.match(/[?&](?:id|ids)=(\d+)/i);
   return match ? match[1] : "";
 }
@@ -677,17 +685,36 @@ function sourcePlaybackKeywords(params) {
   });
 }
 
+function sourceDirectKeywords(params) {
+  var type = sourceText(params && (params.type || params.mediaType)).toLowerCase();
+  if (type !== "tv") return sourcePlaybackKeywords(params);
+  return sourcePlaybackKeywords(params).filter(function (value) {
+    return !/^(?:第\s*\d+\s*(?:集|话|期|回)|(?:EP|E)\s*\d+|\d{1,4})$/i.test(sourceStrip(value));
+  });
+}
+
 async function loadResource(params) {
   params = params || {};
   var linkedInput = sourceText(params.link).trim();
-  if (!linkedInput && new RegExp("^rexvod://" + SOURCE_CONFIG.slug + "/", "i").test(sourceText(params.id))) linkedInput = sourceText(params.id);
+  var idInput = sourceText(params.id).trim();
+  if (!linkedInput && (new RegExp("^rexvod://" + SOURCE_CONFIG.slug + "/", "i").test(idInput) || sourceOwnApiUrl(idInput))) {
+    linkedInput = idInput;
+  }
   var id = sourceId(linkedInput);
   var result;
   var details = [];
   if (id) {
-    try { result = await sourceGet({ ac: "detail", ids: id }); } catch (_) { return []; }
-    details = Array.isArray(result.list) && result.list.length ? [result.list[0]] : [];
-  } else {
+    try {
+      result = await sourceGet({ ac: "detail", ids: id });
+      var directList = Array.isArray(result.list) ? result.list : [];
+      var directKeywords = sourceDirectKeywords(params);
+      if (!directKeywords.length) details = directList.length ? [directList[0]] : [];
+      for (var directIndex = 0; directIndex < directKeywords.length && !details.length; directIndex += 1) {
+        details = sourcePicks(directList, directKeywords[directIndex], params);
+      }
+    } catch (_) {}
+  }
+  if (!details.length) {
     var keywords = sourcePlaybackKeywords(params);
     if (!keywords.length) return [];
     for (var keywordIndex = 0; keywordIndex < keywords.length && !details.length; keywordIndex += 1) {

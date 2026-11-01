@@ -15,4 +15,6 @@ https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/main/sources/ikun/Rex-I
 - 搜索IKUN资源
 - 加载IKUN播放源
 
+资源站登记名：IKUN资源
+
 接口：`https://ikunzyapi.com/api.php/provide/vod/`

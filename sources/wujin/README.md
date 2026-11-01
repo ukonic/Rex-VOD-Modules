@@ -15,4 +15,6 @@ https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/main/sources/wujin/Rex-
 - 搜索无尽资源
 - 加载无尽播放源
 
+资源站登记名：无尽资源
+
 接口：`https://api.wujinapi.com/api.php/provide/vod/`

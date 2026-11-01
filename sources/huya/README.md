@@ -15,4 +15,6 @@ https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/main/sources/huya/Rex-H
 - 搜索虎牙资源
 - 加载虎牙播放源
 
+资源站登记名：虎牙资源
+
 接口：`https://www.huyaapi.com/api.php/provide/vod/`

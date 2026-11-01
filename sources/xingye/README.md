@@ -15,4 +15,6 @@ https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/main/sources/xingye/Rex
 - 搜索星夜资源
 - 加载星夜播放源
 
+资源站登记名：星夜资源
+
 接口：`https://xyezy.com/api.php/provide/vod/`

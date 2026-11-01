@@ -15,4 +15,6 @@ https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/main/sources/piaoling/R
 - 搜索飘零资源
 - 加载飘零播放源
 
+资源站登记名：飘零资源
+
 接口：`https://p2100.net/api.php/provide/vod/`

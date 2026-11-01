@@ -15,4 +15,6 @@ https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/main/sources/changzhang
 - 搜索厂长资源
 - 加载厂长播放源
 
+资源站登记名：厂长资源
+
 接口：`https://api.changzhang.tv/api.php/provide/vod/from/changzhangm3u8/`

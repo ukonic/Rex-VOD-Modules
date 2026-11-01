@@ -15,4 +15,6 @@ https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/main/sources/modu/Rex-M
 - 搜索魔都资源
 - 加载魔都播放源
 
+资源站登记名：魔都资源
+
 接口：`https://www.mdzyapi.com/api.php/provide/vod/`

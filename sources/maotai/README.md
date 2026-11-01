@@ -15,4 +15,6 @@ https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/main/sources/maotai/Rex
 - 搜索茅台资源
 - 加载茅台播放源
 
+资源站登记名：茅台资源
+
 接口：`https://caiji.maotaizy.cc/api.php/provide/vod/`

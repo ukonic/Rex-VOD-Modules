@@ -15,4 +15,6 @@ https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/main/sources/subo/Rex-S
 - 搜索速播资源
 - 加载速播播放源
 
+资源站登记名：速播资源
+
 接口：`https://subocaiji.com/api.php/provide/vod/`

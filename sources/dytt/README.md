@@ -15,4 +15,6 @@ https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/main/sources/dytt/Rex-D
 - 搜索电影天堂资源
 - 加载电影天堂播放源
 
+资源站登记名：电影天堂资源
+
 接口：`https://caiji.dyttzyapi.com/api.php/provide/vod/`

@@ -15,4 +15,6 @@ https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/main/sources/douban/Rex
 - 搜索豆瓣资源
 - 加载豆瓣播放源
 
+资源站登记名：豆瓣资源
+
 接口：`https://dbzy.tv/api.php/provide/vod/`

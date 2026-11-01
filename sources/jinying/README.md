@@ -15,4 +15,6 @@ https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/main/sources/jinying/Re
 - 搜索金鹰资源
 - 加载金鹰播放源
 
+资源站登记名：金鹰资源
+
 接口：`https://jyzyapi.com/api.php/provide/vod/`

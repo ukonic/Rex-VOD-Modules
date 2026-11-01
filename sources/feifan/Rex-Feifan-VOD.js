@@ -8,7 +8,7 @@ var WidgetMetadata = {
   id: "rex.feifan.vod",
   title: "非凡资源",
   icon: "https://ffzy.tv/favicon.ico",
-  version: "0.1.16",
+  version: "0.1.17",
   requiredVersion: "0.0.1",
   description: "非凡资源网 ffm3u8 专用 JSON 接口：分类、搜索、详情与直接 M3U8 播放",
   author: "ukonic",
@@ -161,7 +161,7 @@ var WidgetMetadata = {
 var FF_API = "https://api.ffzyapi.com/api.php/provide/vod/from/ffm3u8/";
 var FF_SEARCH_API = "https://api.ffzyapi.com/api.php/provide/vod/";
 var FF_SITE = "https://ffzy.tv/";
-var FF_UA = "Mozilla/5.0 (Rex ForwardWidget; Feifan VOD/0.1.16)";
+var FF_UA = "Mozilla/5.0 (Rex ForwardWidget; Feifan VOD/0.1.17)";
 var FF_BLOCKED_TYPE_IDS = { "34": true };
 var FF_BLOCKED_WORDS = [
   "伦理片", "伦理", "福利", "里番", "无码", "有码", "情色", "色情",
@@ -291,14 +291,22 @@ function ffMediaType(item) {
 }
 
 function ffVodLink(id) {
-  return ffUrl({ ac: "detail", ids: ffText(id) });
+  return "rexvod://feifan/" + encodeURIComponent(ffText(id));
+}
+
+function ffOwnApiUrl(value) {
+  value = ffText(value).trim().toLowerCase();
+  return [FF_API, FF_SEARCH_API].some(function (api) {
+    return value.indexOf(ffText(api).trim().toLowerCase().replace(/\/+$/, "")) === 0;
+  });
 }
 
 function ffVodId(link) {
   var value = ffText(link).trim();
-  var match = value.match(/^ffzy:\/\/vod\/(\d+)$/i);
+  var match = value.match(/^rexvod:\/\/feifan\/(\d+)(?:[?&#]|$)/i) || value.match(/^ffzy:\/\/vod\/(\d+)(?:[?&#]|$)/i);
   if (match) return match[1];
   if (/^\d+$/.test(value)) return value;
+  if (!ffOwnApiUrl(value)) return "";
   var query = value.match(/[?&](?:id|ids)=(\d+)/i);
   return query ? query[1] : "";
 }
@@ -456,7 +464,7 @@ function ffEpisodeItems(item, lines) {
   var link = ffVodLink(item && item.vod_id);
   if (ffMediaType(item) === "movie" && lines.length) {
     return [{
-      id: link + "&episode=1",
+      id: link + "?episode=1",
       type: "url",
       title: "正片",
       description: baseTitle + "\n来源：非凡资源\n起播时加载全部电影版本",
@@ -475,7 +483,7 @@ function ffEpisodeItems(item, lines) {
     if (seen[key]) return null;
     seen[key] = true;
     return {
-      id: link + "&episode=" + encodeURIComponent(String(episode)),
+      id: link + "?episode=" + encodeURIComponent(String(episode)),
       type: "url",
       title: line.title,
       description: baseTitle + "\n来源：非凡资源\n起播时加载全部匹配版本",
@@ -692,17 +700,28 @@ function ffPickHomeDetail(list, keyword, params) {
 async function loadResource(params) {
   params = params || {};
   var vodInput = ffText(params.link).trim();
-  if (!vodInput && /(?:api\.ffzyapi\.com\/api\.php\/provide\/vod|^ffzy:\/\/vod\/)/i.test(ffText(params.id))) {
+  if (!vodInput && /(?:api\.ffzyapi\.com\/api\.php\/provide\/vod|^ffzy:\/\/vod\/|^rexvod:\/\/feifan\/)/i.test(ffText(params.id))) {
     vodInput = ffText(params.id).trim();
   }
   var vodId = ffVodId(vodInput);
   var result;
   var seedDetail = null;
   if (vodId) {
-    try { result = await ffGet({ ac: "detail", ids: vodId }); } catch (_) { return []; }
-    var detailList = Array.isArray(result.list) ? result.list : [];
-    seedDetail = detailList.length ? detailList[0] : null;
-    return seedDetail ? ffFallbackResources(seedDetail, params) : [];
+    try {
+      result = await ffGet({ ac: "detail", ids: vodId });
+      var detailList = Array.isArray(result.list) ? result.list : [];
+      var directKeywords = ffDirectKeywords(params);
+      if (!directKeywords.length) seedDetail = detailList.length ? detailList[0] : null;
+      for (var directIndex = 0; directIndex < directKeywords.length && !seedDetail; directIndex += 1) {
+        var directMatches = ffHomeMatches(detailList, directKeywords[directIndex], params);
+        if (directMatches.length) seedDetail = directMatches[0];
+      }
+      if (seedDetail) {
+        var directResources = ffFallbackResources(seedDetail, params);
+        if (directResources.length) return directResources;
+        seedDetail = null;
+      }
+    } catch (_) {}
   }
   var keywords = ffPlaybackKeywords(params, seedDetail);
   if (!keywords.length) return [];
@@ -745,6 +764,14 @@ function ffPlaybackKeywords(params, seedDetail) {
     if (!key || seen[key]) return false;
     seen[key] = true;
     return true;
+  });
+}
+
+function ffDirectKeywords(params) {
+  var type = ffText(params && (params.type || params.mediaType)).toLowerCase();
+  if (type !== "tv") return ffPlaybackKeywords(params, null);
+  return ffPlaybackKeywords(params, null).filter(function (value) {
+    return !/^(?:第\s*\d+\s*(?:集|话|期|回)|(?:EP|E)\s*\d+|\d{1,4})$/i.test(ffStripHtml(value));
   });
 }
 

@@ -15,4 +15,6 @@ https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/main/sources/ok/Rex-OK-
 - 搜索OK资源
 - 加载OK播放源
 
+资源站登记名：OK资源
+
 接口：`https://api.okzyw.net/api.php/provide/vod/`

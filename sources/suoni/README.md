@@ -15,4 +15,6 @@ https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/main/sources/suoni/Rex-
 - 搜索索尼资源
 - 加载索尼播放源
 
+资源站登记名：索尼资源
+
 接口：`https://suoniapi.com/api.php/provide/vod/`

@@ -15,4 +15,6 @@ https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/main/sources/ruyi/Rex-R
 - 搜索如意资源
 - 加载如意播放源
 
+资源站登记名：如意资源
+
 接口：`https://cj.rycjapi.com/api.php/provide/vod/`

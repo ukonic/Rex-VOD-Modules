@@ -15,4 +15,6 @@ https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/main/sources/haohua/Rex
 - 搜索豪华资源
 - 加载豪华播放源
 
+资源站登记名：豪华资源
+
 接口：`https://hhzyapi.com/api.php/provide/vod/`

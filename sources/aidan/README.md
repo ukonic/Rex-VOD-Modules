@@ -15,4 +15,6 @@ https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/main/sources/aidan/Rex-
 - 搜索爱蛋资源
 - 加载爱蛋播放源
 
+资源站登记名：爱蛋资源
+
 接口：`https://lovedan.net/api.php/provide/vod/`

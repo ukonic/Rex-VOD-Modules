@@ -15,4 +15,6 @@ https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/main/sources/jisu/Rex-J
 - 搜索极速资源
 - 加载极速播放源
 
+资源站登记名：极速资源
+
 接口：`https://jszyapi.com/api.php/provide/vod/`

@@ -15,4 +15,6 @@ https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/main/sources/kuaiche/Re
 - 搜索快车资源
 - 加载快车播放源
 
+资源站登记名：快车资源
+
 接口：`https://caiji.kuaichezy.org/api.php/provide/vod/`

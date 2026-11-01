@@ -15,4 +15,6 @@ https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/main/sources/niuniu/Rex
 - 搜索牛牛资源
 - 加载牛牛播放源
 
+资源站登记名：牛牛资源
+
 接口：`https://api.niuniuzy.me/api.php/provide/vod/`

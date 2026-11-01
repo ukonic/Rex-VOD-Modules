@@ -15,4 +15,6 @@ https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/main/sources/liangzi/Re
 - 搜索量子资源
 - 加载量子播放源
 
+资源站登记名：量子资源
+
 接口：`https://cj.lziapi.com/api.php/provide/vod/`

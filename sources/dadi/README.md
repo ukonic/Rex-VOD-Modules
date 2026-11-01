@@ -15,4 +15,6 @@ https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/main/sources/dadi/Rex-D
 - 搜索大地资源
 - 加载大地播放源
 
+资源站登记名：大地资源
+
 接口：`https://dadiapi.com/api.php/provide/vod/`

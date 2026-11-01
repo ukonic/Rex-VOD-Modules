@@ -15,4 +15,6 @@ https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/main/sources/fanqie/Rex
 - 搜索番茄资源
 - 加载番茄播放源
 
+资源站登记名：番茄资源
+
 接口：`https://fqzy.me/api.php/provide/vod/`

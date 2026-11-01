@@ -15,4 +15,6 @@ https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/main/sources/tianya/Rex
 - 搜索天涯资源
 - 加载天涯播放源
 
+资源站登记名：天涯资源
+
 接口：`https://tyyszyapi.com/api.php/provide/vod/`

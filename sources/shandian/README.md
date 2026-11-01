@@ -15,4 +15,6 @@ https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/main/sources/shandian/R
 - 搜索闪电资源
 - 加载闪电播放源
 
+资源站登记名：闪电资源
+
 接口：`https://sdzyapi.com/api.php/provide/vod/`

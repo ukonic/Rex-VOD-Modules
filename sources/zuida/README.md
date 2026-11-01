@@ -15,4 +15,6 @@ https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/main/sources/zuida/Rex-
 - 搜索最大资源
 - 加载最大播放源
 
+资源站登记名：最大资源
+
 接口：`https://api.zuidapi.com/api.php/provide/vod/`

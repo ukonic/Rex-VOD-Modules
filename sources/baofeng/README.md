@@ -15,4 +15,6 @@ https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/main/sources/baofeng/Re
 - 搜索暴风资源
 - 加载暴风播放源
 
+资源站登记名：暴风资源
+
 接口：`https://bfzyapi.com/api.php/provide/vod/`

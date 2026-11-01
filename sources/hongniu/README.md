@@ -15,4 +15,6 @@ https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/main/sources/hongniu/Re
 - 搜索红牛资源
 - 加载红牛播放源
 
+资源站登记名：红牛资源
+
 接口：`https://www.hongniuzy2.com/api.php/provide/vod/`

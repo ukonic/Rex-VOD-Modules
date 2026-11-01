@@ -15,4 +15,6 @@ https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/main/sources/baidu/Rex-
 - 搜索百度资源
 - 加载百度播放源
 
+资源站登记名：百度资源
+
 接口：`https://api.apibdzy.com/api.php/provide/vod/`

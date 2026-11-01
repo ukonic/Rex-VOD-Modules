@@ -15,4 +15,6 @@ https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/main/sources/yinghua/Re
 - 搜索樱花资源
 - 加载樱花播放源
 
+资源站登记名：樱花资源
+
 接口：`https://m3u8.apiyhzy.com/api.php/provide/vod/`

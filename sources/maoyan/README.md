@@ -15,4 +15,6 @@ https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/main/sources/maoyan/Rex
 - 搜索猫眼资源
 - 加载猫眼播放源
 
+资源站登记名：猫眼资源
+
 接口：`https://api.maoyanapi.top/api.php/provide/vod/`
