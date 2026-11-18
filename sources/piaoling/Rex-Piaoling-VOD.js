@@ -12,9 +12,9 @@ var SOURCE_CONFIG = {
   "site": "https://p2100.net/",
   "icon": "https://p2100.net/favicon.ico",
   "blockedCoverHosts": [],
-  "version": "0.1.11",
+  "version": "0.1.12",
   "priority": 36,
-  "tier": "B",
+  "tier": "R",
   "categories": {
     "movie": [
       {

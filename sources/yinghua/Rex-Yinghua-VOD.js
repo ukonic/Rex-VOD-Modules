@@ -12,7 +12,7 @@ var SOURCE_CONFIG = {
   "site": "https://m3u8.apiyhzy.com/",
   "icon": "https://m3u8.apiyhzy.com/favicon.ico",
   "blockedCoverHosts": [],
-  "version": "0.1.11",
+  "version": "0.1.12",
   "priority": 26,
   "tier": "B",
   "categories": {
@@ -140,12 +140,7 @@ var SOURCE_CONFIG = {
         "value": "33"
       }
     ],
-    "short": [
-      {
-        "title": "短剧",
-        "value": "36"
-      }
-    ]
+    "short": []
   }
 };
 

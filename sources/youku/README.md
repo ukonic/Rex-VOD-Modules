@@ -17,4 +17,4 @@ https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/main/sources/youku/Rex-
 
 资源站登记名：优酷资源
 
-接口：`https://api.ukuapi.com/api.php/provide/vod/`
+接口：`https://api.ukuapi88.com/api.php/provide/vod/`

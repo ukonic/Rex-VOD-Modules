@@ -91,11 +91,7 @@ function classify(classes) {
     result[key].push({ title, value: id });
   }
 
-  const defaults = fallbackCategories();
-  for (const key of Object.keys(result)) {
-    if (!result[key].length) result[key] = defaults[key];
-    result[key] = result[key].slice(0, 30);
-  }
+  for (const key of Object.keys(result)) result[key] = result[key].slice(0, 30);
   return result;
 }
 
@@ -103,14 +99,19 @@ async function enrich(source) {
   let categories;
   let apiStatus = "ok";
   let checkedAt = new Date().toISOString();
-  try {
-    const payload = await getJson(source.api);
-    categories = classify(payload.class);
-  } catch (error) {
-    const previous = previousBySlug.get(source.slug);
-    categories = source.categories || (previous && previous.categories) || fallbackCategories();
-    apiStatus = source.categories ? "configured" : (previous && previous.categories ? "previous" : "fallback");
-    console.warn(`${source.name}: ${error.message}; using ${apiStatus} categories`);
+  if (source.categories) {
+    categories = source.categories;
+    apiStatus = "configured";
+  } else {
+    try {
+      const payload = await getJson(source.api);
+      categories = classify(payload.class);
+    } catch (error) {
+      const previous = previousBySlug.get(source.slug);
+      categories = (previous && previous.categories) || fallbackCategories();
+      apiStatus = previous && previous.categories ? "previous" : "fallback";
+      console.warn(`${source.name}: ${error.message}; using ${apiStatus} categories`);
+    }
   }
   const version = source.version || "0.1.11";
   const site = origin(source.api);

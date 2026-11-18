@@ -14,9 +14,9 @@ var SOURCE_CONFIG = {
   "blockedCoverHosts": [
     "dbzy5.com"
   ],
-  "version": "0.1.11",
+  "version": "0.1.12",
   "priority": 39,
-  "tier": "D",
+  "tier": "R",
   "categories": {
     "movie": [
       {

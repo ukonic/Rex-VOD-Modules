@@ -1367,6 +1367,7 @@
     "api": "https://cj.rycjapi.com/api.php/provide/vod/",
     "priority": 9,
     "tier": "S",
+    "status": "degraded",
     "version": "0.1.11",
     "site": "https://cj.rycjapi.com/",
     "icon": "https://cj.rycjapi.com/favicon.ico",
@@ -1514,21 +1515,21 @@
         }
       ]
     },
-    "status": "active",
     "apiStatus": "ok",
-    "checkedAt": "2026-11-01T11:53:51.112Z",
+    "checkedAt": "2026-11-18T08:39:53.571Z",
     "file": "Rex-Ruyi-VOD.js"
   },
   {
     "slug": "youku",
     "name": "优酷资源",
     "shortName": "优酷",
-    "api": "https://api.ukuapi.com/api.php/provide/vod/",
+    "api": "https://api.ukuapi88.com/api.php/provide/vod/",
     "priority": 10,
     "tier": "S",
-    "version": "0.1.11",
-    "site": "https://api.ukuapi.com/",
-    "icon": "https://api.ukuapi.com/favicon.ico",
+    "status": "degraded",
+    "version": "0.1.12",
+    "site": "https://api.ukuapi88.com/",
+    "icon": "https://api.ukuapi88.com/favicon.ico",
     "categories": {
       "movie": [
         {
@@ -1629,9 +1630,8 @@
         }
       ]
     },
-    "status": "active",
     "apiStatus": "ok",
-    "checkedAt": "2026-11-01T11:53:51.113Z",
+    "checkedAt": "2026-11-18T08:39:53.618Z",
     "file": "Rex-Youku-VOD.js"
   },
   {
@@ -2611,6 +2611,7 @@
     "api": "https://api.maoyanapi.top/api.php/provide/vod/",
     "priority": 17,
     "tier": "A",
+    "status": "degraded",
     "version": "0.1.11",
     "site": "https://api.maoyanapi.top/",
     "icon": "https://api.maoyanapi.top/favicon.ico",
@@ -2814,9 +2815,8 @@
         }
       ]
     },
-    "status": "active",
     "apiStatus": "ok",
-    "checkedAt": "2026-11-01T11:53:52.787Z",
+    "checkedAt": "2026-11-18T08:39:53.619Z",
     "file": "Rex-Maoyan-VOD.js"
   },
   {
@@ -3275,6 +3275,7 @@
     "api": "https://tyyszyapi.com/api.php/provide/vod/",
     "priority": 21,
     "tier": "B",
+    "status": "degraded",
     "version": "0.1.11",
     "site": "https://tyyszyapi.com/",
     "icon": "https://tyyszyapi.com/favicon.ico",
@@ -3414,9 +3415,8 @@
         }
       ]
     },
-    "status": "active",
     "apiStatus": "ok",
-    "checkedAt": "2026-11-01T11:53:52.791Z",
+    "checkedAt": "2026-11-18T08:39:53.620Z",
     "file": "Rex-Tianya-VOD.js"
   },
   {
@@ -3983,6 +3983,7 @@
     "api": "https://lovedan.net/api.php/provide/vod/",
     "priority": 25,
     "tier": "B",
+    "status": "degraded",
     "version": "0.1.11",
     "site": "https://lovedan.net/",
     "icon": "https://lovedan.net/favicon.ico",
@@ -4110,9 +4111,8 @@
         }
       ]
     },
-    "status": "active",
-    "apiStatus": "ok",
-    "checkedAt": "2026-11-01T11:53:55.472Z",
+    "apiStatus": "previous",
+    "checkedAt": "2026-11-18T08:45:14.506Z",
     "file": "Rex-Aidan-VOD.js"
   },
   {
@@ -4122,7 +4122,7 @@
     "api": "https://m3u8.apiyhzy.com/api.php/provide/vod/",
     "priority": 26,
     "tier": "B",
-    "version": "0.1.11",
+    "version": "0.1.12",
     "site": "https://m3u8.apiyhzy.com/",
     "icon": "https://m3u8.apiyhzy.com/favicon.ico",
     "categories": {
@@ -4250,16 +4250,11 @@
           "value": "33"
         }
       ],
-      "short": [
-        {
-          "title": "短剧",
-          "value": "36"
-        }
-      ]
+      "short": []
     },
     "status": "active",
     "apiStatus": "ok",
-    "checkedAt": "2026-11-01T11:53:55.472Z",
+    "checkedAt": "2026-11-18T08:39:53.620Z",
     "file": "Rex-Yinghua-VOD.js"
   },
   {
@@ -4948,113 +4943,20 @@
     "shortName": "星夜",
     "api": "https://xyezy.com/api.php/provide/vod/",
     "priority": 31,
-    "tier": "B",
-    "version": "0.1.11",
+    "tier": "R",
+    "version": "0.1.12",
+    "categories": {
+      "movie": [],
+      "tv": [],
+      "variety": [],
+      "anime": [],
+      "short": []
+    },
     "site": "https://xyezy.com/",
     "icon": "https://xyezy.com/favicon.ico",
-    "categories": {
-      "movie": [
-        {
-          "title": "动作片",
-          "value": "6"
-        },
-        {
-          "title": "喜剧片",
-          "value": "7"
-        },
-        {
-          "title": "爱情片",
-          "value": "8"
-        },
-        {
-          "title": "科幻片",
-          "value": "9"
-        },
-        {
-          "title": "恐怖片",
-          "value": "10"
-        },
-        {
-          "title": "剧情片",
-          "value": "11"
-        },
-        {
-          "title": "战争片",
-          "value": "12"
-        },
-        {
-          "title": "纪录片",
-          "value": "20"
-        }
-      ],
-      "tv": [
-        {
-          "title": "国产剧",
-          "value": "13"
-        },
-        {
-          "title": "香港剧",
-          "value": "14"
-        },
-        {
-          "title": "韩国剧",
-          "value": "15"
-        },
-        {
-          "title": "欧美剧",
-          "value": "16"
-        },
-        {
-          "title": "台湾剧",
-          "value": "21"
-        },
-        {
-          "title": "日本剧",
-          "value": "22"
-        },
-        {
-          "title": "海外剧",
-          "value": "23"
-        },
-        {
-          "title": "泰国剧",
-          "value": "24"
-        }
-      ],
-      "variety": [
-        {
-          "title": "大陆综艺",
-          "value": "25"
-        },
-        {
-          "title": "港台综艺",
-          "value": "26"
-        },
-        {
-          "title": "日韩综艺",
-          "value": "27"
-        },
-        {
-          "title": "欧美综艺",
-          "value": "28"
-        }
-      ],
-      "anime": [
-        {
-          "title": "动漫激情",
-          "value": "43"
-        }
-      ],
-      "short": [
-        {
-          "title": "短剧",
-          "value": "36"
-        }
-      ]
-    },
     "status": "active",
-    "apiStatus": "ok",
-    "checkedAt": "2026-11-01T11:53:55.476Z",
+    "apiStatus": "configured",
+    "checkedAt": "2026-11-18T08:47:43.232Z",
     "file": "Rex-Xingye-VOD.js"
   },
   {
@@ -5063,117 +4965,20 @@
     "shortName": "番茄",
     "api": "https://fqzy.me/api.php/provide/vod/",
     "priority": 32,
-    "tier": "B",
-    "version": "0.1.11",
+    "tier": "R",
+    "version": "0.1.12",
+    "categories": {
+      "movie": [],
+      "tv": [],
+      "variety": [],
+      "anime": [],
+      "short": []
+    },
     "site": "https://fqzy.me/",
     "icon": "https://fqzy.me/favicon.ico",
-    "categories": {
-      "movie": [
-        {
-          "title": "动作片",
-          "value": "6"
-        },
-        {
-          "title": "喜剧片",
-          "value": "7"
-        },
-        {
-          "title": "爱情片",
-          "value": "8"
-        },
-        {
-          "title": "科幻片",
-          "value": "9"
-        },
-        {
-          "title": "恐怖片",
-          "value": "10"
-        },
-        {
-          "title": "剧情片",
-          "value": "11"
-        },
-        {
-          "title": "战争片",
-          "value": "12"
-        },
-        {
-          "title": "纪录片",
-          "value": "20"
-        }
-      ],
-      "tv": [
-        {
-          "title": "国产剧",
-          "value": "13"
-        },
-        {
-          "title": "香港剧",
-          "value": "14"
-        },
-        {
-          "title": "韩国剧",
-          "value": "15"
-        },
-        {
-          "title": "欧美剧",
-          "value": "16"
-        },
-        {
-          "title": "台湾剧",
-          "value": "21"
-        },
-        {
-          "title": "日本剧",
-          "value": "22"
-        },
-        {
-          "title": "海外剧",
-          "value": "23"
-        },
-        {
-          "title": "泰国剧",
-          "value": "24"
-        }
-      ],
-      "variety": [
-        {
-          "title": "大陆综艺",
-          "value": "25"
-        },
-        {
-          "title": "港台综艺",
-          "value": "26"
-        },
-        {
-          "title": "日韩综艺",
-          "value": "27"
-        },
-        {
-          "title": "欧美综艺",
-          "value": "28"
-        }
-      ],
-      "anime": [
-        {
-          "title": "动漫精选",
-          "value": "22"
-        },
-        {
-          "title": "动漫精选",
-          "value": "23"
-        }
-      ],
-      "short": [
-        {
-          "title": "短剧",
-          "value": "36"
-        }
-      ]
-    },
     "status": "active",
-    "apiStatus": "ok",
-    "checkedAt": "2026-11-01T11:53:55.476Z",
+    "apiStatus": "configured",
+    "checkedAt": "2026-11-18T08:47:43.233Z",
     "file": "Rex-Fanqie-VOD.js"
   },
   {
@@ -5182,113 +4987,20 @@
     "shortName": "大地",
     "api": "https://dadiapi.com/api.php/provide/vod/",
     "priority": 33,
-    "tier": "B",
-    "version": "0.1.11",
+    "tier": "R",
+    "version": "0.1.12",
+    "categories": {
+      "movie": [],
+      "tv": [],
+      "variety": [],
+      "anime": [],
+      "short": []
+    },
     "site": "https://dadiapi.com/",
     "icon": "https://dadiapi.com/favicon.ico",
-    "categories": {
-      "movie": [
-        {
-          "title": "动作片",
-          "value": "6"
-        },
-        {
-          "title": "喜剧片",
-          "value": "7"
-        },
-        {
-          "title": "爱情片",
-          "value": "8"
-        },
-        {
-          "title": "科幻片",
-          "value": "9"
-        },
-        {
-          "title": "恐怖片",
-          "value": "10"
-        },
-        {
-          "title": "剧情片",
-          "value": "11"
-        },
-        {
-          "title": "战争片",
-          "value": "12"
-        },
-        {
-          "title": "纪录片",
-          "value": "20"
-        }
-      ],
-      "tv": [
-        {
-          "title": "国产剧",
-          "value": "13"
-        },
-        {
-          "title": "香港剧",
-          "value": "14"
-        },
-        {
-          "title": "韩国剧",
-          "value": "15"
-        },
-        {
-          "title": "欧美剧",
-          "value": "16"
-        },
-        {
-          "title": "台湾剧",
-          "value": "21"
-        },
-        {
-          "title": "日本剧",
-          "value": "22"
-        },
-        {
-          "title": "海外剧",
-          "value": "23"
-        },
-        {
-          "title": "泰国剧",
-          "value": "24"
-        }
-      ],
-      "variety": [
-        {
-          "title": "大陆综艺",
-          "value": "25"
-        },
-        {
-          "title": "港台综艺",
-          "value": "26"
-        },
-        {
-          "title": "日韩综艺",
-          "value": "27"
-        },
-        {
-          "title": "欧美综艺",
-          "value": "28"
-        }
-      ],
-      "anime": [
-        {
-          "title": "动漫精品",
-          "value": "20"
-        }
-      ],
-      "short": [
-        {
-          "title": "短剧",
-          "value": "36"
-        }
-      ]
-    },
     "status": "active",
-    "apiStatus": "ok",
-    "checkedAt": "2026-11-01T11:53:57.617Z",
+    "apiStatus": "configured",
+    "checkedAt": "2026-11-18T08:47:43.233Z",
     "file": "Rex-Dadi-VOD.js"
   },
   {
@@ -5598,8 +5310,9 @@
     "shortName": "飘零",
     "api": "https://p2100.net/api.php/provide/vod/",
     "priority": 36,
-    "tier": "B",
-    "version": "0.1.11",
+    "tier": "R",
+    "status": "disabled",
+    "version": "0.1.12",
     "site": "https://p2100.net/",
     "icon": "https://p2100.net/favicon.ico",
     "categories": {
@@ -5702,9 +5415,8 @@
         }
       ]
     },
-    "status": "active",
-    "apiStatus": "ok",
-    "checkedAt": "2026-11-01T11:53:57.619Z",
+    "apiStatus": "previous",
+    "checkedAt": "2026-11-18T08:39:56.945Z",
     "file": "Rex-Piaoling-VOD.js"
   },
   {
@@ -6055,12 +5767,12 @@
     "shortName": "豆瓣",
     "api": "https://dbzy.tv/api.php/provide/vod/",
     "priority": 39,
-    "tier": "D",
+    "tier": "R",
     "status": "disabled",
+    "version": "0.1.12",
     "blockedCoverHosts": [
       "dbzy5.com"
     ],
-    "version": "0.1.11",
     "site": "https://dbzy.tv/",
     "icon": "https://dbzy.tv/favicon.ico",
     "categories": {
@@ -6251,8 +5963,8 @@
         }
       ]
     },
-    "apiStatus": "ok",
-    "checkedAt": "2026-11-01T11:53:57.620Z",
+    "apiStatus": "previous",
+    "checkedAt": "2026-11-18T08:39:56.947Z",
     "file": "Rex-Douban-VOD.js"
   },
   {

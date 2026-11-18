@@ -67,7 +67,16 @@ async function run(strategy, target, matches) {
     "S tier ordering is incorrect");
   assert(tiers.A.slice(-2).map(source => source.slug).join(",") === "guangsu,hongniu",
     "Guangsu and Hongniu are not at the end of A tier");
-  assert(tiers.R.map(source => source.slug).join(",") === "zy360,zy1080", "R tier sources are incorrect");
+  assert(tiers.R.map(source => source.slug).join(",") === "zy360,xingye,fanqie,dadi,zy1080,piaoling,douban",
+    "R tier sources are incorrect");
+  assert(generated.find(source => source.slug === "youku").api === "https://api.ukuapi88.com/api.php/provide/vod/",
+    "Youku API was not updated to the active endpoint");
+  assert(generated.find(source => source.slug === "yinghua").categories.short.length === 0,
+    "Yinghua still exposes the removed short-drama category");
+  assert(["xingye", "fanqie", "dadi"].every(slug => Object.values(generated.find(source => source.slug === slug).categories)
+    .every(rows => rows.length === 0)), "Adult-only R sources still expose stale standard categories");
+  assert(["ruyi", "youku", "maoyan", "tianya", "aidan"].every(slug => generated.find(source => source.slug === slug).status === "degraded"),
+    "Playback-degraded sources are not marked consistently");
   assert(context.CINEVERSE_SOURCES.length === 40 && context.cvSource("zy360") && context.cvSource("zy1080"),
     "R tier sources are missing from the aggregate source library");
 
@@ -108,8 +117,8 @@ async function run(strategy, target, matches) {
     && optionTitles.some(title => title === "独立 · 三六零资源") && optionTitles.some(title => title === "独立 · 一零八零资源"),
     "Source library does not show all tier roles");
 
-  for (const slug of ["zy360", "zy1080"]) {
-    state.matches = { S: 0, A: 0, B: 0, C: 0, D: 0, R: 2 };
+  for (const slug of tiers.R.map(source => source.slug)) {
+    state.matches = { S: 0, A: 0, B: 0, C: 0, D: 0, R: tiers.R.length };
     state.calls = [];
     context.CV_MATCH_CACHE = {};
     const restrictedDetail = await context.loadDetail(`cineverse://${slug}/${slug}`);
@@ -131,5 +140,5 @@ async function run(strategy, target, matches) {
     && /1–20/.test(target.description) && /不是播放线路数量/.test(target.description)
     && /完整聚合和仅核心站会忽略此数字/.test(target.description),
     "Source target setting or explanation is incomplete");
-  console.log("Source strategy modes passed: complete 38 including D, core S, auto S to A to B+C, R excluded.");
+  console.log(`Source strategy modes passed: complete ${tiers.S.length + tiers.A.length + tiers.B.length + tiers.C.length + tiers.D.length} including D, core S, auto S to A to B+C, R excluded.`);
 })().catch(error => { console.error(error); process.exitCode = 1; });

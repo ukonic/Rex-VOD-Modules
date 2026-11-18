@@ -1,6 +1,6 @@
 /*
  * Rex / ForwardWidgets - 寰宇影源
- * 40站接入、38站聚合、严格匹配、仅直接 M3U8。运行时不依赖 registry.json 或其他文件。
+ * 40站接入、按级别聚合、严格匹配、仅直接 M3U8。运行时不依赖 registry.json 或其他文件。
  */
 var CINEVERSE_CONFIG = __AGG_CONFIG__;
 var CINEVERSE_SOURCES = CINEVERSE_CONFIG.sources;

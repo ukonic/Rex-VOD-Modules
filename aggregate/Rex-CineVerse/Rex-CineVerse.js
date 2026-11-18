@@ -1,9 +1,9 @@
 /*
  * Rex / ForwardWidgets - 寰宇影源
- * 40站接入、38站聚合、严格匹配、仅直接 M3U8。运行时不依赖 registry.json 或其他文件。
+ * 40站接入、按级别聚合、严格匹配、仅直接 M3U8。运行时不依赖 registry.json 或其他文件。
  */
 var CINEVERSE_CONFIG = {
-  "version": "0.1.21",
+  "version": "0.1.22",
   "sources": [
     {
       "slug": "feifan",
@@ -1490,9 +1490,9 @@ var CINEVERSE_CONFIG = {
       "slug": "youku",
       "name": "优酷资源",
       "shortName": "优酷",
-      "api": "https://api.ukuapi.com/api.php/provide/vod/",
-      "site": "https://api.ukuapi.com/",
-      "icon": "https://api.ukuapi.com/favicon.ico",
+      "api": "https://api.ukuapi88.com/api.php/provide/vod/",
+      "site": "https://api.ukuapi88.com/",
+      "icon": "https://api.ukuapi88.com/favicon.ico",
       "blockedCoverHosts": [],
       "priority": 10,
       "tier": "S",
@@ -4153,12 +4153,7 @@ var CINEVERSE_CONFIG = {
             "value": "33"
           }
         ],
-        "short": [
-          {
-            "title": "短剧",
-            "value": "36"
-          }
-        ]
+        "short": []
       }
     },
     {
@@ -4834,106 +4829,13 @@ var CINEVERSE_CONFIG = {
       "icon": "https://xyezy.com/favicon.ico",
       "blockedCoverHosts": [],
       "priority": 31,
-      "tier": "B",
+      "tier": "R",
       "categories": {
-        "movie": [
-          {
-            "title": "动作片",
-            "value": "6"
-          },
-          {
-            "title": "喜剧片",
-            "value": "7"
-          },
-          {
-            "title": "爱情片",
-            "value": "8"
-          },
-          {
-            "title": "科幻片",
-            "value": "9"
-          },
-          {
-            "title": "恐怖片",
-            "value": "10"
-          },
-          {
-            "title": "剧情片",
-            "value": "11"
-          },
-          {
-            "title": "战争片",
-            "value": "12"
-          },
-          {
-            "title": "纪录片",
-            "value": "20"
-          }
-        ],
-        "tv": [
-          {
-            "title": "国产剧",
-            "value": "13"
-          },
-          {
-            "title": "香港剧",
-            "value": "14"
-          },
-          {
-            "title": "韩国剧",
-            "value": "15"
-          },
-          {
-            "title": "欧美剧",
-            "value": "16"
-          },
-          {
-            "title": "台湾剧",
-            "value": "21"
-          },
-          {
-            "title": "日本剧",
-            "value": "22"
-          },
-          {
-            "title": "海外剧",
-            "value": "23"
-          },
-          {
-            "title": "泰国剧",
-            "value": "24"
-          }
-        ],
-        "variety": [
-          {
-            "title": "大陆综艺",
-            "value": "25"
-          },
-          {
-            "title": "港台综艺",
-            "value": "26"
-          },
-          {
-            "title": "日韩综艺",
-            "value": "27"
-          },
-          {
-            "title": "欧美综艺",
-            "value": "28"
-          }
-        ],
-        "anime": [
-          {
-            "title": "动漫激情",
-            "value": "43"
-          }
-        ],
-        "short": [
-          {
-            "title": "短剧",
-            "value": "36"
-          }
-        ]
+        "movie": [],
+        "tv": [],
+        "variety": [],
+        "anime": [],
+        "short": []
       }
     },
     {
@@ -4945,110 +4847,13 @@ var CINEVERSE_CONFIG = {
       "icon": "https://fqzy.me/favicon.ico",
       "blockedCoverHosts": [],
       "priority": 32,
-      "tier": "B",
+      "tier": "R",
       "categories": {
-        "movie": [
-          {
-            "title": "动作片",
-            "value": "6"
-          },
-          {
-            "title": "喜剧片",
-            "value": "7"
-          },
-          {
-            "title": "爱情片",
-            "value": "8"
-          },
-          {
-            "title": "科幻片",
-            "value": "9"
-          },
-          {
-            "title": "恐怖片",
-            "value": "10"
-          },
-          {
-            "title": "剧情片",
-            "value": "11"
-          },
-          {
-            "title": "战争片",
-            "value": "12"
-          },
-          {
-            "title": "纪录片",
-            "value": "20"
-          }
-        ],
-        "tv": [
-          {
-            "title": "国产剧",
-            "value": "13"
-          },
-          {
-            "title": "香港剧",
-            "value": "14"
-          },
-          {
-            "title": "韩国剧",
-            "value": "15"
-          },
-          {
-            "title": "欧美剧",
-            "value": "16"
-          },
-          {
-            "title": "台湾剧",
-            "value": "21"
-          },
-          {
-            "title": "日本剧",
-            "value": "22"
-          },
-          {
-            "title": "海外剧",
-            "value": "23"
-          },
-          {
-            "title": "泰国剧",
-            "value": "24"
-          }
-        ],
-        "variety": [
-          {
-            "title": "大陆综艺",
-            "value": "25"
-          },
-          {
-            "title": "港台综艺",
-            "value": "26"
-          },
-          {
-            "title": "日韩综艺",
-            "value": "27"
-          },
-          {
-            "title": "欧美综艺",
-            "value": "28"
-          }
-        ],
-        "anime": [
-          {
-            "title": "动漫精选",
-            "value": "22"
-          },
-          {
-            "title": "动漫精选",
-            "value": "23"
-          }
-        ],
-        "short": [
-          {
-            "title": "短剧",
-            "value": "36"
-          }
-        ]
+        "movie": [],
+        "tv": [],
+        "variety": [],
+        "anime": [],
+        "short": []
       }
     },
     {
@@ -5060,106 +4865,13 @@ var CINEVERSE_CONFIG = {
       "icon": "https://dadiapi.com/favicon.ico",
       "blockedCoverHosts": [],
       "priority": 33,
-      "tier": "B",
+      "tier": "R",
       "categories": {
-        "movie": [
-          {
-            "title": "动作片",
-            "value": "6"
-          },
-          {
-            "title": "喜剧片",
-            "value": "7"
-          },
-          {
-            "title": "爱情片",
-            "value": "8"
-          },
-          {
-            "title": "科幻片",
-            "value": "9"
-          },
-          {
-            "title": "恐怖片",
-            "value": "10"
-          },
-          {
-            "title": "剧情片",
-            "value": "11"
-          },
-          {
-            "title": "战争片",
-            "value": "12"
-          },
-          {
-            "title": "纪录片",
-            "value": "20"
-          }
-        ],
-        "tv": [
-          {
-            "title": "国产剧",
-            "value": "13"
-          },
-          {
-            "title": "香港剧",
-            "value": "14"
-          },
-          {
-            "title": "韩国剧",
-            "value": "15"
-          },
-          {
-            "title": "欧美剧",
-            "value": "16"
-          },
-          {
-            "title": "台湾剧",
-            "value": "21"
-          },
-          {
-            "title": "日本剧",
-            "value": "22"
-          },
-          {
-            "title": "海外剧",
-            "value": "23"
-          },
-          {
-            "title": "泰国剧",
-            "value": "24"
-          }
-        ],
-        "variety": [
-          {
-            "title": "大陆综艺",
-            "value": "25"
-          },
-          {
-            "title": "港台综艺",
-            "value": "26"
-          },
-          {
-            "title": "日韩综艺",
-            "value": "27"
-          },
-          {
-            "title": "欧美综艺",
-            "value": "28"
-          }
-        ],
-        "anime": [
-          {
-            "title": "动漫精品",
-            "value": "20"
-          }
-        ],
-        "short": [
-          {
-            "title": "短剧",
-            "value": "36"
-          }
-        ]
+        "movie": [],
+        "tv": [],
+        "variety": [],
+        "anime": [],
+        "short": []
       }
     },
     {
@@ -5462,7 +5174,7 @@ var CINEVERSE_CONFIG = {
       "icon": "https://p2100.net/favicon.ico",
       "blockedCoverHosts": [],
       "priority": 36,
-      "tier": "B",
+      "tier": "R",
       "categories": {
         "movie": [
           {
@@ -5909,7 +5621,7 @@ var CINEVERSE_CONFIG = {
         "dbzy5.com"
       ],
       "priority": 39,
-      "tier": "D",
+      "tier": "R",
       "categories": {
         "movie": [
           {
