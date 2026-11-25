@@ -1,7 +1,8 @@
 var WidgetMetadata = {
   "id": "rex.baidu.vod",
   "title": "百度资源",
-  "version": "0.1.13",
+  "iconurl": "https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/refs/heads/main/sources/baidu/icon.png",
+  "version": "0.1.14",
   "requiredVersion": "0.0.1",
   "description": "百度资源：更新、分类、搜索、详情与直接 M3U8 播放",
   "author": "ukonic",
@@ -310,7 +311,7 @@ var SOURCE_CONFIG = {
   "site": "https://api.apibdzy.com/",
   "icon": "https://api.apibdzy.com/favicon.ico",
   "blockedCoverHosts": [],
-  "version": "0.1.13",
+  "version": "0.1.14",
   "priority": 38,
   "tier": "D",
   "categories": {

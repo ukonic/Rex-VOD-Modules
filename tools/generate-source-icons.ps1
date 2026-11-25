@@ -7,6 +7,7 @@ $size = 128
 # Missing, generic template and unrelated third-party logos are omitted.
 $siteIcons = [ordered]@{
     aidan      = 'https://lovedan.net/favicon.ico'
+    baidu      = 'https://bdzy1.com/template/stui_tpl/statics/img/logo_min_f.png'
     baofeng    = 'https://bfzy.tv/favicon.ico?v=vozy-20261114-layout1'
     changzhang = 'https://changzhang.tv/apple-touch-icon.png?v=cz-film-20261017'
     dadi       = 'https://dadiapi.com/upload/logo.jpg'
@@ -18,6 +19,7 @@ $siteIcons = [ordered]@{
     hongniu    = 'https://hongniuzy.com/template/vipzy/images/logo.png'
     huya       = 'https://www.huyaapi.com/favicon.ico'
     ikun       = 'https://ikunzyapi.com/favicon.ico'
+    iqiyi      = 'https://www.iqiyipic.com/common/fix/128-128-logo.png'
     jinying    = 'https://jyzyapi.com/favicon.ico'
     jisu       = 'https://jszyapi.com/favicon.ico'
     kuaiche    = 'https://www.kuaichezy.com/template/shenlanse/static/picture/logo.png'

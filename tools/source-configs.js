@@ -40,9 +40,9 @@ module.exports = [
   { slug: "zy1080", name: "1080资源", shortName: "1080", moduleName: "一零八零资源", moduleShortName: "一零八零", playbackName: "一零八零资源", api: "https://api.1080zyku.com/inc/apijson.php", priority: 35, tier: "R", version: "0.1.15" },
   { slug: "piaoling", name: "飘零资源", shortName: "飘零", api: "https://p2100.net/api.php/provide/vod/", priority: 36, tier: "R", status: "disabled", version: "0.1.14" },
   { slug: "maotai", name: "茅台资源", shortName: "茅台", api: "https://caiji.maotaizy.cc/api.php/provide/vod/", priority: 37, tier: "C", status: "degraded" },
-  { slug: "baidu", name: "百度资源", shortName: "百度", api: "https://api.apibdzy.com/api.php/provide/vod/", priority: 38, tier: "D", status: "disabled" },
+  { slug: "baidu", name: "百度资源", shortName: "百度", api: "https://api.apibdzy.com/api.php/provide/vod/", priority: 38, tier: "D", status: "disabled", version: "0.1.14" },
   { slug: "douban", name: "豆瓣资源", shortName: "豆瓣", api: "https://dbzy.tv/api.php/provide/vod/", priority: 39, tier: "R", status: "disabled", version: "0.1.14", blockedCoverHosts: ["dbzy5.com"] },
-  { slug: "iqiyi", name: "爱奇艺资源", shortName: "爱奇艺", api: "https://iqiyizyapi.com/api.php/provide/vod/", apiAliases: ["http://iqiyizyapi.com/api.php/provide/vod/"], priority: 40, tier: "D", status: "disabled", categories: {
+  { slug: "iqiyi", name: "爱奇艺资源", shortName: "爱奇艺", api: "https://iqiyizyapi.com/api.php/provide/vod/", apiAliases: ["http://iqiyizyapi.com/api.php/provide/vod/"], priority: 40, tier: "D", status: "disabled", version: "0.1.14", categories: {
     movie: [["电影", "7"], ["动作片", "10"], ["喜剧片", "11"], ["爱情片", "12"], ["科幻片", "13"], ["恐怖片", "14"], ["剧情片", "15"], ["战争片", "16"], ["惊悚片", "17"], ["家庭片", "18"], ["古装片", "19"], ["历史片", "20"], ["悬疑片", "21"], ["犯罪片", "22"], ["灾难片", "23"], ["记录片", "24"], ["短片", "25"]].map(([title, value]) => ({ title, value })),
     tv: [["连续剧", "8"], ["国产剧", "26"], ["香港剧", "27"], ["韩国剧", "28"], ["欧美剧", "29"], ["台湾剧", "30"], ["日本剧", "31"], ["海外剧", "32"], ["泰国剧", "33"]].map(([title, value]) => ({ title, value })),
     variety: [["综艺", "9"], ["大陆综艺", "34"], ["港台综艺", "35"], ["日韩综艺", "36"], ["欧美综艺", "37"]].map(([title, value]) => ({ title, value })),

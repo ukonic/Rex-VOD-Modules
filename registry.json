@@ -491,7 +491,7 @@
     "categoryStatus": "ok",
     "checkedAt": "2026-11-01T11:53:57.619Z",
     "module": "sources/baidu/Rex-Baidu-VOD.js",
-    "version": "0.1.13",
+    "version": "0.1.14",
     "m3u8Only": true
   },
   {
@@ -517,7 +517,7 @@
     "categoryStatus": "ok",
     "checkedAt": "2026-11-01T11:53:57.620Z",
     "module": "sources/iqiyi/Rex-Iqiyi-VOD.js",
-    "version": "0.1.13",
+    "version": "0.1.14",
     "m3u8Only": true
   }
 ]

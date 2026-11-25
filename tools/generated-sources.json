@@ -5634,7 +5634,7 @@
     "priority": 38,
     "tier": "D",
     "status": "disabled",
-    "version": "0.1.13",
+    "version": "0.1.14",
     "site": "https://api.apibdzy.com/",
     "icon": "https://api.apibdzy.com/favicon.ico",
     "categories": {
@@ -5982,6 +5982,7 @@
     "priority": 40,
     "tier": "D",
     "status": "disabled",
+    "version": "0.1.14",
     "categories": {
       "movie": [
         {
@@ -6146,7 +6147,6 @@
         }
       ]
     },
-    "version": "0.1.13",
     "site": "https://iqiyizyapi.com/",
     "icon": "https://iqiyizyapi.com/favicon.ico",
     "apiStatus": "ok",
