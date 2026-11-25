@@ -11,7 +11,7 @@ https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/refs/heads/main/aggrega
 如Rex仍缓存旧版本，可使用当前固定版本地址重新导入：
 
 ```text
-https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/refs/heads/main/aggregate/Rex-CineVerse/versions/Rex-CineVerse-v0.1.22.js
+https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/refs/heads/main/aggregate/Rex-CineVerse/versions/Rex-CineVerse-v0.1.23.js
 ```
 
 ## 播放源策略
@@ -22,7 +22,7 @@ https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/refs/heads/main/aggrega
 - 2个 D 级资源站仅在完整聚合模式下参与，自动分层和仅核心站不会调用。
 - 另外7个 R 级资源站仅可在资源站库中手动浏览和播放，不参与任何聚合策略。
 
-“自动分层目标数（仅自动分层生效）”默认为3，可在全局设置中填写1–20；统计的是不同资源站数量，不是播放线路数量，完整聚合和仅核心站模式会忽略该数值。
+“自动分层目标数（仅自动分层生效）”默认为3，可在全局设置中填写1–20；播放时统计提供当前影片或分集线路的不同资源站，完整聚合和仅核心站模式会忽略该数值。
 
 ## 功能入口
 

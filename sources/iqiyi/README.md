@@ -17,4 +17,4 @@ https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/main/sources/iqiyi/Rex-
 
 资源站登记名：爱奇艺资源
 
-接口：`http://iqiyizyapi.com/api.php/provide/vod/`
+接口：`https://iqiyizyapi.com/api.php/provide/vod/`

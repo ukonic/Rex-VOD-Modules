@@ -1,3 +1,313 @@
+var WidgetMetadata = {
+  "id": "rex.ok.vod",
+  "title": "OK资源",
+  "iconurl": "https://api.okzyw.net/favicon.ico",
+  "version": "0.1.12",
+  "requiredVersion": "0.0.1",
+  "description": "OK资源：更新、分类、搜索、详情与直接 M3U8 播放",
+  "author": "ukonic",
+  "site": "https://api.okzyw.net/",
+  "detailCacheDuration": 300,
+  "modules": [
+    {
+      "id": "loadResource",
+      "title": "加载OK播放源",
+      "functionName": "loadResource",
+      "type": "stream",
+      "cacheDuration": 0,
+      "params": []
+    },
+    {
+      "id": "okVod",
+      "title": "OK资源",
+      "subtitle": "最近更新",
+      "functionName": "loadSourceHome",
+      "cacheDuration": 300,
+      "params": [
+        {
+          "name": "page",
+          "title": "页码",
+          "type": "page",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "id": "okMovies",
+      "title": "OK电影",
+      "functionName": "loadSourceMovies",
+      "cacheDuration": 300,
+      "params": [
+        {
+          "name": "category",
+          "title": "分类",
+          "type": "enumeration",
+          "value": "all",
+          "enumOptions": [
+            {
+              "title": "全部",
+              "value": "all"
+            },
+            {
+              "title": "电影",
+              "value": "1"
+            },
+            {
+              "title": "动作片",
+              "value": "6"
+            },
+            {
+              "title": "喜剧片",
+              "value": "7"
+            },
+            {
+              "title": "爱情片",
+              "value": "8"
+            },
+            {
+              "title": "科幻片",
+              "value": "9"
+            },
+            {
+              "title": "恐怖片",
+              "value": "10"
+            },
+            {
+              "title": "剧情片",
+              "value": "11"
+            },
+            {
+              "title": "战争片",
+              "value": "12"
+            },
+            {
+              "title": "纪录片",
+              "value": "20"
+            },
+            {
+              "title": "4K电影",
+              "value": "62"
+            },
+            {
+              "title": "邵氏电影",
+              "value": "70"
+            },
+            {
+              "title": "Netflix电影",
+              "value": "72"
+            }
+          ]
+        },
+        {
+          "name": "page",
+          "title": "页码",
+          "type": "page",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "id": "okSeries",
+      "title": "OK剧集",
+      "functionName": "loadSourceSeries",
+      "cacheDuration": 300,
+      "params": [
+        {
+          "name": "category",
+          "title": "分类",
+          "type": "enumeration",
+          "value": "all",
+          "enumOptions": [
+            {
+              "title": "全部",
+              "value": "all"
+            },
+            {
+              "title": "电视剧",
+              "value": "2"
+            },
+            {
+              "title": "国产剧",
+              "value": "13"
+            },
+            {
+              "title": "欧美剧",
+              "value": "14"
+            },
+            {
+              "title": "海外剧",
+              "value": "23"
+            }
+          ]
+        },
+        {
+          "name": "page",
+          "title": "页码",
+          "type": "page",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "id": "okVariety",
+      "title": "OK综艺",
+      "functionName": "loadSourceVariety",
+      "cacheDuration": 300,
+      "params": [
+        {
+          "name": "category",
+          "title": "分类",
+          "type": "enumeration",
+          "value": "all",
+          "enumOptions": [
+            {
+              "title": "全部",
+              "value": "all"
+            },
+            {
+              "title": "综艺",
+              "value": "3"
+            },
+            {
+              "title": "大陆综艺",
+              "value": "25"
+            },
+            {
+              "title": "日韩综艺",
+              "value": "26"
+            },
+            {
+              "title": "港台综艺",
+              "value": "27"
+            },
+            {
+              "title": "欧美综艺",
+              "value": "28"
+            }
+          ]
+        },
+        {
+          "name": "page",
+          "title": "页码",
+          "type": "page",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "id": "okAnime",
+      "title": "OK动漫",
+      "functionName": "loadSourceAnime",
+      "cacheDuration": 300,
+      "params": [
+        {
+          "name": "category",
+          "title": "分类",
+          "type": "enumeration",
+          "value": "all",
+          "enumOptions": [
+            {
+              "title": "全部",
+              "value": "all"
+            },
+            {
+              "title": "动漫",
+              "value": "4"
+            },
+            {
+              "title": "国产动漫",
+              "value": "29"
+            },
+            {
+              "title": "日韩动漫",
+              "value": "30"
+            },
+            {
+              "title": "欧美动漫",
+              "value": "31"
+            },
+            {
+              "title": "动画片",
+              "value": "39"
+            },
+            {
+              "title": "港台动漫",
+              "value": "44"
+            },
+            {
+              "title": "海外动漫",
+              "value": "45"
+            },
+            {
+              "title": "有声动漫",
+              "value": "63"
+            }
+          ]
+        },
+        {
+          "name": "page",
+          "title": "页码",
+          "type": "page",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "id": "okShort",
+      "title": "OK短剧",
+      "functionName": "loadSourceShort",
+      "cacheDuration": 300,
+      "params": [
+        {
+          "name": "category",
+          "title": "分类",
+          "type": "enumeration",
+          "value": "all",
+          "enumOptions": [
+            {
+              "title": "全部",
+              "value": "all"
+            },
+            {
+              "title": "爽文短剧",
+              "value": "54"
+            },
+            {
+              "title": "擦边短剧",
+              "value": "73"
+            }
+          ]
+        },
+        {
+          "name": "page",
+          "title": "页码",
+          "type": "page",
+          "value": "1"
+        }
+      ]
+    }
+  ],
+  "search": {
+    "id": "2ebdc0542041eebbb0f7791e087a0505",
+    "title": "搜索OK资源",
+    "functionName": "searchSource",
+    "params": [
+      {
+        "name": "keyword",
+        "title": "关键词",
+        "type": "input",
+        "description": "输入影片名称"
+      },
+      {
+        "name": "page",
+        "title": "页码",
+        "type": "page",
+        "value": "1"
+      }
+    ]
+  }
+};
+
 /*
  * Rex / ForwardWidgets - OK资源
  * 仅使用公开 JSON 采集接口，只输出直接 M3U8 播放地址。
@@ -7,12 +317,13 @@ var SOURCE_CONFIG = {
   "slug": "ok",
   "name": "OK资源",
   "shortName": "OK",
+  "searchId": "2ebdc0542041eebbb0f7791e087a0505",
   "sourceName": "OK资源",
   "api": "https://api.okzyw.net/api.php/provide/vod/",
   "site": "https://api.okzyw.net/",
   "icon": "https://api.okzyw.net/favicon.ico",
   "blockedCoverHosts": [],
-  "version": "0.1.11",
+  "version": "0.1.12",
   "priority": 16,
   "tier": "A",
   "categories": {
@@ -173,34 +484,6 @@ function sourcePageParams(channel) {
   ];
 }
 
-var WidgetMetadata = {
-  id: "rex." + SOURCE_CONFIG.slug + ".vod",
-  title: SOURCE_CONFIG.name,
-  icon: SOURCE_CONFIG.icon,
-  version: SOURCE_CONFIG.version,
-  requiredVersion: "0.0.1",
-  description: SOURCE_CONFIG.name + "：更新、分类、搜索、详情与直接 M3U8 播放",
-  author: "ukonic",
-  site: SOURCE_CONFIG.site,
-  detailCacheDuration: 300,
-  modules: [
-    { id: "loadResource", title: "加载" + SOURCE_CONFIG.shortName + "播放源", functionName: "loadResource", type: "stream", cacheDuration: 0, params: [] },
-    { id: SOURCE_CONFIG.slug + "Vod", title: SOURCE_CONFIG.name, description: "最近更新", functionName: "loadSourceHome", cacheDuration: 300, params: [{ name: "page", title: "页码", type: "page", value: "1" }] },
-    { id: SOURCE_CONFIG.slug + "Movies", title: SOURCE_CONFIG.shortName + "电影", functionName: "loadSourceMovies", cacheDuration: 300, params: sourcePageParams("movie") },
-    { id: SOURCE_CONFIG.slug + "Series", title: SOURCE_CONFIG.shortName + "剧集", functionName: "loadSourceSeries", cacheDuration: 300, params: sourcePageParams("tv") },
-    { id: SOURCE_CONFIG.slug + "Variety", title: SOURCE_CONFIG.shortName + "综艺", functionName: "loadSourceVariety", cacheDuration: 300, params: sourcePageParams("variety") },
-    { id: SOURCE_CONFIG.slug + "Anime", title: SOURCE_CONFIG.shortName + "动漫", functionName: "loadSourceAnime", cacheDuration: 300, params: sourcePageParams("anime") },
-    { id: SOURCE_CONFIG.slug + "Short", title: SOURCE_CONFIG.shortName + "短剧", functionName: "loadSourceShort", cacheDuration: 300, params: sourcePageParams("short") }
-  ],
-  search: {
-    title: "搜索" + SOURCE_CONFIG.name,
-    functionName: "searchSource",
-    params: [
-      { name: "keyword", title: "关键词", type: "input", description: "输入影片名称" },
-      { name: "page", title: "页码", type: "page", value: "1" }
-    ]
-  }
-};
 
 var SOURCE_BLOCKED_WORDS = [
   "伦理片", "伦理", "福利", "里番", "无码", "有码", "情色", "色情",
@@ -264,14 +547,14 @@ function sourcePage(value) {
   return isFinite(number) && number > 0 ? number : 1;
 }
 
-function sourceApiUrl(params) {
+function sourceApiUrl(params, api) {
   var pairs = [];
   Object.keys(params || {}).forEach(function (key) {
     var value = params[key];
     if (value === undefined || value === null || value === "") return;
     pairs.push(encodeURIComponent(key) + "=" + encodeURIComponent(String(value)));
   });
-  return SOURCE_CONFIG.api + (SOURCE_CONFIG.api.indexOf("?") >= 0 ? "&" : "?") + pairs.join("&");
+  return api + (api.indexOf("?") >= 0 ? "&" : "?") + pairs.join("&");
 }
 
 function sourceHeaders() {
@@ -282,10 +565,10 @@ function sourceHeaders() {
   };
 }
 
-async function sourceGet(params) {
+async function sourceRequest(params, api) {
   var response;
   try {
-    response = await Widget.http.get(sourceApiUrl(params), { headers: sourceHeaders() });
+    response = await Widget.http.get(sourceApiUrl(params, api), { headers: sourceHeaders() });
   } catch (error) {
     throw new Error("[" + SOURCE_CONFIG.slug.toUpperCase() + "-NET] 接口请求失败：" + (error && error.message ? error.message : error));
   }
@@ -301,6 +584,13 @@ async function sourceGet(params) {
     throw new Error("[" + SOURCE_CONFIG.slug.toUpperCase() + "-API] " + (sourceStrip(result.msg) || "接口返回异常"));
   }
   return result;
+}
+async function sourceGet(params) {
+  try { return await sourceRequest(params, SOURCE_CONFIG.api); }
+  catch (error) {
+    if (!SOURCE_CONFIG.fallbackApi) throw error;
+    return sourceRequest(params, SOURCE_CONFIG.fallbackApi);
+  }
 }
 
 function sourceBlocked(item) {
@@ -324,16 +614,20 @@ function sourceLink(id) {
 }
 
 function sourceOwnApiUrl(value) {
-  var api = sourceText(SOURCE_CONFIG.api).trim().replace(/\/+$/, "");
-  value = sourceText(value).trim();
-  return !!api && /^https?:\/\//i.test(value) && value.toLowerCase().indexOf(api.toLowerCase()) === 0;
+  value = sourceText(value).trim().toLowerCase();
+  return [SOURCE_CONFIG.api, SOURCE_CONFIG.fallbackApi].concat(SOURCE_CONFIG.apiAliases || []).some(function (entry) {
+    var api = sourceText(entry).trim().replace(/\/+$/, "").toLowerCase();
+    return api && (value === api || value.indexOf(api + "/") === 0 || value.indexOf(api + "?") === 0);
+  });
 }
 
 function sourceId(link) {
   var value = sourceText(link).trim();
   var pattern = new RegExp("^rexvod://" + SOURCE_CONFIG.slug + "/([^/?#]+)", "i");
   var match = value.match(pattern);
-  if (match) return decodeURIComponent(match[1]);
+  if (match) {
+    try { return decodeURIComponent(match[1]); } catch (_) { return ""; }
+  }
   if (/^\d+$/.test(value)) return value;
   if (!sourceOwnApiUrl(value)) return "";
   match = value.match(/[?&](?:id|ids)=(\d+)/i);
@@ -389,7 +683,7 @@ function sourceMapList(list) {
 
 function sourceM3u8(url) {
   var clean = sourceText(url).trim();
-  return /^https?:\/\//i.test(clean) && /\.m3u8(?:[?#]|$)/i.test(clean);
+  return /^https?:\/\/[^/?#]+\/[^?#]*\.m3u8(?:[?#]|$)/i.test(clean);
 }
 
 function sourcePlayLines(item) {
@@ -527,9 +821,10 @@ async function searchSource(params) {
   if (!keyword) return [];
   var rows = [];
   var queries = sourceSearchQueries(keyword);
+  var page = sourcePage(params.page);
   for (var index = 0; index < queries.length; index += 1) {
-    var startPage = sourcePage(params.page);
-    var pages = sourceIdentityTitle(queries[index]).length <= 4 ? [startPage, startPage + 1] : [startPage];
+    var startPage = (page - 1) * 2 + 1;
+    var pages = sourceIdentityTitle(queries[index]).length <= 4 ? [startPage, startPage + 1] : [page];
     for (var pageIndex = 0; pageIndex < pages.length; pageIndex += 1) {
       try {
         var result = await sourceGet({ ac: "detail", wd: queries[index], pg: pages[pageIndex] });
@@ -542,14 +837,13 @@ async function searchSource(params) {
 
 async function loadDetail(link) {
   var id = sourceId(link);
-  if (!id) return null;
-  var result;
-  try { result = await sourceGet({ ac: "detail", ids: id }); } catch (_) { return null; }
+  if (!id) return [];
+  var result = await sourceGet({ ac: "detail", ids: id });
   var list = Array.isArray(result.list) ? result.list : [];
   for (var i = 0; i < list.length; i += 1) {
-    if (sourceText(list[i] && list[i].vod_id) === id) return sourceDetailItem(list[i]);
+    if (sourceText(list[i] && list[i].vod_id) === id) return sourceDetailItem(list[i]) || [];
   }
-  return list.length ? sourceDetailItem(list[0]) : null;
+  return [];
 }
 
 function sourceNormalize(value) {
@@ -594,8 +888,9 @@ function sourcePicks(list, keyword, params) {
   var wanted = sourceBaseTitle(keyword);
   var wantedIdentity = sourceIdentityTitle(keyword);
   var wantedEdition = sourceTitleEdition(keyword);
-  var requestedYear = sourceText(params && params.year).trim();
   var requestedType = sourceText(params && (params.type || params.mediaType)).toLowerCase();
+  var dateYear = (requestedType === "movie" && sourceText(params && params.airDate).match(/^(?:19|20)\d{2}(?=-|$)/)) || [];
+  var requestedYear = sourceText(params && params.year).trim() || dateYear[0] || "";
   var requestedSeason = sourceSeason(keyword) || sourceText(params && params.season).trim();
   var candidates = (Array.isArray(list) ? list : []).filter(function (item) {
     if (!item || sourceBlocked(item) || !sourcePlayLines(item).length) return false;
@@ -678,7 +973,9 @@ async function loadResource(params) {
   if (id) {
     try {
       result = await sourceGet({ ac: "detail", ids: id });
-      var directList = Array.isArray(result.list) ? result.list : [];
+      var directList = (Array.isArray(result.list) ? result.list : []).filter(function (item) {
+        return sourceText(item && item.vod_id) === id;
+      });
       var directKeywords = sourceDirectKeywords(params);
       if (!directKeywords.length) details = directList.length ? [directList[0]] : [];
       for (var directIndex = 0; directIndex < directKeywords.length && !details.length; directIndex += 1) {

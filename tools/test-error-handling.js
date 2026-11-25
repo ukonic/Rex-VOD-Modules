@@ -32,8 +32,8 @@ function assert(condition, message) {
     const link = name === "aggregate" ? "cineverse://feifan/1" :
       name === "standalone" ? "rexvod://liangzi/1" :
         "https://api.ffzyapi.com/api.php/provide/vod/from/ffm3u8/?ac=detail&ids=1";
-    const detail = await context.loadDetail(link);
-    assert(detail === null, `${name}: network failure should return null detail`);
+    await require("node:assert/strict").rejects(context.loadDetail(link), /simulated timeout/,
+      `${name}: network failure should provide a readable detail error`);
     const resources = await context.loadResource({ title: "测试剧", type: "tv", episode: 1 }).catch(() => []);
     assert(Array.isArray(resources), `${name}: resource failure should remain isolated`);
   }

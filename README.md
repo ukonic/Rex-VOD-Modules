@@ -18,7 +18,7 @@ https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/refs/heads/main/aggrega
 如Rex仍缓存旧版本，可使用当前固定版本地址重新导入：
 
 ```text
-https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/refs/heads/main/aggregate/Rex-CineVerse/versions/Rex-CineVerse-v0.1.22.js
+https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/refs/heads/main/aggregate/Rex-CineVerse/versions/Rex-CineVerse-v0.1.23.js
 ```
 
 功能入口：寰宇影源、寰宇电影、寰宇剧集、寰宇综艺、寰宇动漫、寰宇短剧、资源站库、全网搜索、多源播放。
@@ -59,7 +59,7 @@ Rex-VOD-Modules/
 | 20 | 红牛资源 | A | [JS](sources/hongniu/Rex-Hongniu-VOD.js) | `https://www.hongniuzy2.com/api.php/provide/vod/` |
 | 21 | 天涯资源 | B | [JS](sources/tianya/Rex-Tianya-VOD.js) | `https://tyyszyapi.com/api.php/provide/vod/` |
 | 22 | 虎牙资源 | B | [JS](sources/huya/Rex-Huya-VOD.js) | `https://www.huyaapi.com/api.php/provide/vod/` |
-| 23 | 新浪资源 | B | [JS](sources/xinlang/Rex-Xinlang-VOD.js) | `http://api.xinlangapi.com/xinlangapi.php/provide/vod/` |
+| 23 | 新浪资源 | B | [JS](sources/xinlang/Rex-Xinlang-VOD.js) | `https://api.xinlangapi.com/xinlangapi.php/provide/vod/` |
 | 24 | 豪华资源 | B | [JS](sources/haohua/Rex-Haohua-VOD.js) | `https://hhzyapi.com/api.php/provide/vod/` |
 | 25 | 爱蛋资源 | B | [JS](sources/aidan/Rex-Aidan-VOD.js) | `https://lovedan.net/api.php/provide/vod/` |
 | 26 | 樱花资源 | B | [JS](sources/yinghua/Rex-Yinghua-VOD.js) | `https://m3u8.apiyhzy.com/api.php/provide/vod/` |
@@ -76,7 +76,7 @@ Rex-VOD-Modules/
 | 37 | 茅台资源 | C | [JS](sources/maotai/Rex-Maotai-VOD.js) | `https://caiji.maotaizy.cc/api.php/provide/vod/` |
 | 38 | 百度资源 | D | [JS](sources/baidu/Rex-Baidu-VOD.js) | `https://api.apibdzy.com/api.php/provide/vod/` |
 | 39 | 豆瓣资源 | R | [JS](sources/douban/Rex-Douban-VOD.js) | `https://dbzy.tv/api.php/provide/vod/` |
-| 40 | 爱奇艺资源 | D | [JS](sources/iqiyi/Rex-Iqiyi-VOD.js) | `http://iqiyizyapi.com/api.php/provide/vod/` |
+| 40 | 爱奇艺资源 | D | [JS](sources/iqiyi/Rex-Iqiyi-VOD.js) | `https://iqiyizyapi.com/api.php/provide/vod/` |
 
 ## 测试
 

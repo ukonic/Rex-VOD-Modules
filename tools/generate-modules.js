@@ -3,6 +3,7 @@
 const fs = require("fs");
 const path = require("path");
 const sources = require("./source-configs");
+const { literalManifest, searchId, writeVersion } = require("./module-release");
 
 const root = path.resolve(__dirname, "..");
 const templatePath = path.join(__dirname, "templates", "standalone.template.js");
@@ -12,7 +13,9 @@ const previousSources = fs.existsSync(generatedPath)
   ? JSON.parse(fs.readFileSync(generatedPath, "utf8"))
   : [];
 const previousBySlug = new Map(previousSources.map(source => [source.slug, source]));
-const requestedSlugs = new Set(process.argv.slice(2));
+const args = process.argv.slice(2);
+const refreshCategories = args.includes("--refresh-categories");
+const requestedSlugs = new Set(args.filter(arg => arg !== "--refresh-categories"));
 
 const fallback = {
   movie: [
@@ -96,10 +99,13 @@ function classify(classes) {
 }
 
 async function enrich(source) {
+  const previous = previousBySlug.get(source.slug);
   let categories;
   let apiStatus = "ok";
   let checkedAt = new Date().toISOString();
-  if (source.categories) {
+  if (previous && !refreshCategories) {
+    ({ categories, apiStatus, checkedAt } = previous);
+  } else if (source.categories) {
     categories = source.categories;
     apiStatus = "configured";
   } else {
@@ -107,13 +113,12 @@ async function enrich(source) {
       const payload = await getJson(source.api);
       categories = classify(payload.class);
     } catch (error) {
-      const previous = previousBySlug.get(source.slug);
       categories = (previous && previous.categories) || fallbackCategories();
       apiStatus = previous && previous.categories ? "previous" : "fallback";
       console.warn(`${source.name}: ${error.message}; using ${apiStatus} categories`);
     }
   }
-  const version = source.version || "0.1.11";
+  const version = source.version || "0.1.12";
   const site = origin(source.api);
   return {
     ...source,
@@ -135,8 +140,11 @@ function moduleSource(config) {
     slug: config.slug,
     name: moduleName,
     shortName: moduleShortName,
+    searchId: searchId("搜索" + moduleName),
     sourceName: config.name,
     api: config.api,
+    apiAliases: config.apiAliases,
+    fallbackApi: config.fallbackApi,
     site: config.site,
     icon: config.icon,
     blockedCoverHosts: config.blockedCoverHosts || [],
@@ -145,9 +153,9 @@ function moduleSource(config) {
     tier: config.tier,
     categories: config.categories
   };
-  return template
+  return literalManifest(template
     .replaceAll("__MODULE_NAME__", moduleName)
-    .replace("__SOURCE_CONFIG__", JSON.stringify(runtimeConfig, null, 2));
+    .replace("__SOURCE_CONFIG__", JSON.stringify(runtimeConfig, null, 2)));
 }
 
 function readme(config) {
@@ -171,14 +179,17 @@ async function main() {
     enriched.push(...batch);
   }
 
-  for (const config of enriched) {
-    if (config.legacy) continue;
+  const outputs = enriched.filter(config => !config.legacy).map(config => {
     const folder = path.join(root, "sources", config.slug);
+    const archive = path.join(folder, "versions", `${fileStem(config.slug)}-v${config.version}.js`);
+    return { config, folder, archive, code: moduleSource(config) };
+  });
+  for (const { archive, code } of outputs) writeVersion(archive, code, true);
+  for (const { config, folder, archive, code } of outputs) {
     const versions = path.join(folder, "versions");
     fs.mkdirSync(versions, { recursive: true });
-    const code = moduleSource(config);
+    writeVersion(archive, code);
     fs.writeFileSync(path.join(folder, config.file), code, "utf8");
-    fs.writeFileSync(path.join(versions, `${fileStem(config.slug)}-v${config.version}.js`), code, "utf8");
     fs.writeFileSync(path.join(folder, "README.md"), readme(config), "utf8");
   }
 
@@ -194,6 +205,7 @@ async function main() {
     id: config.slug,
     name: config.name,
     api: config.api,
+    fallbackApi: config.fallbackApi,
     tier: config.tier,
     status: config.status,
     categoryStatus: config.apiStatus,

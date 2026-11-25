@@ -7,8 +7,8 @@
 var WidgetMetadata = {
   id: "rex.feifan.vod",
   title: "非凡资源",
-  icon: "https://ffzy.tv/favicon.ico",
-  version: "0.1.17",
+  iconurl: "https://ffzy.tv/favicon.ico",
+  version: "0.1.18",
   requiredVersion: "0.0.1",
   description: "非凡资源网 ffm3u8 专用 JSON 接口：分类、搜索、详情与直接 M3U8 播放",
   author: "ukonic",
@@ -26,7 +26,7 @@ var WidgetMetadata = {
     {
       id: "feifanVod",
       title: "非凡资源",
-      description: "统一入口：最新、电影、剧集、综艺、动漫和短剧细分类",
+      subtitle: "统一入口：最新、电影、剧集、综艺、动漫和短剧细分类",
       functionName: "loadFeifanList",
       cacheDuration: 300,
       params: [
@@ -139,6 +139,7 @@ var WidgetMetadata = {
     }
   ],
   search: {
+    id: "edc38ebcdf0bfecd73647aaad99096b7",
     title: "搜索非凡资源",
     functionName: "searchFeifan",
     params: [
@@ -161,7 +162,7 @@ var WidgetMetadata = {
 var FF_API = "https://api.ffzyapi.com/api.php/provide/vod/from/ffm3u8/";
 var FF_SEARCH_API = "https://api.ffzyapi.com/api.php/provide/vod/";
 var FF_SITE = "https://ffzy.tv/";
-var FF_UA = "Mozilla/5.0 (Rex ForwardWidget; Feifan VOD/0.1.17)";
+var FF_UA = "Mozilla/5.0 (Rex ForwardWidget; Feifan VOD/" + WidgetMetadata.version + ")";
 var FF_BLOCKED_TYPE_IDS = { "34": true };
 var FF_BLOCKED_WORDS = [
   "伦理片", "伦理", "福利", "里番", "无码", "有码", "情色", "色情",
@@ -356,7 +357,7 @@ function ffListItem(item) {
   if (!item || ffIsBlocked(item)) return null;
   var id = ffText(item.vod_id).trim();
   if (!id) return null;
-  var cover = ffCover(item) || WidgetMetadata.icon;
+  var cover = ffCover(item) || WidgetMetadata.iconurl;
   return {
     id: ffVodLink(id),
     type: "url",
@@ -427,8 +428,7 @@ async function ffEnrichListItems(items) {
 
 function ffIsDirectM3u8(url) {
   var clean = ffText(url).trim();
-  return /^https?:\/\//i.test(clean) &&
-    (/\.m3u8(?:[?#]|$)/i.test(clean) || /\/index\.m3u8(?:[?#]|$)/i.test(clean));
+  return /^https?:\/\/[^/?#]+\/[^?#]*\.m3u8(?:[?#]|$)/i.test(clean);
 }
 
 function ffParsePlayLines(item) {
@@ -459,7 +459,7 @@ function ffParsePlayLines(item) {
 }
 
 function ffEpisodeItems(item, lines) {
-  var cover = ffCover(item) || WidgetMetadata.icon;
+  var cover = ffCover(item) || WidgetMetadata.iconurl;
   var baseTitle = ffStripHtml(item && item.vod_name);
   var link = ffVodLink(item && item.vod_id);
   if (ffMediaType(item) === "movie" && lines.length) {
@@ -550,9 +550,10 @@ async function searchFeifan(params) {
   if (!keyword) return [];
   var rows = [];
   var queries = ffSearchQueries(keyword);
+  var page = ffPositiveInt(params.page, 1);
   for (var index = 0; index < queries.length; index += 1) {
-    var startPage = ffPositiveInt(params.page, 1);
-    var pages = ffIdentityTitle(queries[index]).length <= 4 ? [startPage, startPage + 1] : [startPage];
+    var startPage = (page - 1) * 2 + 1;
+    var pages = ffIdentityTitle(queries[index]).length <= 4 ? [startPage, startPage + 1] : [page];
     for (var pageIndex = 0; pageIndex < pages.length; pageIndex += 1) {
       try {
         var result = await ffGet({ ac: "detail", wd: queries[index], pg: pages[pageIndex] }, FF_SEARCH_API);
@@ -565,14 +566,13 @@ async function searchFeifan(params) {
 
 async function loadDetail(link) {
   var id = ffVodId(link);
-  if (!id) return null;
-  var result;
-  try { result = await ffGet({ ac: "detail", ids: id }); } catch (_) { return null; }
+  if (!id) return [];
+  var result = await ffGet({ ac: "detail", ids: id });
   var list = Array.isArray(result.list) ? result.list : [];
   for (var i = 0; i < list.length; i += 1) {
-    if (ffText(list[i] && list[i].vod_id) === id) return ffDetailItem(list[i]);
+    if (ffText(list[i] && list[i].vod_id) === id) return ffDetailItem(list[i]) || [];
   }
-  return list.length ? ffDetailItem(list[0]) : null;
+  return [];
 }
 
 function ffVideoResource(line) {
@@ -641,7 +641,8 @@ function ffHomeMatches(list, keyword, params) {
   var wantedIdentity = ffIdentityTitle(keyword);
   var wantedEdition = ffTitleEdition(keyword);
   var requestedType = ffText(params && (params.type || params.mediaType)).toLowerCase();
-  var requestedYear = ffText(params && (params.year || params.releaseYear || params.releaseDate)).match(/(?:19|20)\d{2}/);
+  var requestedYear = ffText(params && (params.year || params.releaseYear || params.releaseDate ||
+    (requestedType === "movie" ? params.airDate : ""))).match(/(?:19|20)\d{2}/);
   requestedYear = requestedYear ? requestedYear[0] : "";
   var matches = (Array.isArray(list) ? list : []).filter(function (item) {
     if (!item || ffIsBlocked(item) || !ffParsePlayLines(item).length) return false;
@@ -709,7 +710,9 @@ async function loadResource(params) {
   if (vodId) {
     try {
       result = await ffGet({ ac: "detail", ids: vodId });
-      var detailList = Array.isArray(result.list) ? result.list : [];
+      var detailList = (Array.isArray(result.list) ? result.list : []).filter(function (item) {
+        return ffText(item && item.vod_id) === vodId;
+      });
       var directKeywords = ffDirectKeywords(params);
       if (!directKeywords.length) seedDetail = detailList.length ? detailList[0] : null;
       for (var directIndex = 0; directIndex < directKeywords.length && !seedDetail; directIndex += 1) {

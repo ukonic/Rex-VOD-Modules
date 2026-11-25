@@ -7,7 +7,7 @@
     "searchApi": "https://api.ffzyapi.com/api.php/provide/vod/",
     "priority": 1,
     "tier": "S",
-    "version": "0.1.17",
+    "version": "0.1.18",
     "legacy": true,
     "site": "https://api.ffzyapi.com/",
     "icon": "https://api.ffzyapi.com/favicon.ico",
@@ -155,7 +155,7 @@
     "api": "https://cj.lziapi.com/api.php/provide/vod/",
     "priority": 2,
     "tier": "S",
-    "version": "0.1.11",
+    "version": "0.1.12",
     "site": "https://cj.lziapi.com/",
     "icon": "https://cj.lziapi.com/favicon.ico",
     "categories": {
@@ -314,7 +314,7 @@
     "api": "https://api.zuidapi.com/api.php/provide/vod/",
     "priority": 3,
     "tier": "S",
-    "version": "0.1.11",
+    "version": "0.1.12",
     "site": "https://api.zuidapi.com/",
     "icon": "https://api.zuidapi.com/favicon.ico",
     "categories": {
@@ -465,7 +465,7 @@
     "api": "https://api.wujinapi.com/api.php/provide/vod/",
     "priority": 4,
     "tier": "S",
-    "version": "0.1.11",
+    "version": "0.1.12",
     "site": "https://api.wujinapi.com/",
     "icon": "https://api.wujinapi.com/favicon.ico",
     "categories": {
@@ -632,7 +632,7 @@
     "api": "https://www.mdzyapi.com/api.php/provide/vod/",
     "priority": 5,
     "tier": "S",
-    "version": "0.1.11",
+    "version": "0.1.12",
     "site": "https://www.mdzyapi.com/",
     "icon": "https://www.mdzyapi.com/favicon.ico",
     "categories": {
@@ -808,9 +808,10 @@
     "moduleShortName": "三六零",
     "playbackName": "三六零资源",
     "api": "https://360zy.com/api.php/provide/vod/",
+    "fallbackApi": "https://360zyzz.com/api.php/provide/vod/",
     "priority": 6,
     "tier": "R",
-    "version": "0.1.13",
+    "version": "0.1.14",
     "site": "https://360zy.com/",
     "icon": "https://360zy.com/favicon.ico",
     "categories": {
@@ -1021,7 +1022,7 @@
     "api": "https://caiji.dyttzyapi.com/api.php/provide/vod/",
     "priority": 7,
     "tier": "S",
-    "version": "0.1.11",
+    "version": "0.1.12",
     "site": "https://caiji.dyttzyapi.com/",
     "icon": "https://caiji.dyttzyapi.com/favicon.ico",
     "categories": {
@@ -1172,7 +1173,7 @@
     "api": "https://bfzyapi.com/api.php/provide/vod/",
     "priority": 8,
     "tier": "S",
-    "version": "0.1.11",
+    "version": "0.1.12",
     "site": "https://bfzyapi.com/",
     "icon": "https://bfzyapi.com/favicon.ico",
     "categories": {
@@ -1368,7 +1369,7 @@
     "priority": 9,
     "tier": "S",
     "status": "degraded",
-    "version": "0.1.11",
+    "version": "0.1.12",
     "site": "https://cj.rycjapi.com/",
     "icon": "https://cj.rycjapi.com/favicon.ico",
     "categories": {
@@ -1527,7 +1528,7 @@
     "priority": 10,
     "tier": "S",
     "status": "degraded",
-    "version": "0.1.12",
+    "version": "0.1.13",
     "site": "https://api.ukuapi88.com/",
     "icon": "https://api.ukuapi88.com/favicon.ico",
     "categories": {
@@ -1641,7 +1642,7 @@
     "api": "https://jszyapi.com/api.php/provide/vod/",
     "priority": 11,
     "tier": "A",
-    "version": "0.1.11",
+    "version": "0.1.12",
     "site": "https://jszyapi.com/",
     "icon": "https://jszyapi.com/favicon.ico",
     "categories": {
@@ -1832,7 +1833,7 @@
     "api": "https://ikunzyapi.com/api.php/provide/vod/",
     "priority": 12,
     "tier": "A",
-    "version": "0.1.11",
+    "version": "0.1.12",
     "site": "https://ikunzyapi.com/",
     "icon": "https://ikunzyapi.com/favicon.ico",
     "categories": {
@@ -2007,7 +2008,7 @@
     "api": "https://suoniapi.com/api.php/provide/vod/",
     "priority": 13,
     "tier": "A",
-    "version": "0.1.11",
+    "version": "0.1.12",
     "site": "https://suoniapi.com/",
     "icon": "https://suoniapi.com/favicon.ico",
     "categories": {
@@ -2158,7 +2159,7 @@
     "api": "https://api.niuniuzy.me/api.php/provide/vod/",
     "priority": 14,
     "tier": "A",
-    "version": "0.1.11",
+    "version": "0.1.12",
     "site": "https://api.niuniuzy.me/",
     "icon": "https://api.niuniuzy.me/favicon.ico",
     "categories": {
@@ -2309,7 +2310,7 @@
     "api": "https://sdzyapi.com/api.php/provide/vod/",
     "priority": 15,
     "tier": "A",
-    "version": "0.1.11",
+    "version": "0.1.12",
     "site": "https://sdzyapi.com/",
     "icon": "https://sdzyapi.com/favicon.ico",
     "categories": {
@@ -2460,7 +2461,7 @@
     "api": "https://api.okzyw.net/api.php/provide/vod/",
     "priority": 16,
     "tier": "A",
-    "version": "0.1.11",
+    "version": "0.1.12",
     "site": "https://api.okzyw.net/",
     "icon": "https://api.okzyw.net/favicon.ico",
     "categories": {
@@ -2612,7 +2613,7 @@
     "priority": 17,
     "tier": "A",
     "status": "degraded",
-    "version": "0.1.11",
+    "version": "0.1.12",
     "site": "https://api.maoyanapi.top/",
     "icon": "https://api.maoyanapi.top/favicon.ico",
     "categories": {
@@ -2826,7 +2827,7 @@
     "api": "https://caiji.kuaichezy.org/api.php/provide/vod/",
     "priority": 18,
     "tier": "A",
-    "version": "0.1.11",
+    "version": "0.1.12",
     "site": "https://caiji.kuaichezy.org/",
     "icon": "https://caiji.kuaichezy.org/favicon.ico",
     "categories": {
@@ -2977,7 +2978,7 @@
     "api": "https://api.guangsuapi.com/api.php/provide/vod/",
     "priority": 19,
     "tier": "A",
-    "version": "0.1.11",
+    "version": "0.1.12",
     "site": "https://api.guangsuapi.com/",
     "icon": "https://api.guangsuapi.com/favicon.ico",
     "categories": {
@@ -3148,7 +3149,7 @@
     "api": "https://www.hongniuzy2.com/api.php/provide/vod/",
     "priority": 20,
     "tier": "A",
-    "version": "0.1.11",
+    "version": "0.1.12",
     "site": "https://www.hongniuzy2.com/",
     "icon": "https://www.hongniuzy2.com/favicon.ico",
     "categories": {
@@ -3276,7 +3277,7 @@
     "priority": 21,
     "tier": "B",
     "status": "degraded",
-    "version": "0.1.11",
+    "version": "0.1.12",
     "site": "https://tyyszyapi.com/",
     "icon": "https://tyyszyapi.com/favicon.ico",
     "categories": {
@@ -3426,7 +3427,7 @@
     "api": "https://www.huyaapi.com/api.php/provide/vod/",
     "priority": 22,
     "tier": "B",
-    "version": "0.1.11",
+    "version": "0.1.12",
     "site": "https://www.huyaapi.com/",
     "icon": "https://www.huyaapi.com/favicon.ico",
     "categories": {
@@ -3598,12 +3599,15 @@
     "slug": "xinlang",
     "name": "新浪资源",
     "shortName": "新浪",
-    "api": "http://api.xinlangapi.com/xinlangapi.php/provide/vod/",
+    "api": "https://api.xinlangapi.com/xinlangapi.php/provide/vod/",
+    "apiAliases": [
+      "http://api.xinlangapi.com/xinlangapi.php/provide/vod/"
+    ],
     "priority": 23,
     "tier": "B",
-    "version": "0.1.11",
-    "site": "http://api.xinlangapi.com/",
-    "icon": "http://api.xinlangapi.com/favicon.ico",
+    "version": "0.1.12",
+    "site": "https://api.xinlangapi.com/",
+    "icon": "https://api.xinlangapi.com/favicon.ico",
     "categories": {
       "movie": [
         {
@@ -3792,7 +3796,7 @@
     "api": "https://hhzyapi.com/api.php/provide/vod/",
     "priority": 24,
     "tier": "B",
-    "version": "0.1.11",
+    "version": "0.1.12",
     "site": "https://hhzyapi.com/",
     "icon": "https://hhzyapi.com/favicon.ico",
     "categories": {
@@ -3984,7 +3988,7 @@
     "priority": 25,
     "tier": "B",
     "status": "degraded",
-    "version": "0.1.11",
+    "version": "0.1.12",
     "site": "https://lovedan.net/",
     "icon": "https://lovedan.net/favicon.ico",
     "categories": {
@@ -4122,7 +4126,7 @@
     "api": "https://m3u8.apiyhzy.com/api.php/provide/vod/",
     "priority": 26,
     "tier": "B",
-    "version": "0.1.12",
+    "version": "0.1.13",
     "site": "https://m3u8.apiyhzy.com/",
     "icon": "https://m3u8.apiyhzy.com/favicon.ico",
     "categories": {
@@ -4264,7 +4268,7 @@
     "api": "https://subocaiji.com/api.php/provide/vod/",
     "priority": 27,
     "tier": "B",
-    "version": "0.1.11",
+    "version": "0.1.12",
     "site": "https://subocaiji.com/",
     "icon": "https://subocaiji.com/favicon.ico",
     "categories": {
@@ -4439,7 +4443,7 @@
     "api": "https://jyzyapi.com/api.php/provide/vod/",
     "priority": 28,
     "tier": "B",
-    "version": "0.1.11",
+    "version": "0.1.12",
     "site": "https://jyzyapi.com/",
     "icon": "https://jyzyapi.com/favicon.ico",
     "categories": {
@@ -4614,7 +4618,7 @@
     "api": "https://caiji.diyizy.net/api.php/provide/vod/",
     "priority": 29,
     "tier": "B",
-    "version": "0.1.11",
+    "version": "0.1.12",
     "site": "https://caiji.diyizy.net/",
     "icon": "https://caiji.diyizy.net/favicon.ico",
     "categories": {
@@ -4761,7 +4765,7 @@
     "api": "https://api.changzhang.tv/api.php/provide/vod/from/changzhangm3u8/",
     "priority": 30,
     "tier": "B",
-    "version": "0.1.11",
+    "version": "0.1.12",
     "site": "https://api.changzhang.tv/",
     "icon": "https://api.changzhang.tv/favicon.ico",
     "categories": {
@@ -4944,7 +4948,7 @@
     "api": "https://xyezy.com/api.php/provide/vod/",
     "priority": 31,
     "tier": "R",
-    "version": "0.1.12",
+    "version": "0.1.13",
     "categories": {
       "movie": [],
       "tv": [],
@@ -4966,7 +4970,7 @@
     "api": "https://fqzy.me/api.php/provide/vod/",
     "priority": 32,
     "tier": "R",
-    "version": "0.1.12",
+    "version": "0.1.13",
     "categories": {
       "movie": [],
       "tv": [],
@@ -4988,7 +4992,7 @@
     "api": "https://dadiapi.com/api.php/provide/vod/",
     "priority": 33,
     "tier": "R",
-    "version": "0.1.12",
+    "version": "0.1.13",
     "categories": {
       "movie": [],
       "tv": [],
@@ -5010,7 +5014,7 @@
     "api": "https://cj.yayazy.net/api.php/provide/vod/",
     "priority": 34,
     "tier": "B",
-    "version": "0.1.11",
+    "version": "0.1.12",
     "site": "https://cj.yayazy.net/",
     "icon": "https://cj.yayazy.net/favicon.ico",
     "categories": {
@@ -5164,7 +5168,7 @@
     "api": "https://api.1080zyku.com/inc/apijson.php",
     "priority": 35,
     "tier": "R",
-    "version": "0.1.13",
+    "version": "0.1.14",
     "site": "https://api.1080zyku.com/",
     "icon": "https://api.1080zyku.com/favicon.ico",
     "categories": {
@@ -5312,7 +5316,7 @@
     "priority": 36,
     "tier": "R",
     "status": "disabled",
-    "version": "0.1.12",
+    "version": "0.1.13",
     "site": "https://p2100.net/",
     "icon": "https://p2100.net/favicon.ico",
     "categories": {
@@ -5427,7 +5431,7 @@
     "priority": 37,
     "tier": "C",
     "status": "degraded",
-    "version": "0.1.11",
+    "version": "0.1.12",
     "site": "https://caiji.maotaizy.cc/",
     "icon": "https://caiji.maotaizy.cc/favicon.ico",
     "categories": {
@@ -5630,7 +5634,7 @@
     "priority": 38,
     "tier": "D",
     "status": "disabled",
-    "version": "0.1.11",
+    "version": "0.1.12",
     "site": "https://api.apibdzy.com/",
     "icon": "https://api.apibdzy.com/favicon.ico",
     "categories": {
@@ -5769,7 +5773,7 @@
     "priority": 39,
     "tier": "R",
     "status": "disabled",
-    "version": "0.1.12",
+    "version": "0.1.13",
     "blockedCoverHosts": [
       "dbzy5.com"
     ],
@@ -5971,7 +5975,10 @@
     "slug": "iqiyi",
     "name": "爱奇艺资源",
     "shortName": "爱奇艺",
-    "api": "http://iqiyizyapi.com/api.php/provide/vod/",
+    "api": "https://iqiyizyapi.com/api.php/provide/vod/",
+    "apiAliases": [
+      "http://iqiyizyapi.com/api.php/provide/vod/"
+    ],
     "priority": 40,
     "tier": "D",
     "status": "disabled",
@@ -6139,9 +6146,9 @@
         }
       ]
     },
-    "version": "0.1.11",
-    "site": "http://iqiyizyapi.com/",
-    "icon": "http://iqiyizyapi.com/favicon.ico",
+    "version": "0.1.12",
+    "site": "https://iqiyizyapi.com/",
+    "icon": "https://iqiyizyapi.com/favicon.ico",
     "apiStatus": "ok",
     "checkedAt": "2026-11-01T11:53:57.620Z",
     "file": "Rex-Iqiyi-VOD.js"

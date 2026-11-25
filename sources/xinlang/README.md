@@ -17,4 +17,4 @@ https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/main/sources/xinlang/Re
 
 资源站登记名：新浪资源
 
-接口：`http://api.xinlangapi.com/xinlangapi.php/provide/vod/`
+接口：`https://api.xinlangapi.com/xinlangapi.php/provide/vod/`

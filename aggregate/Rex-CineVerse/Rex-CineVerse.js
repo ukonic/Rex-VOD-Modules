@@ -1,9 +1,379 @@
+var WidgetMetadata = {
+  "id": "rex.cineverse.vod",
+  "title": "寰宇影源",
+  "iconurl": "https://github.com/ukonic.png",
+  "version": "0.1.23",
+  "requiredVersion": "0.0.1",
+  "description": "40个 M3U8 资源站接入，33个参与完整聚合：首页、分类、单站浏览、全网搜索与多源播放",
+  "author": "ukonic",
+  "site": "https://github.com/ukonic/Rex-VOD-Modules",
+  "detailCacheDuration": 180,
+  "globalParams": [
+    {
+      "name": "sourceStrategy",
+      "title": "播放源策略",
+      "type": "enumeration",
+      "value": "auto",
+      "enumOptions": [
+        {
+          "title": "自动分层（S→A→B+C）",
+          "value": "auto"
+        },
+        {
+          "title": "完整聚合（S+A+B+C+D）",
+          "value": "complete"
+        },
+        {
+          "title": "仅核心站（S级）",
+          "value": "core"
+        }
+      ]
+    },
+    {
+      "name": "sourceTarget",
+      "title": "自动分层目标数（仅自动分层生效）",
+      "type": "input",
+      "value": "3",
+      "description": "仅在播放源策略选择“自动分层”时生效。填写1–20，表示至少有当前影片或分集可用线路的资源站数量，不是播放线路数量；完整聚合和仅核心站会忽略此数字。留空或填写错误时使用默认值3。"
+    }
+  ],
+  "modules": [
+    {
+      "id": "loadResource",
+      "title": "多源播放",
+      "functionName": "loadResource",
+      "type": "stream",
+      "cacheDuration": 0,
+      "params": []
+    },
+    {
+      "id": "cineverseHome",
+      "title": "寰宇影源",
+      "subtitle": "多站去重后的近期更新",
+      "functionName": "loadCineverseHome",
+      "cacheDuration": 180,
+      "params": [
+        {
+          "name": "page",
+          "title": "页码",
+          "type": "page",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "id": "cineverseMovies",
+      "title": "寰宇电影",
+      "functionName": "loadCineverseMovies",
+      "cacheDuration": 180,
+      "params": [
+        {
+          "name": "page",
+          "title": "页码",
+          "type": "page",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "id": "cineverseSeries",
+      "title": "寰宇剧集",
+      "functionName": "loadCineverseSeries",
+      "cacheDuration": 180,
+      "params": [
+        {
+          "name": "page",
+          "title": "页码",
+          "type": "page",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "id": "cineverseVariety",
+      "title": "寰宇综艺",
+      "functionName": "loadCineverseVariety",
+      "cacheDuration": 180,
+      "params": [
+        {
+          "name": "page",
+          "title": "页码",
+          "type": "page",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "id": "cineverseAnime",
+      "title": "寰宇动漫",
+      "functionName": "loadCineverseAnime",
+      "cacheDuration": 180,
+      "params": [
+        {
+          "name": "page",
+          "title": "页码",
+          "type": "page",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "id": "cineverseShort",
+      "title": "寰宇短剧",
+      "functionName": "loadCineverseShort",
+      "cacheDuration": 180,
+      "params": [
+        {
+          "name": "page",
+          "title": "页码",
+          "type": "page",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "id": "cineverseSources",
+      "title": "资源站库",
+      "functionName": "loadSourceLibrary",
+      "cacheDuration": 180,
+      "params": [
+        {
+          "name": "source",
+          "title": "资源站",
+          "type": "enumeration",
+          "value": "feifan",
+          "enumOptions": [
+            {
+              "title": "优先 · 非凡资源",
+              "value": "feifan"
+            },
+            {
+              "title": "优先 · 量子资源",
+              "value": "liangzi"
+            },
+            {
+              "title": "优先 · 最大资源",
+              "value": "zuida"
+            },
+            {
+              "title": "优先 · 无尽资源",
+              "value": "wujin"
+            },
+            {
+              "title": "优先 · 魔都资源",
+              "value": "modu"
+            },
+            {
+              "title": "独立 · 三六零资源",
+              "value": "zy360"
+            },
+            {
+              "title": "优先 · 电影天堂资源",
+              "value": "dytt"
+            },
+            {
+              "title": "优先 · 暴风资源",
+              "value": "baofeng"
+            },
+            {
+              "title": "优先 · 如意资源",
+              "value": "ruyi"
+            },
+            {
+              "title": "优先 · 优酷资源",
+              "value": "youku"
+            },
+            {
+              "title": "备用 · 极速资源",
+              "value": "jisu"
+            },
+            {
+              "title": "备用 · IKUN资源",
+              "value": "ikun"
+            },
+            {
+              "title": "备用 · 索尼资源",
+              "value": "suoni"
+            },
+            {
+              "title": "备用 · 牛牛资源",
+              "value": "niuniu"
+            },
+            {
+              "title": "备用 · 闪电资源",
+              "value": "shandian"
+            },
+            {
+              "title": "备用 · OK资源",
+              "value": "ok"
+            },
+            {
+              "title": "备用 · 猫眼资源",
+              "value": "maoyan"
+            },
+            {
+              "title": "备用 · 快车资源",
+              "value": "kuaiche"
+            },
+            {
+              "title": "备用 · 光速资源",
+              "value": "guangsu"
+            },
+            {
+              "title": "备用 · 红牛资源",
+              "value": "hongniu"
+            },
+            {
+              "title": "补充 · 天涯资源",
+              "value": "tianya"
+            },
+            {
+              "title": "补充 · 虎牙资源",
+              "value": "huya"
+            },
+            {
+              "title": "补充 · 新浪资源",
+              "value": "xinlang"
+            },
+            {
+              "title": "补充 · 豪华资源",
+              "value": "haohua"
+            },
+            {
+              "title": "补充 · 爱蛋资源",
+              "value": "aidan"
+            },
+            {
+              "title": "补充 · 樱花资源",
+              "value": "yinghua"
+            },
+            {
+              "title": "补充 · 速播资源",
+              "value": "subo"
+            },
+            {
+              "title": "补充 · 金鹰资源",
+              "value": "jinying"
+            },
+            {
+              "title": "补充 · 第一资源",
+              "value": "diyi"
+            },
+            {
+              "title": "补充 · 厂长资源",
+              "value": "changzhang"
+            },
+            {
+              "title": "独立 · 星夜资源",
+              "value": "xingye"
+            },
+            {
+              "title": "独立 · 番茄资源",
+              "value": "fanqie"
+            },
+            {
+              "title": "独立 · 大地资源",
+              "value": "dadi"
+            },
+            {
+              "title": "补充 · 丫丫资源",
+              "value": "yaya"
+            },
+            {
+              "title": "独立 · 一零八零资源",
+              "value": "zy1080"
+            },
+            {
+              "title": "独立 · 飘零资源",
+              "value": "piaoling"
+            },
+            {
+              "title": "补充 · 茅台资源",
+              "value": "maotai"
+            },
+            {
+              "title": "完整专用 · 百度资源",
+              "value": "baidu"
+            },
+            {
+              "title": "独立 · 豆瓣资源",
+              "value": "douban"
+            },
+            {
+              "title": "完整专用 · 爱奇艺资源",
+              "value": "iqiyi"
+            }
+          ]
+        },
+        {
+          "name": "channel",
+          "title": "频道",
+          "type": "enumeration",
+          "value": "home",
+          "enumOptions": [
+            {
+              "title": "最近更新",
+              "value": "home"
+            },
+            {
+              "title": "电影",
+              "value": "movie"
+            },
+            {
+              "title": "剧集",
+              "value": "tv"
+            },
+            {
+              "title": "综艺",
+              "value": "variety"
+            },
+            {
+              "title": "动漫",
+              "value": "anime"
+            },
+            {
+              "title": "短剧",
+              "value": "short"
+            }
+          ]
+        },
+        {
+          "name": "page",
+          "title": "页码",
+          "type": "page",
+          "value": "1"
+        }
+      ]
+    }
+  ],
+  "search": {
+    "id": "47d700970af598b9d28d68ecb6b105f0",
+    "title": "全网搜索",
+    "functionName": "searchCineverse",
+    "params": [
+      {
+        "name": "keyword",
+        "title": "关键词",
+        "type": "input",
+        "description": "输入准确片名"
+      },
+      {
+        "name": "page",
+        "title": "页码",
+        "type": "page",
+        "value": "1"
+      }
+    ]
+  }
+};
+
 /*
  * Rex / ForwardWidgets - 寰宇影源
  * 40站接入、按级别聚合、严格匹配、仅直接 M3U8。运行时不依赖 registry.json 或其他文件。
  */
 var CINEVERSE_CONFIG = {
-  "version": "0.1.22",
+  "version": "0.1.23",
+  "searchId": "47d700970af598b9d28d68ecb6b105f0",
   "sources": [
     {
       "slug": "feifan",
@@ -791,6 +1161,7 @@ var CINEVERSE_CONFIG = {
       "shortName": "360",
       "playbackName": "三六零资源",
       "api": "https://360zy.com/api.php/provide/vod/",
+      "fallbackApi": "https://360zyzz.com/api.php/provide/vod/",
       "site": "https://360zy.com/",
       "icon": "https://360zy.com/favicon.ico",
       "blockedCoverHosts": [],
@@ -3513,9 +3884,9 @@ var CINEVERSE_CONFIG = {
       "slug": "xinlang",
       "name": "新浪资源",
       "shortName": "新浪",
-      "api": "http://api.xinlangapi.com/xinlangapi.php/provide/vod/",
-      "site": "http://api.xinlangapi.com/",
-      "icon": "http://api.xinlangapi.com/favicon.ico",
+      "api": "https://api.xinlangapi.com/xinlangapi.php/provide/vod/",
+      "site": "https://api.xinlangapi.com/",
+      "icon": "https://api.xinlangapi.com/favicon.ico",
       "blockedCoverHosts": [],
       "priority": 23,
       "tier": "B",
@@ -5815,9 +6186,9 @@ var CINEVERSE_CONFIG = {
       "slug": "iqiyi",
       "name": "爱奇艺资源",
       "shortName": "爱奇艺",
-      "api": "http://iqiyizyapi.com/api.php/provide/vod/",
-      "site": "http://iqiyizyapi.com/",
-      "icon": "http://iqiyizyapi.com/favicon.ico",
+      "api": "https://iqiyizyapi.com/api.php/provide/vod/",
+      "site": "https://iqiyizyapi.com/",
+      "icon": "https://iqiyizyapi.com/favicon.ico",
       "blockedCoverHosts": [],
       "priority": 40,
       "tier": "D",
@@ -6007,58 +6378,6 @@ function cvSourceOptions() { return CINEVERSE_SOURCES.map(function (source) {
 }); }
 function cvPageParams() { return [{ name: "page", title: "页码", type: "page", value: "1" }]; }
 
-var WidgetMetadata = {
-  id: "rex.cineverse.vod",
-  title: "寰宇影源",
-  icon: "https://github.com/ukonic.png",
-  version: CINEVERSE_CONFIG.version,
-  requiredVersion: "0.0.1",
-  description: "40个 M3U8 资源站接入，38个参与聚合：首页、分类、单站浏览、全网搜索与多源播放",
-  author: "ukonic",
-  site: "https://github.com/ukonic/Rex-VOD-Modules",
-  detailCacheDuration: 180,
-  globalParams: [
-    {
-      name: "sourceStrategy", title: "播放源策略", type: "enumeration", value: "auto",
-      enumOptions: [
-        { title: "自动分层（S→A→B+C）", value: "auto" },
-        { title: "完整聚合（S+A+B+C+D）", value: "complete" },
-        { title: "仅核心站（S级）", value: "core" }
-      ]
-    },
-    {
-      name: "sourceTarget", title: "自动分层目标数（仅自动分层生效）", type: "input", value: "3",
-      description: "仅在播放源策略选择“自动分层”时生效。填写1–20，表示至少需要命中的资源站数量，不是播放线路数量；完整聚合和仅核心站会忽略此数字。留空或填写错误时使用默认值3。"
-    }
-  ],
-  modules: [
-    { id: "loadResource", title: "多源播放", functionName: "loadResource", type: "stream", cacheDuration: 0, params: [] },
-    { id: "cineverseHome", title: "寰宇影源", description: "多站去重后的近期更新", functionName: "loadCineverseHome", cacheDuration: 180, params: cvPageParams() },
-    { id: "cineverseMovies", title: "寰宇电影", functionName: "loadCineverseMovies", cacheDuration: 180, params: cvPageParams() },
-    { id: "cineverseSeries", title: "寰宇剧集", functionName: "loadCineverseSeries", cacheDuration: 180, params: cvPageParams() },
-    { id: "cineverseVariety", title: "寰宇综艺", functionName: "loadCineverseVariety", cacheDuration: 180, params: cvPageParams() },
-    { id: "cineverseAnime", title: "寰宇动漫", functionName: "loadCineverseAnime", cacheDuration: 180, params: cvPageParams() },
-    { id: "cineverseShort", title: "寰宇短剧", functionName: "loadCineverseShort", cacheDuration: 180, params: cvPageParams() },
-    {
-      id: "cineverseSources", title: "资源站库", functionName: "loadSourceLibrary", cacheDuration: 180,
-      params: [
-        { name: "source", title: "资源站", type: "enumeration", value: CINEVERSE_SOURCES[0].slug, enumOptions: cvSourceOptions() },
-        { name: "channel", title: "频道", type: "enumeration", value: "home", enumOptions: [
-          { title: "最近更新", value: "home" }, { title: "电影", value: "movie" }, { title: "剧集", value: "tv" },
-          { title: "综艺", value: "variety" }, { title: "动漫", value: "anime" }, { title: "短剧", value: "short" }
-        ] },
-        { name: "page", title: "页码", type: "page", value: "1" }
-      ]
-    }
-  ],
-  search: {
-    title: "全网搜索", functionName: "searchCineverse",
-    params: [
-      { name: "keyword", title: "关键词", type: "input", description: "输入准确片名" },
-      { name: "page", title: "页码", type: "page", value: "1" }
-    ]
-  }
-};
 
 var CV_BLOCKED = ["伦理片", "伦理", "福利", "里番", "无码", "有码", "情色", "色情", "成人", "成人视频", "写真", "SWAG", "口爆", "吞精", "掰穴", "AV在线", "DASS-"];
 
@@ -6125,9 +6444,13 @@ function cvPlaybackSourceStages(params) {
     ]
   };
 }
-function cvSourceCount(matches) {
+function cvSourceCount(matches, params) {
   var seen = {};
-  (matches || []).forEach(function (match) { if (match && match.source) seen[match.source.slug] = true; });
+  var selectedEpisode = params && (params.episode || params.episodeName);
+  (matches || []).forEach(function (match) {
+    if (selectedEpisode && !cvPickLines(cvPlayLines(match.item), params, cvMediaType(match.item)).length) return;
+    seen[match.source.slug] = true;
+  });
   return Object.keys(seen).length;
 }
 function cvMergeMatches(matches) {
@@ -6142,14 +6465,13 @@ function cvMergeMatches(matches) {
     return Number(a.source.priority || 999) - Number(b.source.priority || 999);
   });
 }
-function cvApiUrl(source, params) {
+function cvApiUrl(source, params, api) {
   var pairs = [];
   Object.keys(params || {}).forEach(function (key) {
     var value = params[key];
     if (value === undefined || value === null || value === "") return;
     pairs.push(encodeURIComponent(key) + "=" + encodeURIComponent(String(value)));
   });
-  var api = params && params.wd && source.searchApi ? source.searchApi : source.api;
   return api + (api.indexOf("?") >= 0 ? "&" : "?") + pairs.join("&");
 }
 function cvStatus(response) {
@@ -6157,16 +6479,33 @@ function cvStatus(response) {
   status = Number(status);
   return isFinite(status) && status > 0 ? status : 0;
 }
-async function cvGet(source, params) {
-  var response = await Widget.http.get(cvApiUrl(source, params), { headers: {
+async function cvRequest(source, params, api) {
+  var url = cvApiUrl(source, params, api);
+  var headers = {
     "User-Agent": "Mozilla/5.0 (Rex ForwardWidget; CineVerse/" + CINEVERSE_CONFIG.version + ")",
     Accept: "application/json, text/plain, */*", Referer: source.site
-  } });
+  };
+  var response;
+  try {
+    response = typeof Widget.http.request === "function"
+      ? await Widget.http.request({ url: url, method: "GET", timeout: 8, headers: headers })
+      : await Widget.http.get(url, { headers: headers });
+  } catch (error) {
+    throw new Error(source.name + "请求失败：" + (error && error.message ? error.message : error));
+  }
   var status = cvStatus(response);
   if (status >= 400) throw new Error(source.name + " HTTP " + status);
   var result = cvJson(response && response.data);
   if (Number(result.code) !== 1 && !Array.isArray(result.list)) throw new Error(source.name + " 返回异常");
   return result;
+}
+async function cvGet(source, params) {
+  var api = params && params.wd && source.searchApi ? source.searchApi : source.api;
+  try { return await cvRequest(source, params, api); }
+  catch (error) {
+    if (!source.fallbackApi || api !== source.api) throw error;
+    return cvRequest(source, params, source.fallbackApi);
+  }
 }
 function cvSafeGet(source, params) { return cvGet(source, params).catch(function () { return { list: [] }; }); }
 async function cvBatches(sources, worker, batchSize) {
@@ -6193,7 +6532,12 @@ function cvMediaType(item) {
 function cvLink(source, id) { return "cineverse://" + source.slug + "/" + encodeURIComponent(cvText(id)); }
 function cvParseLink(link) {
   var match = cvText(link).match(/^cineverse:\/\/([^/]+)\/([^/?#]+)/i);
-  return match ? { source: cvSource(match[1]), id: decodeURIComponent(match[2]) } : null;
+  if (!match) return null;
+  try { return { source: cvSource(match[1]), id: decodeURIComponent(match[2]) }; } catch (_) { return null; }
+}
+function cvDetailById(payload, id) {
+  var list = Array.isArray(payload && payload.list) ? payload.list : [];
+  return list.find(function (item) { return cvText(item && item.vod_id) === id; });
 }
 function cvNormalize(value) {
   return cvStrip(value).toLowerCase().replace(/[（(][^）)]*[）)]/g, "").replace(/[\s·•:：,，.。!！?？'\"“”‘’\-_/\\]/g, "");
@@ -6280,7 +6624,7 @@ function cvSeason(value) {
   var match = cvStrip(value).match(/第\s*([0-9一二三四五六七八九十]+)\s*季/i);
   return match ? match[1] : "";
 }
-function cvM3u8(url) { return /^https?:\/\//i.test(cvText(url).trim()) && /\.m3u8(?:[?#]|$)/i.test(cvText(url).trim()); }
+function cvM3u8(url) { return /^https?:\/\/[^/?#]+\/[^?#]*\.m3u8(?:[?#]|$)/i.test(cvText(url).trim()); }
 function cvPlayLines(item) {
   var sources = cvText(item && item.vod_play_from).split("$$$");
   var groups = cvText(item && item.vod_play_url).split("$$$");
@@ -6424,11 +6768,12 @@ async function searchCineverse(params) {
   var keyword = cvStrip(params.keyword || params.wd || params.query);
   if (!keyword) return [];
   var queries = cvSearchQueries(keyword);
+  var page = cvPage(params.page);
   var responses = await cvBatches(cvEnabledSources(), function (source) {
     return Promise.all(queries.map(function (query) {
-      var startPage = cvPage(params.page);
-      var pages = cvIdentityTitle(query).length <= 4 ? [startPage, startPage + 1] : [startPage];
-      return Promise.all(pages.map(function (page) { return cvSafeGet(source, { ac: "detail", wd: query, pg: page }); }));
+      var startPage = (page - 1) * 2 + 1;
+      var pages = cvIdentityTitle(query).length <= 4 ? [startPage, startPage + 1] : [page];
+      return Promise.all(pages.map(function (pg) { return cvSafeGet(source, { ac: "detail", wd: query, pg: pg }); }));
     })).then(function (payloadGroups) {
       var rows = [];
       payloadGroups.forEach(function (payloads) {
@@ -6462,13 +6807,23 @@ function cvCandidate(item, keyword, params) {
   if ((type === "tv" || type === "movie") && cvMediaType(item) !== type) return false;
   return true;
 }
+function cvMovieAirYear(params) {
+  var type = cvText(params && (params.type || params.mediaType)).toLowerCase();
+  var year = type === "movie" && cvText(params.airDate).match(/^(?:19|20)\d{2}(?=-|$)/);
+  return year ? year[0] : "";
+}
 async function cvFindMatches(keyword, params, sources) {
   var sourcePool = Array.isArray(sources) ? sources : cvEnabledSources();
   if (!sourcePool.length) return [];
   var sourceScope = sourcePool.map(function (source) { return source.slug; }).join(",");
+  var airYear = cvMovieAirYear(params);
+  var requestedYear = cvText(params && (params.year || params.releaseYear || params.releaseDate)).trim();
+  var yearToken = requestedYear.match(/(?:19|20)\d{2}/);
+  requestedYear = (yearToken ? yearToken[0] : requestedYear) || airYear;
   var cacheKey = [
     cvIdentityTitle(keyword),
-    cvText(params && (params.year || params.releaseYear || params.releaseDate)).match(/(?:19|20)\d{2}/) || "",
+    requestedYear,
+    airYear,
     Math.floor(Number(params && (params.season || params.seasonNumber))) || cvSeasonNumber(keyword) || 0,
     cvText(params && (params.type || params.mediaType)).toLowerCase(),
     sourceScope
@@ -6498,12 +6853,10 @@ async function cvFindMatches(keyword, params, sources) {
   if (!rows.length) return [];
 
   var pool = rows;
-  var requestedYear = cvText(params && (params.year || params.releaseYear || params.releaseDate)).trim();
-  var yearToken = requestedYear.match(/(?:19|20)\d{2}/);
-  requestedYear = yearToken ? yearToken[0] : requestedYear;
   if (requestedYear) {
     var yearMatches = pool.filter(function (row) { return cvText(row.item.vod_year).trim() === requestedYear; });
     if (yearMatches.length) pool = yearMatches;
+    else if (airYear) pool = pool.filter(function (row) { return !cvText(row.item.vod_year).trim(); });
   }
   var requestedSeason = Math.floor(Number(params && (params.season || params.seasonNumber))) || cvSeasonNumber(keyword);
   if (requestedSeason > 0) {
@@ -6557,7 +6910,7 @@ async function cvFindPlaybackMatches(keyword, params) {
   var matches = [];
   for (var stageIndex = 0; stageIndex < plan.stages.length; stageIndex += 1) {
     matches = cvMergeMatches(matches.concat(await cvFindMatches(keyword, params, plan.stages[stageIndex])));
-    if (plan.strategy === "auto" && cvSourceCount(matches) >= plan.target) break;
+    if (plan.strategy === "auto" && cvSourceCount(matches, params) >= plan.target) break;
   }
   return matches;
 }
@@ -6585,12 +6938,12 @@ function cvEpisodeItems(matches, base) {
 }
 async function loadDetail(link) {
   var parsed = cvParseLink(link);
-  if (!parsed || !parsed.source) return null;
-  var payload = await cvSafeGet(parsed.source, { ac: "detail", ids: parsed.id });
-  var raw = (payload.list || [])[0];
-  if (!raw) return null;
+  if (!parsed || !parsed.source) return [];
+  var payload = await cvGet(parsed.source, { ac: "detail", ids: parsed.id });
+  var raw = cvDetailById(payload, parsed.id);
+  if (!raw) return [];
   var base = cvListItem(raw, parsed.source);
-  if (!base) return null;
+  if (!base) return [];
   base.description = cvDescription(raw, parsed.source, true);
   base.backdropPath = base.coverUrl;
   base.backdropPaths = base.coverUrl ? [base.coverUrl] : [];
@@ -6660,9 +7013,11 @@ async function loadResource(params) {
   params = params || {};
   var parsed = cvParseLink(params.link || params.id);
   var raw = null;
+  var independent = parsed && parsed.source && cvSourceTier(parsed.source) === "R";
   if (parsed && parsed.source) {
     var payload = await cvSafeGet(parsed.source, { ac: "detail", ids: parsed.id });
-    raw = (payload.list || [])[0] || null;
+    raw = cvDetailById(payload, parsed.id);
+    if (independent && !raw) return [];
     if (!params.year && raw) params.year = raw.vod_year;
     if (!params.type && raw) params.type = cvMediaType(raw);
   }
@@ -6670,7 +7025,7 @@ async function loadResource(params) {
   if (!keywords.length) return [];
   var keyword = "";
   var matches = [];
-  if (parsed && parsed.source && raw && cvSourceTier(parsed.source) === "R") {
+  if (independent) {
     keyword = cvStrip(raw.vod_name);
     matches = [{ source: parsed.source, item: raw }];
   } else {
