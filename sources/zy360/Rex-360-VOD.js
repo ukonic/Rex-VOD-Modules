@@ -1,8 +1,8 @@
 var WidgetMetadata = {
   "id": "rex.zy360.vod",
   "title": "三六零资源",
-  "iconurl": "https://360zy.com/favicon.ico",
-  "version": "0.1.14",
+  "iconurl": "https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/refs/heads/main/sources/zy360/icon.png",
+  "version": "0.1.15",
   "requiredVersion": "0.0.1",
   "description": "三六零资源：更新、分类、搜索、详情与直接 M3U8 播放",
   "author": "ukonic",
@@ -384,7 +384,7 @@ var SOURCE_CONFIG = {
   "site": "https://360zy.com/",
   "icon": "https://360zy.com/favicon.ico",
   "blockedCoverHosts": [],
-  "version": "0.1.14",
+  "version": "0.1.15",
   "priority": 6,
   "tier": "R",
   "categories": {

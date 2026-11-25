@@ -118,7 +118,7 @@ async function enrich(source) {
       console.warn(`${source.name}: ${error.message}; using ${apiStatus} categories`);
     }
   }
-  const version = source.version || "0.1.12";
+  const version = source.version || "0.1.13";
   const site = origin(source.api);
   return {
     ...source,
@@ -136,6 +136,10 @@ async function enrich(source) {
 function moduleSource(config) {
   const moduleName = config.moduleName || config.name;
   const moduleShortName = config.moduleShortName || config.shortName;
+  const iconPath = `sources/${config.slug}/icon.png`;
+  const moduleIcon = fs.existsSync(path.join(root, iconPath))
+    ? `https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/refs/heads/main/${iconPath}`
+    : config.moduleIcon;
   const runtimeConfig = {
     slug: config.slug,
     name: moduleName,
@@ -155,6 +159,7 @@ function moduleSource(config) {
   };
   return literalManifest(template
     .replaceAll("__MODULE_NAME__", moduleName)
+    .replace("__MODULE_ICON__", () => JSON.stringify(moduleIcon) || "undefined")
     .replace("__SOURCE_CONFIG__", JSON.stringify(runtimeConfig, null, 2)));
 }
 

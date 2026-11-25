@@ -1,8 +1,8 @@
 var WidgetMetadata = {
   "id": "rex.dytt.vod",
   "title": "电影天堂资源",
-  "iconurl": "https://caiji.dyttzyapi.com/favicon.ico",
-  "version": "0.1.12",
+  "iconurl": "https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/refs/heads/main/sources/dytt/icon.png",
+  "version": "0.1.13",
   "requiredVersion": "0.0.1",
   "description": "电影天堂资源：更新、分类、搜索、详情与直接 M3U8 播放",
   "author": "ukonic",
@@ -323,7 +323,7 @@ var SOURCE_CONFIG = {
   "site": "https://caiji.dyttzyapi.com/",
   "icon": "https://caiji.dyttzyapi.com/favicon.ico",
   "blockedCoverHosts": [],
-  "version": "0.1.12",
+  "version": "0.1.13",
   "priority": 7,
   "tier": "S",
   "categories": {

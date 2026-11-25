@@ -1,8 +1,7 @@
 var WidgetMetadata = {
   "id": "rex.tianya.vod",
   "title": "天涯资源",
-  "iconurl": "https://tyyszyapi.com/favicon.ico",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "requiredVersion": "0.0.1",
   "description": "天涯资源：更新、分类、搜索、详情与直接 M3U8 播放",
   "author": "ukonic",
@@ -323,7 +322,7 @@ var SOURCE_CONFIG = {
   "site": "https://tyyszyapi.com/",
   "icon": "https://tyyszyapi.com/favicon.ico",
   "blockedCoverHosts": [],
-  "version": "0.1.12",
+  "version": "0.1.13",
   "priority": 21,
   "tier": "B",
   "categories": {

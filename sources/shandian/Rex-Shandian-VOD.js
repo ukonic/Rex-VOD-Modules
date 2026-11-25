@@ -1,8 +1,8 @@
 var WidgetMetadata = {
   "id": "rex.shandian.vod",
   "title": "闪电资源",
-  "iconurl": "https://sdzyapi.com/favicon.ico",
-  "version": "0.1.12",
+  "iconurl": "https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/refs/heads/main/sources/shandian/icon.png",
+  "version": "0.1.13",
   "requiredVersion": "0.0.1",
   "description": "闪电资源：更新、分类、搜索、详情与直接 M3U8 播放",
   "author": "ukonic",
@@ -323,7 +323,7 @@ var SOURCE_CONFIG = {
   "site": "https://sdzyapi.com/",
   "icon": "https://sdzyapi.com/favicon.ico",
   "blockedCoverHosts": [],
-  "version": "0.1.12",
+  "version": "0.1.13",
   "priority": 15,
   "tier": "A",
   "categories": {

@@ -1,8 +1,8 @@
 var WidgetMetadata = {
   "id": "rex.aidan.vod",
   "title": "爱蛋资源",
-  "iconurl": "https://lovedan.net/favicon.ico",
-  "version": "0.1.12",
+  "iconurl": "https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/refs/heads/main/sources/aidan/icon.png",
+  "version": "0.1.13",
   "requiredVersion": "0.0.1",
   "description": "爱蛋资源：更新、分类、搜索、详情与直接 M3U8 播放",
   "author": "ukonic",
@@ -311,7 +311,7 @@ var SOURCE_CONFIG = {
   "site": "https://lovedan.net/",
   "icon": "https://lovedan.net/favicon.ico",
   "blockedCoverHosts": [],
-  "version": "0.1.12",
+  "version": "0.1.13",
   "priority": 25,
   "tier": "B",
   "categories": {

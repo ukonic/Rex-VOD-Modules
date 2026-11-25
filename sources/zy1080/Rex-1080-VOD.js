@@ -1,8 +1,7 @@
 var WidgetMetadata = {
   "id": "rex.zy1080.vod",
   "title": "一零八零资源",
-  "iconurl": "https://api.1080zyku.com/favicon.ico",
-  "version": "0.1.14",
+  "version": "0.1.15",
   "requiredVersion": "0.0.1",
   "description": "一零八零资源：更新、分类、搜索、详情与直接 M3U8 播放",
   "author": "ukonic",
@@ -319,7 +318,7 @@ var SOURCE_CONFIG = {
   "site": "https://api.1080zyku.com/",
   "icon": "https://api.1080zyku.com/favicon.ico",
   "blockedCoverHosts": [],
-  "version": "0.1.14",
+  "version": "0.1.15",
   "priority": 35,
   "tier": "R",
   "categories": {

@@ -1,8 +1,7 @@
 var WidgetMetadata = {
   "id": "rex.douban.vod",
   "title": "豆瓣资源",
-  "iconurl": "https://dbzy.tv/favicon.ico",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "requiredVersion": "0.0.1",
   "description": "豆瓣资源：更新、分类、搜索、详情与直接 M3U8 播放",
   "author": "ukonic",
@@ -377,7 +376,7 @@ var SOURCE_CONFIG = {
   "blockedCoverHosts": [
     "dbzy5.com"
   ],
-  "version": "0.1.13",
+  "version": "0.1.14",
   "priority": 39,
   "tier": "R",
   "categories": {

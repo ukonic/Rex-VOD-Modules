@@ -1,8 +1,8 @@
 var WidgetMetadata = {
   "id": "rex.dadi.vod",
   "title": "大地资源",
-  "iconurl": "https://dadiapi.com/favicon.ico",
-  "version": "0.1.13",
+  "iconurl": "https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/refs/heads/main/sources/dadi/icon.png",
+  "version": "0.1.14",
   "requiredVersion": "0.0.1",
   "description": "大地资源：更新、分类、搜索、详情与直接 M3U8 播放",
   "author": "ukonic",
@@ -199,7 +199,7 @@ var SOURCE_CONFIG = {
   "site": "https://dadiapi.com/",
   "icon": "https://dadiapi.com/favicon.ico",
   "blockedCoverHosts": [],
-  "version": "0.1.13",
+  "version": "0.1.14",
   "priority": 33,
   "tier": "R",
   "categories": {

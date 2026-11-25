@@ -1,8 +1,8 @@
 var WidgetMetadata = {
   "id": "rex.youku.vod",
   "title": "优酷资源",
-  "iconurl": "https://api.ukuapi88.com/favicon.ico",
-  "version": "0.1.13",
+  "iconurl": "https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/refs/heads/main/sources/youku/icon.png",
+  "version": "0.1.14",
   "requiredVersion": "0.0.1",
   "description": "优酷资源：更新、分类、搜索、详情与直接 M3U8 播放",
   "author": "ukonic",
@@ -287,7 +287,7 @@ var SOURCE_CONFIG = {
   "site": "https://api.ukuapi88.com/",
   "icon": "https://api.ukuapi88.com/favicon.ico",
   "blockedCoverHosts": [],
-  "version": "0.1.13",
+  "version": "0.1.14",
   "priority": 10,
   "tier": "S",
   "categories": {

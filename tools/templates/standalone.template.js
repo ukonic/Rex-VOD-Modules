@@ -28,7 +28,7 @@ function sourcePageParams(channel) {
 var WidgetMetadata = {
   id: "rex." + SOURCE_CONFIG.slug + ".vod",
   title: SOURCE_CONFIG.name,
-  iconurl: SOURCE_CONFIG.icon,
+  iconurl: __MODULE_ICON__,
   version: SOURCE_CONFIG.version,
   requiredVersion: "0.0.1",
   description: SOURCE_CONFIG.name + "：更新、分类、搜索、详情与直接 M3U8 播放",

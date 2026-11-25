@@ -1,8 +1,8 @@
 var WidgetMetadata = {
   "id": "rex.piaoling.vod",
   "title": "飘零资源",
-  "iconurl": "https://p2100.net/favicon.ico",
-  "version": "0.1.13",
+  "iconurl": "https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/refs/heads/main/sources/piaoling/icon.png",
+  "version": "0.1.14",
   "requiredVersion": "0.0.1",
   "description": "飘零资源：更新、分类、搜索、详情与直接 M3U8 播放",
   "author": "ukonic",
@@ -287,7 +287,7 @@ var SOURCE_CONFIG = {
   "site": "https://p2100.net/",
   "icon": "https://p2100.net/favicon.ico",
   "blockedCoverHosts": [],
-  "version": "0.1.13",
+  "version": "0.1.14",
   "priority": 36,
   "tier": "R",
   "categories": {

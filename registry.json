@@ -35,7 +35,7 @@
     "categoryStatus": "ok",
     "checkedAt": "2026-11-01T11:53:48.494Z",
     "module": "sources/zuida/Rex-Zuida-VOD.js",
-    "version": "0.1.12",
+    "version": "0.1.13",
     "m3u8Only": true
   },
   {
@@ -48,7 +48,7 @@
     "categoryStatus": "ok",
     "checkedAt": "2026-11-01T11:53:48.495Z",
     "module": "sources/wujin/Rex-Wujin-VOD.js",
-    "version": "0.1.12",
+    "version": "0.1.13",
     "m3u8Only": true
   },
   {
@@ -61,7 +61,7 @@
     "categoryStatus": "ok",
     "checkedAt": "2026-11-01T11:53:48.495Z",
     "module": "sources/modu/Rex-Modu-VOD.js",
-    "version": "0.1.12",
+    "version": "0.1.13",
     "m3u8Only": true
   },
   {
@@ -75,7 +75,7 @@
     "categoryStatus": "ok",
     "checkedAt": "2026-11-01T11:53:48.496Z",
     "module": "sources/zy360/Rex-360-VOD.js",
-    "version": "0.1.14",
+    "version": "0.1.15",
     "m3u8Only": true
   },
   {
@@ -88,7 +88,7 @@
     "categoryStatus": "ok",
     "checkedAt": "2026-11-01T11:53:48.497Z",
     "module": "sources/dytt/Rex-Dytt-VOD.js",
-    "version": "0.1.12",
+    "version": "0.1.13",
     "m3u8Only": true
   },
   {
@@ -101,7 +101,7 @@
     "categoryStatus": "ok",
     "checkedAt": "2026-11-01T11:53:48.498Z",
     "module": "sources/baofeng/Rex-Baofeng-VOD.js",
-    "version": "0.1.12",
+    "version": "0.1.13",
     "m3u8Only": true
   },
   {
@@ -114,7 +114,7 @@
     "categoryStatus": "ok",
     "checkedAt": "2026-11-18T08:39:53.571Z",
     "module": "sources/ruyi/Rex-Ruyi-VOD.js",
-    "version": "0.1.12",
+    "version": "0.1.13",
     "m3u8Only": true
   },
   {
@@ -127,7 +127,7 @@
     "categoryStatus": "ok",
     "checkedAt": "2026-11-18T08:39:53.618Z",
     "module": "sources/youku/Rex-Youku-VOD.js",
-    "version": "0.1.13",
+    "version": "0.1.14",
     "m3u8Only": true
   },
   {
@@ -140,7 +140,7 @@
     "categoryStatus": "ok",
     "checkedAt": "2026-11-01T11:53:51.114Z",
     "module": "sources/jisu/Rex-Jisu-VOD.js",
-    "version": "0.1.12",
+    "version": "0.1.13",
     "m3u8Only": true
   },
   {
@@ -153,7 +153,7 @@
     "categoryStatus": "ok",
     "checkedAt": "2026-11-01T11:53:51.114Z",
     "module": "sources/ikun/Rex-IKUN-VOD.js",
-    "version": "0.1.12",
+    "version": "0.1.13",
     "m3u8Only": true
   },
   {
@@ -166,7 +166,7 @@
     "categoryStatus": "ok",
     "checkedAt": "2026-11-01T11:53:51.115Z",
     "module": "sources/suoni/Rex-Suoni-VOD.js",
-    "version": "0.1.12",
+    "version": "0.1.13",
     "m3u8Only": true
   },
   {
@@ -179,7 +179,7 @@
     "categoryStatus": "ok",
     "checkedAt": "2026-11-01T11:53:51.115Z",
     "module": "sources/niuniu/Rex-Niuniu-VOD.js",
-    "version": "0.1.12",
+    "version": "0.1.13",
     "m3u8Only": true
   },
   {
@@ -192,7 +192,7 @@
     "categoryStatus": "ok",
     "checkedAt": "2026-11-01T11:53:51.115Z",
     "module": "sources/shandian/Rex-Shandian-VOD.js",
-    "version": "0.1.12",
+    "version": "0.1.13",
     "m3u8Only": true
   },
   {
@@ -205,7 +205,7 @@
     "categoryStatus": "ok",
     "checkedAt": "2026-11-01T11:53:51.116Z",
     "module": "sources/ok/Rex-OK-VOD.js",
-    "version": "0.1.12",
+    "version": "0.1.13",
     "m3u8Only": true
   },
   {
@@ -218,7 +218,7 @@
     "categoryStatus": "ok",
     "checkedAt": "2026-11-18T08:39:53.619Z",
     "module": "sources/maoyan/Rex-Maoyan-VOD.js",
-    "version": "0.1.12",
+    "version": "0.1.13",
     "m3u8Only": true
   },
   {
@@ -231,7 +231,7 @@
     "categoryStatus": "ok",
     "checkedAt": "2026-11-01T11:53:52.788Z",
     "module": "sources/kuaiche/Rex-Kuaiche-VOD.js",
-    "version": "0.1.12",
+    "version": "0.1.13",
     "m3u8Only": true
   },
   {
@@ -244,7 +244,7 @@
     "categoryStatus": "ok",
     "checkedAt": "2026-11-01T11:53:52.789Z",
     "module": "sources/guangsu/Rex-Guangsu-VOD.js",
-    "version": "0.1.12",
+    "version": "0.1.13",
     "m3u8Only": true
   },
   {
@@ -257,7 +257,7 @@
     "categoryStatus": "ok",
     "checkedAt": "2026-11-01T11:53:52.790Z",
     "module": "sources/hongniu/Rex-Hongniu-VOD.js",
-    "version": "0.1.12",
+    "version": "0.1.13",
     "m3u8Only": true
   },
   {
@@ -270,7 +270,7 @@
     "categoryStatus": "ok",
     "checkedAt": "2026-11-18T08:39:53.620Z",
     "module": "sources/tianya/Rex-Tianya-VOD.js",
-    "version": "0.1.12",
+    "version": "0.1.13",
     "m3u8Only": true
   },
   {
@@ -283,7 +283,7 @@
     "categoryStatus": "ok",
     "checkedAt": "2026-11-01T11:53:52.791Z",
     "module": "sources/huya/Rex-Huya-VOD.js",
-    "version": "0.1.12",
+    "version": "0.1.13",
     "m3u8Only": true
   },
   {
@@ -296,7 +296,7 @@
     "categoryStatus": "ok",
     "checkedAt": "2026-11-01T11:53:52.792Z",
     "module": "sources/xinlang/Rex-Xinlang-VOD.js",
-    "version": "0.1.12",
+    "version": "0.1.13",
     "m3u8Only": true
   },
   {
@@ -309,7 +309,7 @@
     "categoryStatus": "ok",
     "checkedAt": "2026-11-01T11:53:52.792Z",
     "module": "sources/haohua/Rex-Haohua-VOD.js",
-    "version": "0.1.12",
+    "version": "0.1.13",
     "m3u8Only": true
   },
   {
@@ -322,7 +322,7 @@
     "categoryStatus": "previous",
     "checkedAt": "2026-11-18T08:45:14.506Z",
     "module": "sources/aidan/Rex-Aidan-VOD.js",
-    "version": "0.1.12",
+    "version": "0.1.13",
     "m3u8Only": true
   },
   {
@@ -335,7 +335,7 @@
     "categoryStatus": "ok",
     "checkedAt": "2026-11-18T08:39:53.620Z",
     "module": "sources/yinghua/Rex-Yinghua-VOD.js",
-    "version": "0.1.13",
+    "version": "0.1.14",
     "m3u8Only": true
   },
   {
@@ -348,7 +348,7 @@
     "categoryStatus": "ok",
     "checkedAt": "2026-11-01T11:53:55.473Z",
     "module": "sources/subo/Rex-Subo-VOD.js",
-    "version": "0.1.12",
+    "version": "0.1.13",
     "m3u8Only": true
   },
   {
@@ -361,7 +361,7 @@
     "categoryStatus": "ok",
     "checkedAt": "2026-11-01T11:53:55.474Z",
     "module": "sources/jinying/Rex-Jinying-VOD.js",
-    "version": "0.1.12",
+    "version": "0.1.13",
     "m3u8Only": true
   },
   {
@@ -374,7 +374,7 @@
     "categoryStatus": "ok",
     "checkedAt": "2026-11-01T11:53:55.475Z",
     "module": "sources/diyi/Rex-Diyi-VOD.js",
-    "version": "0.1.12",
+    "version": "0.1.13",
     "m3u8Only": true
   },
   {
@@ -387,7 +387,7 @@
     "categoryStatus": "ok",
     "checkedAt": "2026-11-01T11:53:55.475Z",
     "module": "sources/changzhang/Rex-Changzhang-VOD.js",
-    "version": "0.1.12",
+    "version": "0.1.13",
     "m3u8Only": true
   },
   {
@@ -400,7 +400,7 @@
     "categoryStatus": "configured",
     "checkedAt": "2026-11-18T08:47:43.232Z",
     "module": "sources/xingye/Rex-Xingye-VOD.js",
-    "version": "0.1.13",
+    "version": "0.1.14",
     "m3u8Only": true
   },
   {
@@ -413,7 +413,7 @@
     "categoryStatus": "configured",
     "checkedAt": "2026-11-18T08:47:43.233Z",
     "module": "sources/fanqie/Rex-Fanqie-VOD.js",
-    "version": "0.1.13",
+    "version": "0.1.14",
     "m3u8Only": true
   },
   {
@@ -426,7 +426,7 @@
     "categoryStatus": "configured",
     "checkedAt": "2026-11-18T08:47:43.233Z",
     "module": "sources/dadi/Rex-Dadi-VOD.js",
-    "version": "0.1.13",
+    "version": "0.1.14",
     "m3u8Only": true
   },
   {
@@ -439,7 +439,7 @@
     "categoryStatus": "ok",
     "checkedAt": "2026-11-01T11:53:57.618Z",
     "module": "sources/yaya/Rex-Yaya-VOD.js",
-    "version": "0.1.12",
+    "version": "0.1.13",
     "m3u8Only": true
   },
   {
@@ -452,7 +452,7 @@
     "categoryStatus": "ok",
     "checkedAt": "2026-11-01T11:53:57.618Z",
     "module": "sources/zy1080/Rex-1080-VOD.js",
-    "version": "0.1.14",
+    "version": "0.1.15",
     "m3u8Only": true
   },
   {
@@ -465,7 +465,7 @@
     "categoryStatus": "previous",
     "checkedAt": "2026-11-18T08:39:56.945Z",
     "module": "sources/piaoling/Rex-Piaoling-VOD.js",
-    "version": "0.1.13",
+    "version": "0.1.14",
     "m3u8Only": true
   },
   {
@@ -478,7 +478,7 @@
     "categoryStatus": "ok",
     "checkedAt": "2026-11-01T11:53:57.619Z",
     "module": "sources/maotai/Rex-Maotai-VOD.js",
-    "version": "0.1.12",
+    "version": "0.1.13",
     "m3u8Only": true
   },
   {
@@ -491,7 +491,7 @@
     "categoryStatus": "ok",
     "checkedAt": "2026-11-01T11:53:57.619Z",
     "module": "sources/baidu/Rex-Baidu-VOD.js",
-    "version": "0.1.12",
+    "version": "0.1.13",
     "m3u8Only": true
   },
   {
@@ -504,7 +504,7 @@
     "categoryStatus": "previous",
     "checkedAt": "2026-11-18T08:39:56.947Z",
     "module": "sources/douban/Rex-Douban-VOD.js",
-    "version": "0.1.13",
+    "version": "0.1.14",
     "m3u8Only": true
   },
   {
@@ -517,7 +517,7 @@
     "categoryStatus": "ok",
     "checkedAt": "2026-11-01T11:53:57.620Z",
     "module": "sources/iqiyi/Rex-Iqiyi-VOD.js",
-    "version": "0.1.12",
+    "version": "0.1.13",
     "m3u8Only": true
   }
 ]

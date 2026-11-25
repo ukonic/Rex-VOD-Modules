@@ -1,8 +1,8 @@
 var WidgetMetadata = {
   "id": "rex.niuniu.vod",
   "title": "牛牛资源",
-  "iconurl": "https://api.niuniuzy.me/favicon.ico",
-  "version": "0.1.12",
+  "iconurl": "https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/refs/heads/main/sources/niuniu/icon.png",
+  "version": "0.1.13",
   "requiredVersion": "0.0.1",
   "description": "牛牛资源：更新、分类、搜索、详情与直接 M3U8 播放",
   "author": "ukonic",
@@ -323,7 +323,7 @@ var SOURCE_CONFIG = {
   "site": "https://api.niuniuzy.me/",
   "icon": "https://api.niuniuzy.me/favicon.ico",
   "blockedCoverHosts": [],
-  "version": "0.1.12",
+  "version": "0.1.13",
   "priority": 14,
   "tier": "A",
   "categories": {

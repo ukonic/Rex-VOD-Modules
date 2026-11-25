@@ -1,8 +1,8 @@
 var WidgetMetadata = {
   "id": "rex.diyi.vod",
   "title": "第一资源",
-  "iconurl": "https://caiji.diyizy.net/favicon.ico",
-  "version": "0.1.12",
+  "iconurl": "https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/refs/heads/main/sources/diyi/icon.png",
+  "version": "0.1.13",
   "requiredVersion": "0.0.1",
   "description": "第一资源：更新、分类、搜索、详情与直接 M3U8 播放",
   "author": "ukonic",
@@ -319,7 +319,7 @@ var SOURCE_CONFIG = {
   "site": "https://caiji.diyizy.net/",
   "icon": "https://caiji.diyizy.net/favicon.ico",
   "blockedCoverHosts": [],
-  "version": "0.1.12",
+  "version": "0.1.13",
   "priority": 29,
   "tier": "B",
   "categories": {

@@ -1,8 +1,8 @@
 var WidgetMetadata = {
   "id": "rex.fanqie.vod",
   "title": "番茄资源",
-  "iconurl": "https://fqzy.me/favicon.ico",
-  "version": "0.1.13",
+  "iconurl": "https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/refs/heads/main/sources/fanqie/icon.png",
+  "version": "0.1.14",
   "requiredVersion": "0.0.1",
   "description": "番茄资源：更新、分类、搜索、详情与直接 M3U8 播放",
   "author": "ukonic",
@@ -199,7 +199,7 @@ var SOURCE_CONFIG = {
   "site": "https://fqzy.me/",
   "icon": "https://fqzy.me/favicon.ico",
   "blockedCoverHosts": [],
-  "version": "0.1.13",
+  "version": "0.1.14",
   "priority": 32,
   "tier": "R",
   "categories": {

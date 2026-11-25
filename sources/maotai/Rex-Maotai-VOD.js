@@ -1,8 +1,7 @@
 var WidgetMetadata = {
   "id": "rex.maotai.vod",
   "title": "茅台资源",
-  "iconurl": "https://caiji.maotaizy.cc/favicon.ico",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "requiredVersion": "0.0.1",
   "description": "茅台资源：更新、分类、搜索、详情与直接 M3U8 播放",
   "author": "ukonic",
@@ -375,7 +374,7 @@ var SOURCE_CONFIG = {
   "site": "https://caiji.maotaizy.cc/",
   "icon": "https://caiji.maotaizy.cc/favicon.ico",
   "blockedCoverHosts": [],
-  "version": "0.1.12",
+  "version": "0.1.13",
   "priority": 37,
   "tier": "C",
   "categories": {

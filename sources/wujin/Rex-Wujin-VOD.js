@@ -1,8 +1,8 @@
 var WidgetMetadata = {
   "id": "rex.wujin.vod",
   "title": "无尽资源",
-  "iconurl": "https://api.wujinapi.com/favicon.ico",
-  "version": "0.1.12",
+  "iconurl": "https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/refs/heads/main/sources/wujin/icon.png",
+  "version": "0.1.13",
   "requiredVersion": "0.0.1",
   "description": "无尽资源：更新、分类、搜索、详情与直接 M3U8 播放",
   "author": "ukonic",
@@ -339,7 +339,7 @@ var SOURCE_CONFIG = {
   "site": "https://api.wujinapi.com/",
   "icon": "https://api.wujinapi.com/favicon.ico",
   "blockedCoverHosts": [],
-  "version": "0.1.12",
+  "version": "0.1.13",
   "priority": 4,
   "tier": "S",
   "categories": {

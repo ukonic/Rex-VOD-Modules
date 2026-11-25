@@ -1,8 +1,8 @@
 var WidgetMetadata = {
   "id": "rex.xingye.vod",
   "title": "星夜资源",
-  "iconurl": "https://xyezy.com/favicon.ico",
-  "version": "0.1.13",
+  "iconurl": "https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/refs/heads/main/sources/xingye/icon.png",
+  "version": "0.1.14",
   "requiredVersion": "0.0.1",
   "description": "星夜资源：更新、分类、搜索、详情与直接 M3U8 播放",
   "author": "ukonic",
@@ -199,7 +199,7 @@ var SOURCE_CONFIG = {
   "site": "https://xyezy.com/",
   "icon": "https://xyezy.com/favicon.ico",
   "blockedCoverHosts": [],
-  "version": "0.1.13",
+  "version": "0.1.14",
   "priority": 31,
   "tier": "R",
   "categories": {

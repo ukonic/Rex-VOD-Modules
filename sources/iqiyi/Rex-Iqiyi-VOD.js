@@ -1,8 +1,7 @@
 var WidgetMetadata = {
   "id": "rex.iqiyi.vod",
   "title": "爱奇艺资源",
-  "iconurl": "https://iqiyizyapi.com/favicon.ico",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "requiredVersion": "0.0.1",
   "description": "爱奇艺资源：更新、分类、搜索、详情与直接 M3U8 播放",
   "author": "ukonic",
@@ -354,7 +353,7 @@ var SOURCE_CONFIG = {
   "site": "https://iqiyizyapi.com/",
   "icon": "https://iqiyizyapi.com/favicon.ico",
   "blockedCoverHosts": [],
-  "version": "0.1.12",
+  "version": "0.1.13",
   "priority": 40,
   "tier": "D",
   "categories": {
