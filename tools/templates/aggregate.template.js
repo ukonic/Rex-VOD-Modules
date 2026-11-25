@@ -25,7 +25,7 @@ function cvPageParams() { return [{ name: "page", title: "页码", type: "page",
 var WidgetMetadata = {
   id: "rex.cineverse.vod",
   title: "寰宇影源",
-  iconurl: "https://github.com/ukonic.png",
+  iconurl: CINEVERSE_CONFIG.icon,
   version: CINEVERSE_CONFIG.version,
   requiredVersion: "0.0.1",
   description: CINEVERSE_SOURCES.length + "个 M3U8 资源站接入，" +
@@ -360,7 +360,7 @@ function cvListItem(item, source) {
   if (!item || !source || cvBlocked(item)) return null;
   var id = cvText(item.vod_id).trim();
   if (!id) return null;
-  var cover = cvCover(item, source) || "https://github.com/ukonic.png";
+  var cover = cvCover(item, source) || WidgetMetadata.iconurl;
   return { id: cvLink(source, id), type: "url", title: cvStrip(item.vod_name), description: cvDescription(item, source, false),
     coverUrl: cover, posterPath: cover, detailPoster: cover, releaseDate: cvStrip(item.vod_pubdate || item.vod_year),
     mediaType: cvMediaType(item), genreTitle: cvStrip(item.type_name || item.vod_class), rating: cvStrip(item.vod_score),

@@ -1,8 +1,8 @@
 var WidgetMetadata = {
   "id": "rex.cineverse.vod",
   "title": "寰宇影源",
-  "iconurl": "https://github.com/ukonic.png",
-  "version": "0.1.23",
+  "iconurl": "https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/refs/heads/main/aggregate/Rex-CineVerse/icon.png",
+  "version": "0.1.24",
   "requiredVersion": "0.0.1",
   "description": "40个 M3U8 资源站接入，33个参与完整聚合：首页、分类、单站浏览、全网搜索与多源播放",
   "author": "ukonic",
@@ -372,7 +372,8 @@ var WidgetMetadata = {
  * 40站接入、按级别聚合、严格匹配、仅直接 M3U8。运行时不依赖 registry.json 或其他文件。
  */
 var CINEVERSE_CONFIG = {
-  "version": "0.1.23",
+  "version": "0.1.24",
+  "icon": "https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/refs/heads/main/aggregate/Rex-CineVerse/icon.png",
   "searchId": "47d700970af598b9d28d68ecb6b105f0",
   "sources": [
     {
@@ -6661,7 +6662,7 @@ function cvListItem(item, source) {
   if (!item || !source || cvBlocked(item)) return null;
   var id = cvText(item.vod_id).trim();
   if (!id) return null;
-  var cover = cvCover(item, source) || "https://github.com/ukonic.png";
+  var cover = cvCover(item, source) || WidgetMetadata.iconurl;
   return { id: cvLink(source, id), type: "url", title: cvStrip(item.vod_name), description: cvDescription(item, source, false),
     coverUrl: cover, posterPath: cover, detailPoster: cover, releaseDate: cvStrip(item.vod_pubdate || item.vod_year),
     mediaType: cvMediaType(item), genreTitle: cvStrip(item.type_name || item.vod_class), rating: cvStrip(item.vod_score),

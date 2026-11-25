@@ -7,13 +7,14 @@ const { literalManifest, searchId, writeVersion } = require("./module-release");
 const root = path.resolve(__dirname, "..");
 const generated = JSON.parse(fs.readFileSync(path.join(__dirname, "generated-sources.json"), "utf8"));
 const template = fs.readFileSync(path.join(__dirname, "templates", "aggregate.template.js"), "utf8");
-const version = "0.1.23";
+const version = "0.1.24";
 const aggregateSources = generated.filter(source => source.tier !== "R");
 const coreSources = generated.filter(source => source.tier === "S");
 const completeOnlySources = generated.filter(source => source.tier === "D");
 const independentSources = generated.filter(source => source.tier === "R");
 const config = {
   version,
+  icon: "https://raw.githubusercontent.com/ukonic/Rex-VOD-Modules/refs/heads/main/aggregate/Rex-CineVerse/icon.png",
   searchId: searchId("全网搜索"),
   sources: generated.map(source => ({
     slug: source.slug,
